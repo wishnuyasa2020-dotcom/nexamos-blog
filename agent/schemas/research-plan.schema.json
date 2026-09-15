@@ -1,0 +1,59 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ResearchPlan",
+  "description": "Schema kanonikal untuk Research Plan pada NexaMOS Research Engine Phase 2D",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "topicId": { "type": "string" },
+    "objective": { "type": "string", "minLength": 1 },
+    "researchQuestions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "question": { "type": "string", "minLength": 1 },
+          "priority": {
+            "type": "string",
+            "enum": ["HIGH", "MEDIUM", "LOW"]
+          },
+          "status": {
+            "type": "string",
+            "enum": ["OPEN", "PARTIALLY_ANSWERED", "ANSWERED", "BLOCKED"]
+          }
+        },
+        "required": ["id", "question", "priority", "status"]
+      },
+      "minItems": 1
+    },
+    "requiredEvidenceLevel": {
+      "type": "string",
+      "enum": ["E0", "E1", "E2", "E3", "E4"]
+    },
+    "preferredSourceTypes": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "counterEvidenceRequired": { "type": "boolean" },
+    "freshnessRequirement": {
+      "type": "string",
+      "enum": ["HIGH", "MEDIUM", "LOW", "EVERGREEN"]
+    },
+    "maxResearchIterations": { "type": "integer", "minimum": 1, "maximum": 10 },
+    "createdAt": { "type": "string", "format": "date-time" }
+  },
+  "required": [
+    "id",
+    "topicId",
+    "objective",
+    "researchQuestions",
+    "requiredEvidenceLevel",
+    "preferredSourceTypes",
+    "counterEvidenceRequired",
+    "freshnessRequirement",
+    "maxResearchIterations",
+    "createdAt"
+  ],
+  "additionalProperties": false
+}

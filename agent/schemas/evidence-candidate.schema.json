@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nexamos.com/schemas/evidence-candidate.schema.json",
+  "title": "NexaMOS Evidence Candidate",
+  "description": "Schema for candidate evidence unit extracted deterministically from normalized source documents prior to verification.",
+  "type": "object",
+  "required": [
+    "id",
+    "sourceId",
+    "researchProjectId",
+    "content",
+    "candidateType",
+    "provenance"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "sourceId": {
+      "type": "string"
+    },
+    "researchProjectId": {
+      "type": "string"
+    },
+    "content": {
+      "type": "string"
+    },
+    "locator": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "candidateType": {
+      "type": "string",
+      "enum": [
+        "TEXT",
+        "TABLE_ROW",
+        "METADATA",
+        "QUOTE",
+        "STATISTIC",
+        "DEFINITION"
+      ]
+    },
+    "provenance": {
+      "type": "object",
+      "required": [
+        "sourceId",
+        "rawContentHash"
+      ],
+      "properties": {
+        "sourceId": {
+          "type": "string"
+        },
+        "sectionId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "tableId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "locator": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "rawContentHash": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

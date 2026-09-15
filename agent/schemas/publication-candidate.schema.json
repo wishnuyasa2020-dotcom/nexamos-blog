@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NexaMOS Publication Candidate Schema",
+  "type": "object",
+  "required": [
+    "candidateId",
+    "articleId",
+    "slug",
+    "title",
+    "distributionReadinessId",
+    "approvedAt",
+    "overallStatus",
+    "warnings",
+    "policyVersion"
+  ],
+  "properties": {
+    "candidateId": { "type": "string" },
+    "articleId": { "type": "string" },
+    "slug": { "type": "string" },
+    "title": { "type": "string" },
+    "distributionReadinessId": { "type": "string" },
+    "approvedAt": { "type": "string", "format": "date-time" },
+    "overallStatus": {
+      "type": "string",
+      "enum": ["READY_TO_PUBLISH", "READY_WITH_WARNINGS"]
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "$ref": "distribution-issue.schema.json" }
+    },
+    "warningAcknowledgment": {
+      "type": ["object", "null"],
+      "properties": {
+        "warningAcknowledged": { "type": "boolean" },
+        "warningAcknowledgedBy": { "type": "string" },
+        "warningAcknowledgedAt": { "type": "string", "format": "date-time" },
+        "notes": { "type": "string" }
+      },
+      "required": ["warningAcknowledged", "warningAcknowledgedBy", "warningAcknowledgedAt"]
+    },
+    "policyVersion": { "type": "string" }
+  },
+  "additionalProperties": false
+}

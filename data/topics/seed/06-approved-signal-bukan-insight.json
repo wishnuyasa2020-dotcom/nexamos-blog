@@ -1,0 +1,112 @@
+{
+  "id": "top-seed-006-signal-bukan-insight",
+  "title": "Signal Bukan Insight: Menavigasi Ilusi Data di Era Ledakan Informasi AI",
+  "slug": "signal-bukan-insight-menavigasi-ilusi-data",
+  "territory": "INTELLIGENCE",
+  "status": "APPROVED",
+  "editorialRole": "FLAGSHIP",
+  "audience": {
+    "segment": "Chief Strategy Officers, Data Leaders, dan Business Intelligence Directors",
+    "jobToBeDone": "Membedakan deteksi anomali data (signal) dari pemahaman kontekstual yang dapat ditindaklanjuti (insight)",
+    "knowledgeLevel": "Executive / Strategic Decision Maker"
+  },
+  "problem": "Organisasi modern dibanjiri oleh ribuan metrik dan alert otomatis yang dihasilkan oleh alat analitik AI, memicu ilusi bahwa mereka memiliki wawasan mendalam padahal yang mereka miliki hanyalah kebisingan data yang belum terkontekstualisasi.",
+  "intent": {
+    "primary": "Diferensiasi epistemologis antara data signal dan strategic insight dalam pengambilan keputusan bisnis",
+    "secondary": [
+      "Mengapa dashboard AI justru memicu kelumpuhan analisis",
+      "Model konversi Signal ke Insight NexaMOS"
+    ]
+  },
+  "thesis": "Signal adalah indikasi perubahan empiris pada parameter eksternal; Insight adalah pemahaman kausalitas yang mengubah peta keyakinan dan membuka opsi manuver strategis baru.",
+  "whyNow": "Adopsi AI generative dalam alat intelijen bisnis melonjak, namun tingkat kepuasan eksekutif terhadap kualitas keputusan berbasis data justru menurun.",
+  "informationGain": {
+    "expectedContribution": "Piramida epistemologi 4 tingkat: Raw Data, Detected Signal, Synthesized Insight, dan Strategic Conviction, dilengkapi studi kasus anomali churn enterprise.",
+    "originalityType": [
+      "ORIGINAL_FRAMEWORK",
+      "STRONG_POINT_OF_VIEW",
+      "EXPERT_INTERPRETATION"
+    ],
+    "commodityRisk": "LOW"
+  },
+  "evidencePlan": {
+    "requiredEvidenceLevel": "E3",
+    "plannedSources": [
+      "Nathalie Nahai & behavioral data science studies",
+      "Kajian empiris pengambilan keputusan eksekutif MIT Sloan",
+      "Data anonim observasi sistem analitik klien NexaMOS"
+    ],
+    "originalEvidenceRequired": true,
+    "notes": "Bukti empiris dan kerangka konseptual telah selesai divalidasi oleh dewan editorial."
+  },
+  "businessRelevance": {
+    "objective": "Market Category Authority & Premium Advisory Alignment",
+    "funnelRole": "Top-to-Middle Funnel Intellectual Anchor",
+    "notes": "Mendefinisikan kriteria keunggulan modul Intelligence NexaMOS."
+  },
+  "recommendedArticleType": "ANALYSIS",
+  "distributionTargets": [
+    "GOOGLE_SEARCH",
+    "DIRECT",
+    "EMAIL",
+    "SALES_ENABLEMENT"
+  ],
+  "qualification": {
+    "decision": "QUALIFIED",
+    "gates": {
+      "doctrineAlignment": {
+        "gate": "DOCTRINE_ALIGNMENT",
+        "passed": true,
+        "score": 98,
+        "notes": "Mencerminkan nilai inti doktrin INTELLIGENCE NexaMOS."
+      },
+      "territoryClarity": {
+        "gate": "TERRITORY_CLARITY",
+        "passed": true,
+        "score": 96,
+        "notes": "Secara murni menduduki territory INTELLIGENCE."
+      },
+      "audienceAndProblem": {
+        "gate": "AUDIENCE_AND_PROBLEM",
+        "passed": true,
+        "score": 95,
+        "notes": "Menjawab dilema nyata eksekutif enterprise masa kini."
+      },
+      "evidenceAvailability": {
+        "gate": "EVIDENCE_AVAILABILITY",
+        "passed": true,
+        "score": 92,
+        "notes": "Data empiris dan framework observasi siap dipakai."
+      },
+      "informationGainPotential": {
+        "gate": "INFORMATION_GAIN_POTENTIAL",
+        "passed": true,
+        "score": 96,
+        "notes": "Konseptualisasi orisinal yang sulit ditiru oleh komoditas AI generik."
+      },
+      "executionFeasibility": {
+        "gate": "EXECUTION_FEASIBILITY",
+        "passed": true,
+        "score": 92,
+        "notes": "Tim editorial siap untuk segera memulai penulisan brief produksi."
+      }
+    },
+    "summary": "Salah satu topik unggulan terkuat untuk territory INTELLIGENCE dengan skor kualifikasi komprehensif di atas 90.",
+    "qualifiedAt": "2026-09-14T10:40:00Z",
+    "evaluatorVersion": "1.0.0"
+  },
+  "priority": {
+    "strategicValue": 98,
+    "audienceValue": 94,
+    "timeliness": 90,
+    "evidenceReadiness": 92,
+    "differentiationPotential": 96,
+    "overall": 94
+  },
+  "approvedAt": "2026-09-14T11:00:00Z",
+  "approvedBy": "Editor-in-Chief",
+  "approvalNote": "Topik flagship pilar INTELLIGENCE; disetujui untuk segera dijadwalkan masuk produksi.",
+  "articleIds": [],
+  "createdAt": "2026-09-14T09:30:00Z",
+  "updatedAt": "2026-09-14T11:00:00Z"
+}

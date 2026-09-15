@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ClaimUsage",
+  "description": "Schema kanonikal untuk pelacakan penggunaan klaim dalam artikel",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "claimId": { "type": "string" },
+    "sectionId": { "type": "string" },
+    "usageType": {
+      "type": "string",
+      "enum": ["DIRECT", "PARAPHRASED", "SYNTHESIZED", "CONTEXTUAL"]
+    },
+    "statement": { "type": "string" }
+  },
+  "required": ["id", "claimId", "sectionId", "usageType", "statement"],
+  "additionalProperties": false
+}

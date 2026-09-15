@@ -1,0 +1,100 @@
+{
+  "id": "top-seed-004-seo-di-era-ai",
+  "title": "SEO di Era AI: Transformasi dari Keyword Matching Menuju Semantic Entity Authority",
+  "slug": "seo-di-era-ai-semantic-entity-authority",
+  "territory": "TACTICAL",
+  "status": "QUALIFIED",
+  "editorialRole": "AUTHORITY",
+  "audience": {
+    "segment": "Head of SEO, Organic Growth Leads, dan Technical Content Strategists",
+    "jobToBeDone": "Mentransformasi arsitektur konten web agar dikenali dan dikutip sebagai entitas otoritas oleh mesin pencari dan retrieval AI",
+    "knowledgeLevel": "Advanced Practitioner"
+  },
+  "problem": "Praktik SEO tradisional yang berfokus pada repetisi kata kunci dan manipulasi backlink cepat aus karena mesin pencari berbasis neural network kini mengindeks entitas pengetahuan dan konsistensi semantik.",
+  "intent": {
+    "primary": "Strategi SEO modern berbasis semantic entity authority dan optimasi retrieval AI",
+    "secondary": [
+      "Perbedaan keyword stuffing vs entity-first content architecture",
+      "Cara membangun topical graph yang dapat dipahami sistem AI Overviews"
+    ]
+  },
+  "thesis": "Optimasi mesin pencari telah berevolusi dari sekadar manipulasi string pencarian menjadi perebutan status otoritas entitas dalam knowledge graph; konten yang menang adalah konten yang menjadi referensi terstruktur bagi sistem inferensi.",
+  "whyNow": "Peluncuran universal Google AI Overviews dan pergeseran algoritma menuju semantik retrieval berbasis vektor di tahun 2025-2026.",
+  "informationGain": {
+    "expectedContribution": "Panduan taktis berbasis kerangka kerja Graph Entity Optimization (GEO) yang mengintegrasikan schema structured data dengan depth of knowledge.",
+    "originalityType": [
+      "PRACTICAL_DECISION_FRAMEWORK",
+      "EXPERT_INTERPRETATION"
+    ],
+    "commodityRisk": "LOW"
+  },
+  "evidencePlan": {
+    "requiredEvidenceLevel": "E2",
+    "plannedSources": [
+      "Dokumentasi resmi Google Search Central tentang Knowledge Graph dan Structured Data",
+      "Paten Google terkait entity-based search dan neural matching",
+      "Eksperimen indeksasi entitas internal NexaMOS 2025-2026"
+    ],
+    "originalEvidenceRequired": false,
+    "notes": "Riset dan sumber data sudah terverifikasi memenuhi standar E2."
+  },
+  "businessRelevance": {
+    "objective": "Organic Inbound Authority & Technical Differentiation",
+    "funnelRole": "Top-to-Middle of Funnel Technical Education",
+    "notes": "Menarik segmen praktisi teknis dan lead marketing yang mencari panduan non-komoditas."
+  },
+  "recommendedArticleType": "HOW_TO",
+  "distributionTargets": [
+    "GOOGLE_SEARCH",
+    "GOOGLE_AI",
+    "SOCIAL",
+    "COMMUNITY"
+  ],
+  "priority": null,
+  "qualification": {
+    "decision": "QUALIFIED",
+    "gates": {
+      "doctrineAlignment": {
+        "gate": "DOCTRINE_ALIGNMENT",
+        "passed": true,
+        "score": 90,
+        "notes": "Sangat sesuai dengan pilar technical and distribution excellence doktrin NexaMOS."
+      },
+      "territoryClarity": {
+        "gate": "TERRITORY_CLARITY",
+        "passed": true,
+        "score": 95,
+        "notes": "Kategori TACTICAL yang jelas dan terfokus pada eksekusi distribusi mesin pencari."
+      },
+      "audienceAndProblem": {
+        "gate": "AUDIENCE_AND_PROBLEM",
+        "passed": true,
+        "score": 92,
+        "notes": "Masalah nyata yang mendesak bagi praktisi SEO modern."
+      },
+      "evidenceAvailability": {
+        "gate": "EVIDENCE_AVAILABILITY",
+        "passed": true,
+        "score": 88,
+        "notes": "Sumber literatur paten dan dokumentasi resmi Google sangat solid."
+      },
+      "informationGainPotential": {
+        "gate": "INFORMATION_GAIN_POTENTIAL",
+        "passed": true,
+        "score": 86,
+        "notes": "Memiliki sudut pandang arsitektur entitas yang membedakannya dari artikel SEO generik."
+      },
+      "executionFeasibility": {
+        "gate": "EXECUTION_FEASIBILITY",
+        "passed": true,
+        "score": 90,
+        "notes": "Dapat segera diproduksi dengan kapasitas editorial internal."
+      }
+    },
+    "summary": "Seluruh gerbang kualifikasi terpenuhi dengan baik. Topik layak masuk ke fase scoring prioritas.",
+    "qualifiedAt": "2026-09-14T10:00:00Z",
+    "evaluatorVersion": "1.0.0"
+  },
+  "createdAt": "2026-09-14T09:30:00Z",
+  "updatedAt": "2026-09-14T10:00:00Z"
+}

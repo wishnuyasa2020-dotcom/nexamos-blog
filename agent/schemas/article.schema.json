@@ -1,0 +1,193 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nexamos.com/schemas/article.schema.json",
+  "title": "NexaMOS Article",
+  "description": "Canonical schema for published and in-production editorial articles in NexaMOS Blog.",
+  "type": "object",
+  "required": [
+    "id",
+    "title",
+    "slug",
+    "territory",
+    "articleType",
+    "status",
+    "author",
+    "primaryTopic",
+    "distributionTargets",
+    "scores",
+    "evidenceLevel",
+    "tags"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique article identifier."
+    },
+    "topicId": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Foreign/domain reference to the source Topic (null for legacy/standalone articles)."
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Article headline."
+    },
+    "slug": {
+      "type": "string",
+      "minLength": 1,
+      "description": "URL slug for the article."
+    },
+    "territory": {
+      "type": "string",
+      "enum": [
+        "INTELLIGENCE",
+        "STRATEGY",
+        "TACTICAL"
+      ],
+      "description": "Primary knowledge territory."
+    },
+    "articleType": {
+      "type": "string",
+      "enum": [
+        "EXPLAINER",
+        "ANALYSIS",
+        "ORIGINAL_RESEARCH",
+        "FRAMEWORK",
+        "CASE_STUDY",
+        "OPINION",
+        "COMPARATIVE_ANALYSIS",
+        "HOW_TO",
+        "TREND_ANALYSIS",
+        "GLOSSARY",
+        "REFERENCE"
+      ],
+      "description": "Canonical article format as defined in doctrine."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "DRAFT",
+        "IN_REVIEW",
+        "APPROVED",
+        "PUBLISHED",
+        "ARCHIVED"
+      ],
+      "description": "Publication status of the article."
+    },
+    "author": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "role": {
+          "type": "string"
+        },
+        "avatarUrl": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    "publishedAt": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time",
+      "description": "Official publication timestamp."
+    },
+    "updatedAt": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time",
+      "description": "Last content update timestamp."
+    },
+    "primaryTopic": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Primary topic taxonomy name or label."
+    },
+    "distributionTargets": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "GOOGLE_SEARCH",
+          "GOOGLE_DISCOVER",
+          "GOOGLE_AI",
+          "SOCIAL",
+          "EMAIL",
+          "DIRECT",
+          "COMMUNITY",
+          "SALES_ENABLEMENT",
+          "PRODUCT_EDUCATION"
+        ]
+      },
+      "uniqueItems": true,
+      "minItems": 1,
+      "description": "Distribution channels enabled for this article."
+    },
+    "scores": {
+      "type": "object",
+      "required": [
+        "editorial",
+        "seo",
+        "discover",
+        "aiVisibility"
+      ],
+      "properties": {
+        "editorial": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "seo": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "discover": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "aiVisibility": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        }
+      },
+      "additionalProperties": false
+    },
+    "evidenceLevel": {
+      "type": "string",
+      "enum": [
+        "E0",
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "description": "Validated evidence level of the published article."
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Categorization and search tags."
+    }
+  },
+  "additionalProperties": false
+}

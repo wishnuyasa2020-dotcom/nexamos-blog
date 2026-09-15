@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NexaMOS Article Performance Snapshot Schema",
+  "type": "object",
+  "required": [
+    "id",
+    "articleId",
+    "publicationId",
+    "topicId",
+    "slug",
+    "window",
+    "territory",
+    "articleType",
+    "dataCompleteness",
+    "overallSampleSufficiency",
+    "createdAt"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "articleId": { "type": "string" },
+    "publicationId": { "type": "string" },
+    "topicId": { "type": "string" },
+    "slug": { "type": "string" },
+    "window": {
+      "type": "object",
+      "required": ["windowType", "startDate", "endDate", "durationDays", "isRolling"],
+      "properties": {
+        "windowType": { "type": "string" },
+        "startDate": { "type": "string" },
+        "endDate": { "type": "string" },
+        "durationDays": { "type": "integer" },
+        "isRolling": { "type": "boolean" }
+      }
+    },
+    "territory": { "type": "string" },
+    "articleType": { "type": "string" },
+    "editorialRole": { "type": ["string", "null"] },
+    "search": { "type": ["object", "null"] },
+    "discover": { "type": ["object", "null"] },
+    "generativeAISearch": { "type": ["object", "null"] },
+    "generativeAIDiscover": { "type": ["object", "null"] },
+    "behavior": { "type": ["object", "null"] },
+    "dataCompleteness": {
+      "type": "string",
+      "enum": ["COMPLETE", "PARTIAL", "DELAYED", "THRESHOLDED", "UNKNOWN"]
+    },
+    "overallSampleSufficiency": {
+      "type": "string",
+      "enum": ["SUFFICIENT", "LOW_SAMPLE", "INSUFFICIENT"]
+    },
+    "anomaliesDetected": {
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "createdAt": { "type": "string", "format": "date-time" }
+  }
+}

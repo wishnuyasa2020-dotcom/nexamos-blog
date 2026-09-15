@@ -1,0 +1,17 @@
+{
+  "id": "raw-fixture-pdf-text",
+  "researchProjectId": "res-proj-ai-relevance-001",
+  "sourceType": "ACADEMIC_PAPER",
+  "format": "PDF_TEXT",
+  "title": "Empirical Analysis of Citation Frequencies in LLM-Generated Web Answers",
+  "url": "https://arxiv.org/abs/2404.09876",
+  "publisher": "Stanford NLP / arXiv",
+  "author": "Nelson F. Liu",
+  "publicationDate": "2024-04-18",
+  "language": "en",
+  "content": "--- Page 1 ---\n1. Introduction and Problem Formulation\nLarge language models deployed in web-search interfaces increasingly synthesize answers directly from retrieved documents. However, only 51.5% of generated sentences in search-oriented LLM outputs are fully supported by citations.\n\n--- Page 2 ---\n2. Citation Grounding and Hallucination Rates\nOur evaluation across 1,000 diverse benchmark queries indicates that 34.2% of provided citations fail to support the sentence they are attached to, highlighting a substantial grounding gap in current generative search implementations.",
+  "metadata": {
+    "venue": "arXiv preprint",
+    "evaluationQueries": 1000
+  }
+}

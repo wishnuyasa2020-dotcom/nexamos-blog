@@ -1,0 +1,78 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ResearchBrief",
+  "description": "Schema kanonikal untuk Research Brief handoff ke editorial Phase 3",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "topicId": { "type": "string" },
+    "researchProjectId": { "type": "string" },
+    "objective": { "type": "string" },
+    "answeredQuestions": { "type": "array" },
+    "openQuestions": { "type": "array" },
+    "supportedClaims": { "type": "array" },
+    "partiallySupportedClaims": { "type": "array" },
+    "disputedClaims": { "type": "array" },
+    "keyFindings": { "type": "array" },
+    "limitations": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "researchGaps": { "type": "array" },
+    "recommendedEditorialAngle": { "type": "string" },
+    "sourceIndex": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "sourceId": { "type": "string" },
+          "title": { "type": "string" },
+          "url": { "type": "string" },
+          "sourceType": { "type": "string" },
+          "authorityScore": { "type": "number" },
+          "freshnessStatus": { "type": "string" }
+        },
+        "required": ["sourceId", "title", "sourceType", "authorityScore"]
+      }
+    },
+    "evidenceIndex": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "evidenceId": { "type": "string" },
+          "sourceId": { "type": "string" },
+          "quote": { "type": "string" },
+          "level": { "type": "string" },
+          "verified": { "type": "boolean" }
+        },
+        "required": ["evidenceId", "sourceId", "quote", "level", "verified"]
+      }
+    },
+    "readiness": {
+      "type": "string",
+      "enum": ["NOT_READY", "READY_FOR_EDITORIAL", "HUMAN_REVIEW_REQUIRED"]
+    },
+    "readinessReason": { "type": "string" },
+    "generatedAt": { "type": "string", "format": "date-time" }
+  },
+  "required": [
+    "id",
+    "topicId",
+    "researchProjectId",
+    "objective",
+    "answeredQuestions",
+    "openQuestions",
+    "supportedClaims",
+    "partiallySupportedClaims",
+    "disputedClaims",
+    "keyFindings",
+    "limitations",
+    "researchGaps",
+    "sourceIndex",
+    "evidenceIndex",
+    "readiness",
+    "generatedAt"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NexaMOS Article Publication Version Schema",
+  "type": "object",
+  "required": [
+    "version",
+    "articleId",
+    "slug",
+    "contentHash",
+    "packageId",
+    "createdAt",
+    "publicationStatus"
+  ],
+  "properties": {
+    "version": { "type": "integer", "minimum": 1 },
+    "articleId": { "type": "string" },
+    "slug": { "type": "string" },
+    "contentHash": { "type": "string" },
+    "packageId": { "type": "string" },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "publicationStatus": { "type": "string" },
+    "changelog": { "type": "string" }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "EditorialToneProfile",
+  "description": "Schema kanonikal untuk profil tonasi dan gaya suara editorial NexaMOS",
+  "type": "object",
+  "properties": {
+    "primaryVoice": { "type": "string" },
+    "coreAttributes": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "bannedTones": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "articleTypeToneMap": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    }
+  },
+  "required": ["primaryVoice", "coreAttributes", "bannedTones", "articleTypeToneMap"],
+  "additionalProperties": false
+}

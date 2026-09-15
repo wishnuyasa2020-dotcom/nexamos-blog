@@ -1,0 +1,66 @@
+[
+  {
+    "claimId": "clm-01",
+    "evidenceId": "evi-01",
+    "relation": "SUPPORTS",
+    "strength": "STRONG",
+    "notes": "Similarweb data empiris membuktikan 95% pengguna AI tetap menggunakan Search.",
+    "createdAt": "2026-09-14T09:30:00Z"
+  },
+  {
+    "claimId": "clm-02",
+    "evidenceId": "evi-02",
+    "relation": "SUPPORTS",
+    "strength": "STRONG",
+    "notes": "Pew Research membuktikan rasio klik turun dari 15% menjadi 8% saat ada AI Summary.",
+    "createdAt": "2026-09-14T09:35:00Z"
+  },
+  {
+    "claimId": "clm-02",
+    "evidenceId": "evi-03",
+    "relation": "SUPPORTS",
+    "strength": "STRONG",
+    "notes": "Ahrefs membuktikan penurunan ~58% pada CTR posisi #1 organik akibat AI Overviews.",
+    "createdAt": "2026-09-14T09:36:00Z"
+  },
+  {
+    "claimId": "clm-03",
+    "evidenceId": "evi-04",
+    "relation": "SUPPORTS",
+    "strength": "STRONG",
+    "notes": "Google Search Central resmi mengonfirmasi SEO dan E-E-A-T tetap fundamental.",
+    "createdAt": "2026-09-14T09:40:00Z"
+  },
+  {
+    "claimId": "clm-04",
+    "evidenceId": "evi-05",
+    "relation": "SUPPORTS",
+    "strength": "STRONG",
+    "notes": "CMI 2026 membuktikan peningkatan anggaran 32% pada aset owned media.",
+    "createdAt": "2026-09-14T09:45:00Z"
+  },
+  {
+    "claimId": "clm-05",
+    "evidenceId": "evi-01",
+    "relation": "CONTRADICTS",
+    "strength": "STRONG",
+    "notes": "Koeksistensi 95% menyangkal klaim bahwa blog/web tidak lagi dicari oleh audiens.",
+    "createdAt": "2026-09-14T09:50:00Z"
+  },
+  {
+    "claimId": "clm-05",
+    "evidenceId": "evi-04",
+    "relation": "CONTRADICTS",
+    "strength": "STRONG",
+    "notes": "Arahan resmi Google yang mengandalkan web orisinal menyangkal klaim kematian konten web.",
+    "createdAt": "2026-09-14T09:51:00Z"
+  },
+  {
+    "claimId": "clm-05",
+    "evidenceId": "evi-05",
+    "relation": "CONTRADICTS",
+    "strength": "STRONG",
+    "notes": "Kenaikan anggaran investasi 32% menyangkal hilangnya nilai komersial owned media.",
+    "createdAt": "2026-09-14T09:52:00Z"
+  }
+]

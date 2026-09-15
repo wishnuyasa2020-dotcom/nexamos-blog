@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "NexaMOS Search Intent Profile Schema",
+  "type": "object",
+  "required": [
+    "primaryIntent",
+    "secondaryIntents",
+    "readerTask",
+    "problemAddressed",
+    "articlePromise",
+    "intentAlignment"
+  ],
+  "properties": {
+    "primaryIntent": { "type": "string" },
+    "secondaryIntents": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "readerTask": { "type": "string" },
+    "problemAddressed": { "type": "string" },
+    "articlePromise": { "type": "string" },
+    "intentAlignment": {
+      "type": "string",
+      "enum": ["ALIGNED", "PARTIAL", "MISMATCHED"]
+    },
+    "alignmentReason": { "type": "string" }
+  }
+}

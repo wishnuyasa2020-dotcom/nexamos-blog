@@ -1,0 +1,33 @@
+{
+  "fixtureOnly": true,
+  "verificationStatus": "SYNTHETIC_TEST_DATA",
+  "query": {
+    "id": "dq-fixture-stale-001",
+    "researchProjectId": "res-proj-seo-relevance-001",
+    "researchQuestionId": "rq-001",
+    "query": "SEO algorithms BERT rankbrain update",
+    "intent": "GENERAL_RESEARCH",
+    "preferredSourceTypes": [
+      "INDUSTRY_RESEARCH"
+    ],
+    "createdAt": "2026-03-01T00:00:00.000Z"
+  },
+  "candidates": [
+    {
+      "id": "cand-fixture-005",
+      "queryId": "dq-fixture-stale-001",
+      "researchProjectId": "res-proj-seo-relevance-001",
+      "title": "Search Marketing Blog: BERT Rollout in 2019 and Initial Observations",
+      "url": "https://oldseoblog.com/2019/bert-rollout-update/",
+      "snippet": "Initial reactions to the Google BERT update rolling out to 10% of English queries in 2019.",
+      "publisher": "Old SEO Blog",
+      "author": "Former Blogger",
+      "publicationDate": "2019-11-05",
+      "sourceType": "INDUSTRY_RESEARCH",
+      "provider": "MockSearchProvider",
+      "rank": 5,
+      "status": "DISCOVERED",
+      "discoveredAt": "2026-03-01T00:00:00.000Z"
+    }
+  ]
+}

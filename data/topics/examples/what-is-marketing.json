@@ -1,0 +1,93 @@
+{
+  "id": "top-2026-003-what-is-marketing",
+  "title": "Apa Itu Marketing: Pengertian, Konsep Dasar, dan Fungsinya",
+  "slug": "apa-itu-marketing-pengertian-konsep-dasar-dan-fungsinya",
+  "territory": "STRATEGY",
+  "status": "REJECTED",
+  "editorialRole": "AUTHORITY",
+  "audience": {
+    "segment": "Pelajar, Mahasiswa, dan Pemula Marketing",
+    "jobToBeDone": "Mencari rangkuman definisi marketing generik untuk tugas atau pemahaman awal.",
+    "knowledgeLevel": "Beginner"
+  },
+  "problem": "Pencarian definisi dasar mengenai apa yang dimaksud dengan marketing dan bauran pemasaran secara umum.",
+  "intent": {
+    "primary": "Definisi dan pengertian umum apa itu marketing",
+    "secondary": [
+      "Fungsi marketing bagi bisnis",
+      "Perbedaan marketing dan sales"
+    ]
+  },
+  "thesis": null,
+  "whyNow": null,
+  "informationGain": {
+    "expectedContribution": "Rangkuman definisi marketing dari literatur umum tanpa sintesis atau studi kasus orisinal.",
+    "originalityType": [],
+    "commodityRisk": "HIGH"
+  },
+  "evidencePlan": {
+    "requiredEvidenceLevel": "E1",
+    "plannedSources": [
+      "Kamus istilah bisnis umum dan ensiklopedia daring"
+    ],
+    "originalEvidenceRequired": false,
+    "notes": "Informasi bersifat publik dan tidak memiliki data atau analisis baru."
+  },
+  "businessRelevance": {
+    "objective": "Mengejar volume pencarian kata kunci generik",
+    "funnelRole": "Top of Funnel Umum",
+    "notes": "Tidak memiliki korelasi langsung dengan pembedaan positioning NexaMOS."
+  },
+  "recommendedArticleType": "EXPLAINER",
+  "distributionTargets": [
+    "GOOGLE_SEARCH"
+  ],
+  "priority": {
+    "strategicValue": 20,
+    "audienceValue": 30,
+    "differentiationPotential": 5,
+    "timeliness": 20,
+    "evidenceReadiness": 50,
+    "overall": 23
+  },
+  "qualification": {
+    "decision": "REJECTED",
+    "gates": {
+      "TERRITORY_FIT": {
+        "gate": "TERRITORY_FIT",
+        "status": "PASS",
+        "explanation": "Sesuai dengan territory kanonikal 'STRATEGY'."
+      },
+      "AUDIENCE_RELEVANCE": {
+        "gate": "AUDIENCE_RELEVANCE",
+        "status": "PASS",
+        "explanation": "Menargetkan pemula marketing."
+      },
+      "KNOWLEDGE_VALUE": {
+        "gate": "KNOWLEDGE_VALUE",
+        "status": "FAIL",
+        "explanation": "Tidak ada originalityType yang dipilih untuk membuktikan kebaruan pengetahuan."
+      },
+      "EVIDENCE_FEASIBILITY": {
+        "gate": "EVIDENCE_FEASIBILITY",
+        "status": "PASS",
+        "explanation": "Bukti berbasis common knowledge memadai untuk definisi dasar."
+      },
+      "NON_COMMODITY_POTENTIAL": {
+        "gate": "NON_COMMODITY_POTENTIAL",
+        "status": "FAIL",
+        "explanation": "Risiko komoditas tinggi dan tidak ada rencana diferensiasi atau kebaruan informasi yang kredibel."
+      },
+      "BUSINESS_RELEVANCE": {
+        "gate": "BUSINESS_RELEVANCE",
+        "status": "PASS",
+        "explanation": "Menjelaskan peran funnel umum."
+      }
+    },
+    "summary": "Topik ditolak karena tidak memenuhi gerbang: KNOWLEDGE_VALUE, NON_COMMODITY_POTENTIAL. Merupakan konten komoditas generik tanpa rencana diferensiasi intelektual.",
+    "qualifiedAt": "2026-09-14T00:00:00Z",
+    "evaluatorVersion": "v1.0-deterministic"
+  },
+  "createdAt": "2026-09-14T00:00:00Z",
+  "updatedAt": "2026-09-14T00:00:00Z"
+}

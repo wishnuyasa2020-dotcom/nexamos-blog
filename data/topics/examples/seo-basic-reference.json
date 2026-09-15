@@ -1,0 +1,97 @@
+{
+  "id": "top-2026-004-seo-basic-reference",
+  "title": "Glosarium Teknis: Canonical Tag, Crawlability, dan Indexability",
+  "slug": "glosarium-teknis-canonical-tag-crawlability-indexability",
+  "territory": "TACTICAL",
+  "status": "QUALIFIED",
+  "editorialRole": "REFERENCE",
+  "audience": {
+    "segment": "Marketer Teknis, Webmaster, dan Pembaca Blog NexaMOS",
+    "jobToBeDone": "Memahami dan merujuk batasan teknis indeksasi mesin pencari secara tepat dalam arsitektur website.",
+    "knowledgeLevel": "Intermediate"
+  },
+  "problem": "Kerap terjadi kekeliruan definisi antara apakah halaman dapat dirayapi (crawlable) dengan apakah halaman diindeks (indexable), serta kesalahan implementasi tag kanonikal.",
+  "intent": {
+    "primary": "Rujukan glosarium istilah teknis dasar SEO dan status indeksasi",
+    "secondary": [
+      "Perbedaan crawlability vs indexability",
+      "Fungsi canonical tag dalam Search Central 2026"
+    ]
+  },
+  "thesis": "Definisi teknis yang presisi menjadi prasyarat rujukan bagi pemahaman artikel arsitektur search dan AI visibility tingkat lanjut di NexaMOS.",
+  "whyNow": "Dibutuhkan sebagai simpul internal link dan prasyarat pembacaan untuk artikel-artikel flagship SEO & AI Visibility.",
+  "informationGain": {
+    "expectedContribution": "Definisi baku dan panduan rujukan teknis ringkas yang diintegrasikan langsung ke arsitektur klaster topik NexaMOS.",
+    "originalityType": [
+      "PRACTICAL_DECISION_FRAMEWORK"
+    ],
+    "commodityRisk": "HIGH"
+  },
+  "evidencePlan": {
+    "requiredEvidenceLevel": "E3",
+    "plannedSources": [
+      "Google Search Central Documentation (2026)",
+      "W3C HTML Standards"
+    ],
+    "originalEvidenceRequired": false,
+    "notes": "Lolos kualifikasi melalui Supporting Content Exception karena peran editorialnya adalah REFERENCE."
+  },
+  "businessRelevance": {
+    "objective": "Topic Cluster Completeness & Internal Link Architecture",
+    "funnelRole": "Knowledge Journey Prerequisite & Glossary Hub",
+    "notes": "Menjadi destinasi internal link untuk artikel otoritas yang lebih tinggi."
+  },
+  "recommendedArticleType": "GLOSSARY",
+  "distributionTargets": [
+    "GOOGLE_SEARCH",
+    "DIRECT"
+  ],
+  "priority": {
+    "strategicValue": 60,
+    "audienceValue": 65,
+    "differentiationPotential": 40,
+    "timeliness": 50,
+    "evidenceReadiness": 95,
+    "overall": 59
+  },
+  "qualification": {
+    "decision": "QUALIFIED",
+    "gates": {
+      "TERRITORY_FIT": {
+        "gate": "TERRITORY_FIT",
+        "status": "PASS",
+        "explanation": "Sesuai dengan territory kanonikal 'TACTICAL'."
+      },
+      "AUDIENCE_RELEVANCE": {
+        "gate": "AUDIENCE_RELEVANCE",
+        "status": "PASS",
+        "explanation": "Menargetkan marketer teknis yang memerlukan kejelasan rujukan terminologi."
+      },
+      "KNOWLEDGE_VALUE": {
+        "gate": "KNOWLEDGE_VALUE",
+        "status": "PASS",
+        "explanation": "Memberikan nilai kelengkapan referensi/glosarium untuk arsitektur klaster topik."
+      },
+      "EVIDENCE_FEASIBILITY": {
+        "gate": "EVIDENCE_FEASIBILITY",
+        "status": "PASS",
+        "explanation": "Didukung dokumentasi resmi Google Search Central dan standar W3C."
+      },
+      "NON_COMMODITY_POTENTIAL": {
+        "gate": "NON_COMMODITY_POTENTIAL",
+        "status": "PASS",
+        "explanation": "Lolos melalui Supporting Content Exception (peran: REFERENCE) untuk fungsi klaster dan glosarium."
+      },
+      "BUSINESS_RELEVANCE": {
+        "gate": "BUSINESS_RELEVANCE",
+        "status": "PASS",
+        "explanation": "Mendukung kelengkapan klaster topik dan arsitektur tautan internal."
+      }
+    },
+    "summary": "Topik memenuhi kualifikasi editorial melalui Supporting Content Exception untuk peran REFERENCE.",
+    "qualifiedAt": "2026-09-14T00:00:00Z",
+    "evaluatorVersion": "v1.0-deterministic"
+  },
+  "createdAt": "2026-09-14T00:00:00Z",
+  "updatedAt": "2026-09-14T00:00:00Z"
+}

@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "EditorialRevisionPlan",
+  "description": "Schema kanonikal untuk rencana revisi bedah artikel Phase 3B",
+  "type": "object",
+  "properties": {
+    "articleDraftId": { "type": "string" },
+    "issuesToFix": { "type": "array" },
+    "sectionsToRevise": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "preserveClaims": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "preserveCitations": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "preserveQuotes": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "preserveNumbers": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "preserveLimitations": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "preserveCounterEvidence": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "required": [
+    "articleDraftId",
+    "issuesToFix",
+    "sectionsToRevise",
+    "preserveClaims",
+    "preserveCitations",
+    "preserveQuotes",
+    "preserveNumbers"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,89 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "NexaMOS SEO Validation Result Schema",
+  "type": "object",
+  "required": [
+    "articleId",
+    "checks",
+    "issues",
+    "recommendations",
+    "score",
+    "dimensionScores",
+    "classification",
+    "criticalErrors",
+    "validatedAt",
+    "policyVersion"
+  ],
+  "properties": {
+    "articleId": { "type": "string" },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["checkId", "dimension", "status", "scoreContribution", "summary"],
+        "properties": {
+          "checkId": { "type": "string" },
+          "dimension": { "type": "string" },
+          "status": { "type": "string", "enum": ["PASS", "WARNING", "FAIL"] },
+          "scoreContribution": { "type": "number", "minimum": 0 },
+          "summary": { "type": "string" },
+          "details": { "type": "object" }
+        }
+      }
+    },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "checkId", "dimension", "severity", "message"],
+        "properties": {
+          "code": { "type": "string" },
+          "checkId": { "type": "string" },
+          "dimension": { "type": "string" },
+          "severity": { "type": "string", "enum": ["INFO", "WARNING", "CRITICAL"] },
+          "message": { "type": "string" },
+          "location": { "type": "string" },
+          "recommendation": { "type": "string" }
+        }
+      }
+    },
+    "recommendations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "title", "description", "suggestedAction", "requiresEditorialReturn"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "TECHNICAL_FIX",
+              "CONTENT_CLARIFICATION",
+              "METADATA_IMPROVEMENT",
+              "INTERNAL_LINK_OPPORTUNITY",
+              "STRUCTURED_DATA_FIX"
+            ]
+          },
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "suggestedAction": { "type": "string" },
+          "requiresEditorialReturn": { "type": "boolean" }
+        }
+      }
+    },
+    "score": { "type": "number", "minimum": 0, "maximum": 100 },
+    "dimensionScores": {
+      "type": "object",
+      "additionalProperties": { "type": "number" }
+    },
+    "classification": {
+      "type": "string",
+      "enum": ["EXCELLENT", "READY", "READY_WITH_WARNINGS", "REVISION_REQUIRED", "BLOCKED"]
+    },
+    "criticalErrors": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "validatedAt": { "type": "string", "format": "date-time" },
+    "policyVersion": { "type": "string" }
+  }
+}

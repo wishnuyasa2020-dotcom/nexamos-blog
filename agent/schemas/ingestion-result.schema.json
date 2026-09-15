@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nexamos.com/schemas/ingestion-result.schema.json",
+  "title": "NexaMOS Ingestion Result",
+  "description": "Schema for the result of ingesting and extracting evidence from raw source materials.",
+  "type": "object",
+  "required": [
+    "source",
+    "normalizedDocument",
+    "evidenceCandidates",
+    "persistedEvidence",
+    "duplicateStatus",
+    "ingestedAt"
+  ],
+  "properties": {
+    "source": {
+      "type": "object"
+    },
+    "normalizedDocument": {
+      "type": "object"
+    },
+    "evidenceCandidates": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "persistedEvidence": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "duplicateStatus": {
+      "type": "string",
+      "enum": [
+        "EXACT_DUPLICATE",
+        "LIKELY_DUPLICATE",
+        "UNIQUE"
+      ]
+    },
+    "ingestedAt": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

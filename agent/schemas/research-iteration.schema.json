@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ResearchIteration",
+  "description": "Schema kanonikal untuk audit jejak siklus riset otonom pada Phase 2D",
+  "type": "object",
+  "properties": {
+    "iterationNumber": { "type": "integer", "minimum": 1 },
+    "researchQuestions": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "queriesExecuted": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "sourcesDiscovered": { "type": "integer", "minimum": 0 },
+    "sourcesAccepted": { "type": "integer", "minimum": 0 },
+    "evidenceCaptured": { "type": "integer", "minimum": 0 },
+    "claimsEvaluated": { "type": "integer", "minimum": 0 },
+    "gapsRemaining": { "type": "integer", "minimum": 0 },
+    "nextAction": {
+      "type": "string",
+      "enum": [
+        "SEARCH_MORE",
+        "SEARCH_PRIMARY_SOURCE",
+        "SEARCH_COUNTER_EVIDENCE",
+        "SEARCH_CURRENT_DATA",
+        "SYNTHESIZE",
+        "REQUEST_HUMAN_REVIEW",
+        "STOP_RESEARCH"
+      ]
+    },
+    "actionReason": { "type": "string" },
+    "timestamp": { "type": "string", "format": "date-time" }
+  },
+  "required": [
+    "iterationNumber",
+    "researchQuestions",
+    "queriesExecuted",
+    "sourcesDiscovered",
+    "sourcesAccepted",
+    "evidenceCaptured",
+    "claimsEvaluated",
+    "gapsRemaining",
+    "nextAction",
+    "timestamp"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "EditorialPlan",
+  "description": "Schema kanonikal untuk rencana editorial artikel NexaMOS Blog",
+  "type": "object",
+  "properties": {
+    "workingTitle": { "type": "string" },
+    "thesis": { "type": "string" },
+    "angle": { "type": "string" },
+    "readerPromise": { "type": "string" },
+    "sectionPlan": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "heading": { "type": "string" },
+          "purpose": {
+            "type": "string",
+            "enum": [
+              "HOOK",
+              "CONTEXT",
+              "ARGUMENT",
+              "EVIDENCE",
+              "FRAMEWORK",
+              "ANALYSIS",
+              "COUNTERPOINT",
+              "IMPLICATION",
+              "PRACTICAL_APPLICATION",
+              "CONCLUSION"
+            ]
+          },
+          "keyPoints": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "plannedClaimIds": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "required": ["heading", "purpose", "keyPoints"]
+      }
+    },
+    "claimsToUse": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "findingsToUse": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "counterpoints": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "intendedTakeaway": { "type": "string" }
+  },
+  "required": [
+    "workingTitle",
+    "thesis",
+    "angle",
+    "readerPromise",
+    "sectionPlan",
+    "claimsToUse",
+    "intendedTakeaway"
+  ],
+  "additionalProperties": false
+}

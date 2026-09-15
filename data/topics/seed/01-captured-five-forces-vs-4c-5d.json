@@ -1,0 +1,56 @@
+{
+  "id": "top-seed-001-five-forces-vs-4c5d",
+  "title": "Five Forces vs 4C 5D: Mengapa Analisis Industri Statis Gagal di Era Dinamis",
+  "slug": "five-forces-vs-4c-5d-analisis-industri",
+  "territory": "STRATEGY",
+  "status": "CAPTURED",
+  "editorialRole": "AUTHORITY",
+  "audience": {
+    "segment": "Head of Strategy, Corporate Development, dan Business Architects",
+    "jobToBeDone": "Memperbarui instrumen diagnosis industri dari model statis menuju analisis kapabilitas dinamis",
+    "knowledgeLevel": "Executive / Strategic Practitioner"
+  },
+  "problem": "Banyak perencana bisnis masih mengandalkan Five Forces Michael Porter yang statis, sehingga gagal mengantisipasi disrupsi ekosistem lintas batas industri di era komputasi cerdas.",
+  "intent": {
+    "primary": "Perbandingan metodologi analisis strategi industri Porter Five Forces dengan pendekatan dinamis",
+    "secondary": [
+      "Kelemahan Five Forces di era ekosistem platform",
+      "Penerapan kerangka kerja diagnostik kapabilitas 4C dan 5D"
+    ]
+  },
+  "thesis": "Five Forces mengasumsikan batas industri yang kaku dan relasi zero-sum antar aktor; era komputasi modern menuntut dekonstruksi dinamis terhadap kapabilitas, kolaborasi ekosistem, dan adaptasi kontinu.",
+  "whyNow": "Akselerasi siklus teknologi dan konvergensi industri membuat analisis pasar berbasis batas tradisional usang dalam hitungan kuartal.",
+  "informationGain": {
+    "expectedContribution": "Kritik metodologis komparatif antara kerangka statis Porter dengan kerangka kerja kapabilitas dinamis yang dapat dieksekusi.",
+    "originalityType": [
+      "STRONG_POINT_OF_VIEW",
+      "PRACTICAL_DECISION_FRAMEWORK"
+    ],
+    "commodityRisk": "LOW"
+  },
+  "evidencePlan": {
+    "requiredEvidenceLevel": "E2",
+    "plannedSources": [
+      "Porter M.E. (1979/2008) Competitive Strategy literature",
+      "NexaMOS Internal Strategic Framework Doctrine v1.0",
+      "HBR / Strategic Management Journal cross-study syntheses"
+    ],
+    "originalEvidenceRequired": false,
+    "notes": "Baru dicatat sebagai kandidat editorial ideation, menunggu tahapan screening."
+  },
+  "businessRelevance": {
+    "objective": "Thought Leadership & Framework Adoption",
+    "funnelRole": "Top-of-Funnel Strategic Authority",
+    "notes": "Membangun kredibilitas metodologis NexaMOS di mata para pemimpin strategi enterprise."
+  },
+  "recommendedArticleType": "COMPARATIVE_ANALYSIS",
+  "distributionTargets": [
+    "GOOGLE_SEARCH",
+    "DIRECT",
+    "SOCIAL"
+  ],
+  "priority": null,
+  "qualification": null,
+  "createdAt": "2026-09-14T08:00:00Z",
+  "updatedAt": "2026-09-14T08:00:00Z"
+}

@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NexaMOS Publication Package Schema",
+  "type": "object",
+  "required": [
+    "id",
+    "candidateId",
+    "articleId",
+    "slug",
+    "canonicalPath",
+    "canonicalUrl",
+    "title",
+    "description",
+    "territory",
+    "articleType",
+    "editorialRole",
+    "articleContent",
+    "author",
+    "seoMetadata",
+    "discoverMetadata",
+    "aiVisibilityMetadata",
+    "structuredData",
+    "robots",
+    "sitemapEntry",
+    "generatedAt",
+    "packageVersion"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "candidateId": { "type": "string" },
+    "articleId": { "type": "string" },
+    "slug": { "type": "string" },
+    "canonicalPath": { "type": "string" },
+    "canonicalUrl": { "type": "string", "format": "uri" },
+    "internalRoute": { "type": "string" },
+    "publicCanonicalPath": { "type": "string" },
+    "title": { "type": "string" },
+    "description": { "type": "string" },
+    "territory": { "type": "string" },
+    "articleType": { "type": "string" },
+    "editorialRole": { "type": "string" },
+    "articleContent": {
+      "type": "object",
+      "required": ["headline", "sections"],
+      "properties": {
+        "headline": { "type": "string" },
+        "dek": { "type": ["string", "null"] },
+        "sections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "heading", "content", "order", "purpose"],
+            "properties": {
+              "id": { "type": "string" },
+              "heading": { "type": "string" },
+              "content": { "type": "string" },
+              "order": { "type": "integer" },
+              "purpose": { "type": "string" }
+            }
+          }
+        },
+        "renderedHtml": { "type": "string" },
+        "plainTextSummary": { "type": "string" }
+      }
+    },
+    "author": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": { "type": "string" },
+        "role": { "type": "string" },
+        "avatarUrl": { "type": "string" },
+        "bio": { "type": "string" }
+      }
+    },
+    "publishedAt": { "type": ["string", "null"], "format": "date-time" },
+    "updatedAt": { "type": ["string", "null"], "format": "date-time" },
+    "seoMetadata": { "type": "object" },
+    "discoverMetadata": { "type": "object" },
+    "aiVisibilityMetadata": { "type": "object" },
+    "heroImage": {
+      "type": ["object", "null"],
+      "properties": {
+        "url": { "type": "string" },
+        "width": { "type": "integer" },
+        "height": { "type": "integer" },
+        "alt": { "type": "string" },
+        "caption": { "type": "string" },
+        "aspectRatio": { "type": "string" }
+      }
+    },
+    "visualAssets": { "type": "array" },
+    "structuredData": { "type": "object" },
+    "internalLinks": { "type": "array" },
+    "externalCitations": { "type": "array" },
+    "robots": {
+      "type": "object",
+      "required": ["index", "follow"],
+      "properties": {
+        "index": { "type": "boolean" },
+        "follow": { "type": "boolean" },
+        "maxSnippet": { "type": "integer" },
+        "maxImagePreview": { "type": "string" },
+        "maxVideoPreview": { "type": "integer" }
+      }
+    },
+    "sitemapEntry": {
+      "type": "object",
+      "required": ["loc", "lastmod"],
+      "properties": {
+        "loc": { "type": "string" },
+        "lastmod": { "type": "string" },
+        "changefreq": { "type": "string" },
+        "priority": { "type": "number" }
+      }
+    },
+    "isSyntheticTestData": { "type": "boolean" },
+    "fixtureOnly": { "type": "boolean" },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "packageVersion": { "type": "string" }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NexaMOS Publication Manifest Schema",
+  "type": "object",
+  "required": [
+    "publicationId",
+    "articleId",
+    "slug",
+    "canonicalUrl",
+    "contentHash",
+    "publishedAt",
+    "packageVersion",
+    "distributionPolicyVersion",
+    "status"
+  ],
+  "properties": {
+    "publicationId": { "type": "string" },
+    "articleId": { "type": "string" },
+    "slug": { "type": "string" },
+    "canonicalUrl": { "type": "string", "format": "uri" },
+    "contentHash": { "type": "string" },
+    "publishedAt": { "type": "string", "format": "date-time" },
+    "updatedAt": { "type": ["string", "null"], "format": "date-time" },
+    "packageVersion": { "type": "string" },
+    "distributionPolicyVersion": { "type": "string" },
+    "buildId": { "type": ["string", "null"] },
+    "deploymentId": { "type": ["string", "null"] },
+    "status": {
+      "type": "string",
+      "enum": [
+        "CANDIDATE",
+        "PACKAGING",
+        "PREFLIGHT_FAILED",
+        "READY_FOR_RELEASE",
+        "SCHEDULED",
+        "RELEASE_REQUESTED",
+        "PUBLISHED",
+        "PUBLISH_FAILED",
+        "UNPUBLISHED",
+        "ARCHIVED"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

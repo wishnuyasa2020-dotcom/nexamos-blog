@@ -1,0 +1,102 @@
+{
+  "id": "top-2026-002-signal-vs-insight",
+  "title": "Signal Bukan Insight: Kesalahan Fundamental Sistem Marketing Intelligence Modern",
+  "slug": "signal-bukan-insight-kesalahan-fundamental-marketing-intelligence",
+  "territory": "INTELLIGENCE",
+  "status": "QUALIFIED",
+  "editorialRole": "FLAGSHIP",
+  "audience": {
+    "segment": "CMOs, Head of Marketing, and Intelligence System Architects",
+    "jobToBeDone": "Menyaring banjir data mentah dan telemetri analitik menjadi model wawasan strategis yang dapat dijadikan keputusan bisnis nyata.",
+    "knowledgeLevel": "Expert / Executive"
+  },
+  "problem": "Sebagian besar sistem analitik modern memperlakukan lonjakan sinyal (klik, impresi, kunjungan) sebagai wawasan langsung, menghasilkan ilusi pemahaman pasar dan salah arah alokasi anggaran.",
+  "intent": {
+    "primary": "Memahami arsitektur pemrosesan data sinyal menjadi strategic marketing intelligence",
+    "secondary": [
+      "Perbedaan data sinyal vs market insight",
+      "Arsitektur closed-loop marketing NexaMOS"
+    ]
+  },
+  "thesis": "Sinyal pasar hanyalah bahan mentah komputasional; ia baru bermutasi menjadi insight ketika disaring melalui model mental strategis dan menghasilkan pilihan tindakan nyata.",
+  "whyNow": "Ledakan volume data akibat otomatisasi AI memicu krisis kejelasan kognitif di level kepemimpinan pemasaran.",
+  "informationGain": {
+    "expectedContribution": "Merumuskan framework orisinal NexaMOS: Siklus Enam Tahap Signal → Pattern → Analysis → Intelligence → Strategic Choice → Tactical Execution.",
+    "originalityType": [
+      "ORIGINAL_FRAMEWORK",
+      "STRONG_POINT_OF_VIEW",
+      "PRACTICAL_DECISION_FRAMEWORK"
+    ],
+    "commodityRisk": "LOW"
+  },
+  "evidencePlan": {
+    "requiredEvidenceLevel": "E4",
+    "plannedSources": [
+      "NexaMOS Cognitive Manufacturing Architecture v1.0",
+      "Internal case studies and client signal diagnostic datasets"
+    ],
+    "originalEvidenceRequired": true,
+    "notes": "Flagship framework piece membangun category definition NexaMOS Intelligence territory."
+  },
+  "businessRelevance": {
+    "objective": "Category Creation & Proprietary Framework Anchor",
+    "funnelRole": "Core Category Definition & Thought Leadership",
+    "notes": "Menjadi fondasi konseptual untuk produk NexaMOS Marketing Intelligence Engine."
+  },
+  "recommendedArticleType": "FRAMEWORK",
+  "distributionTargets": [
+    "GOOGLE_SEARCH",
+    "GOOGLE_DISCOVER",
+    "GOOGLE_AI",
+    "EMAIL",
+    "DIRECT"
+  ],
+  "priority": {
+    "strategicValue": 98,
+    "audienceValue": 92,
+    "differentiationPotential": 96,
+    "timeliness": 85,
+    "evidenceReadiness": 90,
+    "overall": 93
+  },
+  "qualification": {
+    "decision": "QUALIFIED",
+    "gates": {
+      "TERRITORY_FIT": {
+        "gate": "TERRITORY_FIT",
+        "status": "PASS",
+        "explanation": "Sesuai dengan territory kanonikal 'INTELLIGENCE'."
+      },
+      "AUDIENCE_RELEVANCE": {
+        "gate": "AUDIENCE_RELEVANCE",
+        "status": "PASS",
+        "explanation": "Menargetkan CMOs & Arsitek Intelligence System dengan persoalan pemrosesan sinyal."
+      },
+      "KNOWLEDGE_VALUE": {
+        "gate": "KNOWLEDGE_VALUE",
+        "status": "PASS",
+        "explanation": "Menyediakan framework 6-tahap orisinal NexaMOS."
+      },
+      "EVIDENCE_FEASIBILITY": {
+        "gate": "EVIDENCE_FEASIBILITY",
+        "status": "PASS",
+        "explanation": "Menggunakan bukti tingkat E4 (doktrin dan dataset diagnostik internal NexaMOS)."
+      },
+      "NON_COMMODITY_POTENTIAL": {
+        "gate": "NON_COMMODITY_POTENTIAL",
+        "status": "PASS",
+        "explanation": "Risiko komoditas LOW dengan kepemilikan intellectual property orisinal."
+      },
+      "BUSINESS_RELEVANCE": {
+        "gate": "BUSINESS_RELEVANCE",
+        "status": "PASS",
+        "explanation": "Mendukung penciptaan kategori (Category Creation) untuk NexaMOS Intelligence."
+      }
+    },
+    "summary": "Topik memenuhi seluruh 6 gerbang kualifikasi editorial NexaMOS dan layak masuk pipeline produksi sebagai FLAGSHIP asset.",
+    "qualifiedAt": "2026-09-14T00:00:00Z",
+    "evaluatorVersion": "v1.0-deterministic"
+  },
+  "createdAt": "2026-09-14T00:00:00Z",
+  "updatedAt": "2026-09-14T00:00:00Z"
+}

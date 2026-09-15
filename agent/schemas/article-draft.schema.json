@@ -1,0 +1,130 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ArticleDraft",
+  "description": "Schema kanonikal untuk draf artikel ter-grounding hasil Phase 3A Editorial Generator",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "topicId": { "type": "string" },
+    "researchProjectId": { "type": "string" },
+    "title": { "type": "string" },
+    "dek": { "type": ["string", "null"] },
+    "slug": { "type": ["string", "null"] },
+    "territory": {
+      "type": "string",
+      "enum": ["INTELLIGENCE", "STRATEGY", "TACTICAL"]
+    },
+    "articleType": {
+      "type": "string",
+      "enum": [
+        "EXPLAINER",
+        "ANALYSIS",
+        "ORIGINAL_RESEARCH",
+        "FRAMEWORK",
+        "CASE_STUDY",
+        "OPINION",
+        "COMPARATIVE_ANALYSIS",
+        "HOW_TO",
+        "TREND_ANALYSIS",
+        "GLOSSARY",
+        "REFERENCE"
+      ]
+    },
+    "editorialRole": {
+      "type": "string",
+      "enum": ["FLAGSHIP", "AUTHORITY", "SUPPORTING", "REFERENCE"]
+    },
+    "thesis": { "type": "string" },
+    "editorialAngle": { "type": "string" },
+    "sections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "heading": { "type": ["string", "null"] },
+          "purpose": {
+            "type": "string",
+            "enum": [
+              "HOOK",
+              "CONTEXT",
+              "ARGUMENT",
+              "EVIDENCE",
+              "FRAMEWORK",
+              "ANALYSIS",
+              "COUNTERPOINT",
+              "IMPLICATION",
+              "PRACTICAL_APPLICATION",
+              "CONCLUSION"
+            ]
+          },
+          "content": { "type": "string" },
+          "order": { "type": "integer" },
+          "claimUsageIds": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "required": ["id", "purpose", "content", "order", "claimUsageIds"]
+      }
+    },
+    "claimUsages": {
+      "type": "array",
+      "items": { "$ref": "claim-usage.schema.json" }
+    },
+    "citationMap": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "claimUsageId": { "type": "string" },
+          "claimId": { "type": "string" },
+          "sourceIds": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "evidenceIds": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "required": ["claimUsageId", "claimId", "sourceIds", "evidenceIds"]
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "GENERATED",
+        "GROUNDING_REVIEW_REQUIRED",
+        "READY_FOR_EDITORIAL_REVIEW",
+        "REJECTED"
+      ]
+    },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "generatorVersion": { "type": "string" },
+    "promptVersion": { "type": "string" },
+    "reviewNotes": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "required": [
+    "id",
+    "topicId",
+    "researchProjectId",
+    "title",
+    "territory",
+    "articleType",
+    "editorialRole",
+    "thesis",
+    "editorialAngle",
+    "sections",
+    "claimUsages",
+    "citationMap",
+    "status",
+    "generatedAt",
+    "generatorVersion",
+    "promptVersion"
+  ],
+  "additionalProperties": false
+}

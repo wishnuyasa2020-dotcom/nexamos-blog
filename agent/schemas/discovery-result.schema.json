@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nexamos.com/schemas/discovery-result.schema.json",
+  "title": "NexaMOS Discovery Result",
+  "description": "Schema for the output of a source discovery operation from a search provider.",
+  "type": "object",
+  "required": [
+    "query",
+    "candidates",
+    "provider",
+    "discoveredAt"
+  ],
+  "properties": {
+    "query": {
+      "type": "object"
+    },
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "provider": {
+      "type": "string"
+    },
+    "discoveredAt": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

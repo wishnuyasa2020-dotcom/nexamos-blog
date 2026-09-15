@@ -1,0 +1,35 @@
+{
+  "fixtureOnly": true,
+  "verificationStatus": "SYNTHETIC_TEST_DATA",
+  "query": {
+    "id": "dq-fixture-current-001",
+    "researchProjectId": "res-proj-seo-relevance-001",
+    "researchQuestionId": "rq-001",
+    "query": "SEO generative AI benchmark statistics survey 2025 2026",
+    "intent": "FIND_CURRENT_DATA",
+    "preferredSourceTypes": [
+      "DATASET",
+      "PRIMARY_RESEARCH",
+      "INDUSTRY_RESEARCH"
+    ],
+    "createdAt": "2026-03-01T00:00:00.000Z"
+  },
+  "candidates": [
+    {
+      "id": "cand-fixture-004",
+      "queryId": "dq-fixture-current-001",
+      "researchProjectId": "res-proj-seo-relevance-001",
+      "title": "Global Search Telemetry Index Q4 2025: Referral Traffic across 10 Million Commercial Queries",
+      "url": "https://searchtelemetry.org/reports/q4-2025-index/",
+      "snippet": "Analysis of 10M commercial queries demonstrates that brand-led navigational queries retain 91% of their organic click propensity regardless of AI overview presence.",
+      "publisher": "Global Search Telemetry Project",
+      "author": "Marcus Thorne",
+      "publicationDate": "2026-01-15",
+      "sourceType": "PRIMARY_RESEARCH",
+      "provider": "MockSearchProvider",
+      "rank": 1,
+      "status": "DISCOVERED",
+      "discoveredAt": "2026-03-01T00:00:00.000Z"
+    }
+  ]
+}

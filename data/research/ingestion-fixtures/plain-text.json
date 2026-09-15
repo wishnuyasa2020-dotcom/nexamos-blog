@@ -1,0 +1,17 @@
+{
+  "id": "raw-fixture-plain-text",
+  "researchProjectId": "res-proj-ai-relevance-001",
+  "sourceType": "PRIMARY_RESEARCH",
+  "format": "PLAIN_TEXT",
+  "title": "Pew Research Center: Information Retrieval Habits in the Generative AI Era",
+  "url": "https://www.pewresearch.org/internet/2024/ai-search-habits/",
+  "publisher": "Pew Research Center",
+  "author": "Monica Anderson",
+  "publicationDate": "2024-05-15",
+  "language": "en",
+  "content": "A survey conducted by Pew Research Center reveals that 32% of US adults have used generative AI chatbots for information retrieval.\n\nAmong respondents aged 18 to 29, the adoption rate jumps to 58%, indicating a profound generational shift in search habits.\n\nFurthermore, 41% of daily AI users report that they cross-reference AI-generated summaries with traditional search engine results to verify factual accuracy.",
+  "metadata": {
+    "sampleSize": 10200,
+    "methodology": "Nationally representative survey"
+  }
+}

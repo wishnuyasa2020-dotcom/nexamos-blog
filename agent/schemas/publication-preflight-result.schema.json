@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NexaMOS Publication Preflight Result Schema",
+  "type": "object",
+  "required": [
+    "packageId",
+    "articleId",
+    "status",
+    "checks",
+    "blockingErrors",
+    "warnings",
+    "evaluatedAt"
+  ],
+  "properties": {
+    "packageId": { "type": "string" },
+    "articleId": { "type": "string" },
+    "status": {
+      "type": "string",
+      "enum": ["PASS", "PASS_WITH_WARNINGS", "FAIL"]
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["checkId", "name", "status", "message", "blocking"],
+        "properties": {
+          "checkId": { "type": "string" },
+          "name": { "type": "string" },
+          "status": { "type": "string", "enum": ["PASS", "WARNING", "FAIL"] },
+          "message": { "type": "string" },
+          "blocking": { "type": "boolean" }
+        }
+      }
+    },
+    "blockingErrors": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "evaluatedAt": { "type": "string", "format": "date-time" }
+  },
+  "additionalProperties": false
+}

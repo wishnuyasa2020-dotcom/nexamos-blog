@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NexaMOS Content Learning Schema",
+  "type": "object",
+  "required": [
+    "id",
+    "articleId",
+    "topicId",
+    "learningType",
+    "statement",
+    "supportingSignals",
+    "supportingDiagnoses",
+    "confidence",
+    "applicableTo",
+    "createdAt"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "articleId": { "type": "string" },
+    "topicId": { "type": "string" },
+    "learningType": {
+      "type": "string",
+      "enum": [
+        "TOPIC_LEARNING",
+        "FORMAT_LEARNING",
+        "TITLE_LEARNING",
+        "DISTRIBUTION_LEARNING",
+        "ENGAGEMENT_LEARNING",
+        "AUTHORITATIVE_SOURCE_LEARNING",
+        "VISUAL_LEARNING",
+        "FRESHNESS_LEARNING",
+        "AI_VISIBILITY_LEARNING"
+      ]
+    },
+    "statement": { "type": "string" },
+    "supportingSignals": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "supportingDiagnoses": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "confidence": {
+      "type": "string",
+      "enum": ["LOW", "MEDIUM", "HIGH"]
+    },
+    "applicableTo": {
+      "type": "object",
+      "required": ["contextualScope", "isUniversalRule"],
+      "properties": {
+        "territories": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "articleTypes": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "audienceSegment": { "type": "string" },
+        "contextualScope": { "type": "string" },
+        "isUniversalRule": { "type": "boolean", "const": false }
+      }
+    },
+    "createdAt": { "type": "string", "format": "date-time" }
+  }
+}

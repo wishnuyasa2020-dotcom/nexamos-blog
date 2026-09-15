@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nexamos.com/schemas/research-claim.schema.json",
+  "title": "NexaMOS Research Claim",
+  "description": "Canonical schema for a factual, comparative, causal, or analytical assertion tested by evidence.",
+  "type": "object",
+  "required": [
+    "id",
+    "researchProjectId",
+    "statement",
+    "claimType",
+    "status",
+    "importance",
+    "createdAt",
+    "updatedAt"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "researchProjectId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "statement": {
+      "type": "string",
+      "minLength": 1
+    },
+    "claimType": {
+      "type": "string",
+      "enum": [
+        "FACTUAL",
+        "COMPARATIVE",
+        "CAUSAL",
+        "INTERPRETIVE",
+        "FORECAST",
+        "DEFINITIONAL"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "UNVERIFIED",
+        "SUPPORTED",
+        "PARTIALLY_SUPPORTED",
+        "CONTRADICTED",
+        "DISPUTED",
+        "INSUFFICIENT_EVIDENCE"
+      ]
+    },
+    "importance": {
+      "type": "string",
+      "enum": [
+        "CRITICAL",
+        "SUPPORTING",
+        "ANCILLARY"
+      ]
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false
+}

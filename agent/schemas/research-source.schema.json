@@ -1,0 +1,179 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nexamos.com/schemas/research-source.schema.json",
+  "title": "NexaMOS Research Source",
+  "description": "Canonical schema for a document, report, paper, dataset, or internal record referenced by a research project.",
+  "type": "object",
+  "required": [
+    "id",
+    "researchProjectId",
+    "type",
+    "title",
+    "evidenceLevel",
+    "qualityAssessment",
+    "isPrimarySource",
+    "isInternal",
+    "createdAt",
+    "updatedAt"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "researchProjectId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "OFFICIAL_DOCUMENTATION",
+        "GOVERNMENT",
+        "REGULATOR",
+        "ACADEMIC_PAPER",
+        "PRIMARY_RESEARCH",
+        "INDUSTRY_RESEARCH",
+        "COMPANY_PUBLICATION",
+        "NEWS",
+        "EXPERT_ANALYSIS",
+        "BOOK",
+        "INTERVIEW",
+        "DATASET",
+        "INTERNAL_DATA",
+        "INTERNAL_OBSERVATION",
+        "INTERNAL_EXPERIMENT",
+        "COMMUNITY_DISCUSSION",
+        "OTHER"
+      ]
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "publisher": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "author": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "url": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "publicationDate": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "accessedAt": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "language": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "evidenceLevel": {
+      "type": "string",
+      "enum": [
+        "E0",
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ]
+    },
+    "qualityAssessment": {
+      "type": "object",
+      "required": [
+        "authority",
+        "relevance",
+        "recency",
+        "methodologicalTransparency",
+        "independence",
+        "verifiability",
+        "qualitySummary"
+      ],
+      "properties": {
+        "authority": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "relevance": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "recency": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "methodologicalTransparency": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "independence": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "verifiability": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "qualitySummary": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "isPrimarySource": {
+      "type": "boolean"
+    },
+    "isInternal": {
+      "type": "boolean"
+    },
+    "recencyRisk": {
+      "type": "string",
+      "enum": [
+        "LOW",
+        "MEDIUM",
+        "HIGH"
+      ]
+    },
+    "notes": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false
+}

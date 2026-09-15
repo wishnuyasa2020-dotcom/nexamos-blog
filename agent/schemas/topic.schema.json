@@ -1,0 +1,435 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nexamos.com/schemas/topic.schema.json",
+  "title": "NexaMOS Topic",
+  "description": "Canonical schema for candidate knowledge opportunities within the NexaMOS editorial system.",
+  "type": "object",
+  "required": [
+    "id",
+    "title",
+    "slug",
+    "territory",
+    "status",
+    "audience",
+    "problem",
+    "intent",
+    "thesis",
+    "whyNow",
+    "informationGain",
+    "evidencePlan",
+    "businessRelevance",
+    "recommendedArticleType",
+    "distributionTargets",
+    "createdAt",
+    "updatedAt"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique non-empty identifier for the topic."
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable topic title or headline angle."
+    },
+    "slug": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Machine-readable URL/entity-friendly slug."
+    },
+    "territory": {
+      "type": "string",
+      "enum": [
+        "INTELLIGENCE",
+        "STRATEGY",
+        "TACTICAL"
+      ],
+      "description": "Primary knowledge territory according to NexaMOS doctrine."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "CAPTURED",
+        "SCREENING",
+        "RESEARCH_REQUIRED",
+        "QUALIFIED",
+        "PRIORITIZED",
+        "APPROVED",
+        "IN_PRODUCTION",
+        "PUBLISHED",
+        "ON_HOLD",
+        "REJECTED",
+        "ARCHIVED"
+      ],
+      "description": "Current lifecycle status of the topic."
+    },
+    "editorialRole": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "FLAGSHIP",
+        "AUTHORITY",
+        "SUPPORTING",
+        "REFERENCE",
+        null
+      ],
+      "description": "Editorial positioning role (e.g. Supporting/Reference enables commodity exemption)."
+    },
+    "audience": {
+      "type": "object",
+      "required": [
+        "segment"
+      ],
+      "properties": {
+        "segment": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Target reader or market segment."
+        },
+        "jobToBeDone": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The specific functional, emotional, or social job the audience seeks to resolve."
+        },
+        "knowledgeLevel": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Audience expertise level (e.g. Practitioner, Lead, Executive)."
+        }
+      },
+      "additionalProperties": false
+    },
+    "problem": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The core problem, phenomenon, market tension, or unanswered question."
+    },
+    "intent": {
+      "type": "object",
+      "required": [
+        "primary"
+      ],
+      "properties": {
+        "primary": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Primary user/search/discovery intent."
+        },
+        "secondary": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Secondary or auxiliary search/inquiry intents."
+        }
+      },
+      "additionalProperties": false
+    },
+    "thesis": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Provisional core editorial thesis or stance."
+    },
+    "whyNow": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Contextual urgency, market trigger, or timeliness rationale."
+    },
+    "informationGain": {
+      "type": "object",
+      "required": [
+        "expectedContribution",
+        "originalityType",
+        "commodityRisk"
+      ],
+      "properties": {
+        "expectedContribution": {
+          "type": "string",
+          "minLength": 1,
+          "description": "What unique knowledge or perspective the topic will add beyond commodity content."
+        },
+        "originalityType": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "ORIGINAL_RESEARCH",
+              "ORIGINAL_DATA",
+              "ORIGINAL_FRAMEWORK",
+              "EXPERT_INTERPRETATION",
+              "CASE_STUDY",
+              "FIRST_HAND_OBSERVATION",
+              "STRONG_POINT_OF_VIEW",
+              "CROSS_THEORY_SYNTHESIS",
+              "TIMELY_ANALYSIS",
+              "PRACTICAL_DECISION_FRAMEWORK"
+            ]
+          },
+          "minItems": 0,
+          "description": "Elements of original intellectual contribution."
+        },
+        "commodityRisk": {
+          "type": "string",
+          "enum": [
+            "LOW",
+            "MEDIUM",
+            "HIGH",
+            "UNKNOWN"
+          ],
+          "description": "Risk assessment of whether generic AI or competitors can easily replicate the content."
+        }
+      },
+      "additionalProperties": false
+    },
+    "evidencePlan": {
+      "type": "object",
+      "required": [
+        "requiredEvidenceLevel",
+        "plannedSources",
+        "originalEvidenceRequired"
+      ],
+      "properties": {
+        "requiredEvidenceLevel": {
+          "type": "string",
+          "enum": [
+            "E0",
+            "E1",
+            "E2",
+            "E3",
+            "E4"
+          ],
+          "description": "Target evidence standard required before publication (E0-E4)."
+        },
+        "plannedSources": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of intended primary, secondary, or internal data sources."
+        },
+        "originalEvidenceRequired": {
+          "type": "boolean",
+          "description": "Indicates whether proprietary NexaMOS datasets or experiments are required."
+        },
+        "notes": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Specific research instructions or verification notes."
+        }
+      },
+      "additionalProperties": false
+    },
+    "businessRelevance": {
+      "type": "object",
+      "required": [
+        "objective",
+        "funnelRole"
+      ],
+      "properties": {
+        "objective": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Strategic business purpose (e.g. Category Creation, Thought Leadership, Demand Gen)."
+        },
+        "funnelRole": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Role in customer/knowledge journey (e.g. Unaware to Problem Aware, Consideration, Retention)."
+        },
+        "notes": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Commercial alignment or downstream opportunity notes."
+        }
+      },
+      "additionalProperties": false
+    },
+    "recommendedArticleType": {
+      "type": "string",
+      "enum": [
+        "EXPLAINER",
+        "ANALYSIS",
+        "ORIGINAL_RESEARCH",
+        "FRAMEWORK",
+        "CASE_STUDY",
+        "OPINION",
+        "COMPARATIVE_ANALYSIS",
+        "HOW_TO",
+        "TREND_ANALYSIS",
+        "GLOSSARY",
+        "REFERENCE"
+      ],
+      "description": "Recommended article format based on the canonical doctrine."
+    },
+    "distributionTargets": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "GOOGLE_SEARCH",
+          "GOOGLE_DISCOVER",
+          "GOOGLE_AI",
+          "SOCIAL",
+          "EMAIL",
+          "DIRECT",
+          "COMMUNITY",
+          "SALES_ENABLEMENT",
+          "PRODUCT_EDUCATION"
+        ]
+      },
+      "uniqueItems": true,
+      "minItems": 1,
+      "description": "Intended distribution surfaces."
+    },
+    "priority": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "strategicValue",
+        "audienceValue",
+        "timeliness",
+        "evidenceReadiness",
+        "differentiationPotential"
+      ],
+      "properties": {
+        "strategicValue": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Strategic alignment with NexaMOS core doctrine (0-100)."
+        },
+        "audienceValue": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Relevance and impact on the audience problem (0-100)."
+        },
+        "timeliness": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Urgency and current market interest (0-100)."
+        },
+        "evidenceReadiness": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Availability and robustness of supporting evidence (0-100)."
+        },
+        "differentiationPotential": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Potential to produce non-commodity intellectual property (0-100)."
+        },
+        "overall": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Composite opportunity score (0-100)."
+        }
+      },
+      "additionalProperties": false
+    },
+    "qualification": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "decision",
+        "gates",
+        "summary",
+        "qualifiedAt",
+        "evaluatorVersion"
+      ],
+      "properties": {
+        "decision": {
+          "type": "string",
+          "enum": [
+            "QUALIFIED",
+            "RESEARCH_REQUIRED",
+            "ON_HOLD",
+            "REJECTED"
+          ]
+        },
+        "gates": {
+          "type": "object",
+          "description": "Evaluation for each of the 6 qualification gates."
+        },
+        "summary": {
+          "type": "string"
+        },
+        "qualifiedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "evaluatorVersion": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "approvedAt": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when topic was formally approved."
+    },
+    "approvedBy": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Identifier or name of the editorial actor who approved the topic."
+    },
+    "approvalNote": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Optional editorial rationale or note attached to the approval."
+    },
+    "articleIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of linked article IDs derived or produced from this topic."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when topic was created."
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when topic was last modified."
+    }
+  },
+  "additionalProperties": false
+}

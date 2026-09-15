@@ -1,0 +1,17 @@
+{
+  "id": "raw-fixture-jsonld",
+  "researchProjectId": "res-proj-ai-relevance-001",
+  "sourceType": "INDUSTRY_RESEARCH",
+  "format": "JSON_LD",
+  "title": "Gartner Predicts Search Engine Volume Will Drop 25% by 2026 Due to AI Chatbots",
+  "url": "https://www.gartner.com/en/newsroom/press-releases/2024-02-19-gartner-predicts-search-engine-volume-will-drop-25-percent-by-2026-due-to-ai-chatbots",
+  "publisher": "Gartner Research",
+  "author": "Alan Antin",
+  "publicationDate": "2024-02-19",
+  "language": "en",
+  "content": "{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"NewsArticle\",\n  \"headline\": \"Gartner Predicts Search Engine Volume Will Drop 25% by 2026 Due to AI Chatbots\",\n  \"description\": \"By 2026, traditional search engine volume will drop 25%, with search marketing losing market share to AI chatbots and other virtual agents, according to Gartner, Inc.\",\n  \"author\": {\n    \"@type\": \"Person\",\n    \"name\": \"Alan Antin\"\n  },\n  \"publisher\": {\n    \"@type\": \"Organization\",\n    \"name\": \"Gartner\"\n  },\n  \"datePublished\": \"2024-02-19\",\n  \"articleBody\": \"Organic and paid search are vital channels for tech marketers seeking to reach awareness and demand generation goals. Generative AI solutions are becoming substitute answer engines, displacing query volumes that previously might have been executed in traditional search engines. This will force companies to focus more on high-value, original brand assets that AI engines cannot synthesize without attribution.\"\n}",
+  "metadata": {
+    "pressReleaseId": "PR-2024-GARTNER-02",
+    "marketSegment": "Enterprise Search & Marketing Technology"
+  }
+}

@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NexaMOS Unified Distribution Readiness Result Schema",
+  "type": "object",
+  "required": [
+    "readinessId",
+    "articleId",
+    "editorialStatus",
+    "seoStatus",
+    "discoverStatus",
+    "aiVisibilityStatus",
+    "overallStatus",
+    "blockers",
+    "warnings",
+    "recommendations",
+    "routes",
+    "summary",
+    "evaluatedAt",
+    "policyVersion",
+    "auditEvents"
+  ],
+  "properties": {
+    "readinessId": { "type": "string" },
+    "articleId": { "type": "string" },
+    "editorialStatus": {
+      "type": "string",
+      "enum": ["PASS", "REVISION_REQUIRED", "HUMAN_REVIEW_REQUIRED", "REJECT"]
+    },
+    "seoStatus": {
+      "type": "string",
+      "enum": ["EXCELLENT", "READY", "READY_WITH_WARNINGS", "REVISION_REQUIRED", "BLOCKED"]
+    },
+    "discoverStatus": {
+      "type": "string",
+      "enum": ["STRONG", "READY", "READY_WITH_WARNINGS", "REVISION_REQUIRED", "INELIGIBLE"]
+    },
+    "aiVisibilityStatus": {
+      "type": "string",
+      "enum": ["STRONG", "READY", "READY_WITH_WARNINGS", "REVISION_REQUIRED", "BLOCKED"]
+    },
+    "overallStatus": {
+      "type": "string",
+      "enum": ["READY_TO_PUBLISH", "READY_WITH_WARNINGS", "RETURN_FOR_REVISION", "BLOCKED"]
+    },
+    "blockers": {
+      "type": "array",
+      "items": { "$ref": "distribution-issue.schema.json" }
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "$ref": "distribution-issue.schema.json" }
+    },
+    "recommendations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "description", "suggestedAction", "targetRoute", "sourceValidators", "priority"],
+        "properties": {
+          "id": { "type": "string" },
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "suggestedAction": { "type": "string" },
+          "targetRoute": {
+            "type": "string",
+            "enum": [
+              "EDITORIAL",
+              "RESEARCH",
+              "SEO_TECHNICAL",
+              "CONTENT_STRATEGY",
+              "VISUAL_DESIGN",
+              "SITE_TECHNICAL",
+              "PUBLISHING",
+              "HUMAN_REVIEW"
+            ]
+          },
+          "sourceValidators": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["EDITORIAL", "SEO", "DISCOVER", "AI_VISIBILITY"]
+            }
+          },
+          "priority": { "type": "string", "enum": ["HIGH", "MEDIUM", "LOW"] }
+        }
+      }
+    },
+    "routes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "EDITORIAL",
+          "RESEARCH",
+          "SEO_TECHNICAL",
+          "CONTENT_STRATEGY",
+          "VISUAL_DESIGN",
+          "SITE_TECHNICAL",
+          "PUBLISHING",
+          "HUMAN_REVIEW"
+        ]
+      }
+    },
+    "summary": { "type": "string" },
+    "evaluatedAt": { "type": "string", "format": "date-time" },
+    "policyVersion": { "type": "string" },
+    "aggregateDiagnosticScore": { "type": "number", "minimum": 0, "maximum": 100 },
+    "warningAcknowledgment": {
+      "type": ["object", "null"],
+      "properties": {
+        "warningAcknowledged": { "type": "boolean" },
+        "warningAcknowledgedBy": { "type": "string" },
+        "warningAcknowledgedAt": { "type": "string", "format": "date-time" },
+        "notes": { "type": "string" }
+      }
+    },
+    "publicationCandidate": {
+      "$ref": "publication-candidate.schema.json"
+    },
+    "auditEvents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["eventId", "eventType", "articleId", "timestamp", "details"],
+        "properties": {
+          "eventId": { "type": "string" },
+          "eventType": { "type": "string" },
+          "articleId": { "type": "string" },
+          "timestamp": { "type": "string", "format": "date-time" },
+          "details": { "type": "object" }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

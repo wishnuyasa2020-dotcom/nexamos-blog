@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "NexaMOS Google Discover Visual Asset Schema",
+  "type": "object",
+  "required": ["url"],
+  "properties": {
+    "url": { "type": "string", "format": "uri" },
+    "width": { "type": "integer", "minimum": 1 },
+    "height": { "type": "integer", "minimum": 1 },
+    "totalPixels": { "type": "integer", "minimum": 1 },
+    "aspectRatio": { "type": "string" },
+    "alt": { "type": ["string", "null"] },
+    "caption": { "type": ["string", "null"] },
+    "isGeneric": { "type": "boolean" },
+    "isLogo": { "type": "boolean" },
+    "textDensity": { "type": "string", "enum": ["LOW", "MEDIUM", "HIGH"] },
+    "ogImage": { "type": "boolean" },
+    "schemaImage": { "type": "boolean" }
+  }
+}

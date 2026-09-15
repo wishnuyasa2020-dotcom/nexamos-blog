@@ -1,0 +1,48 @@
+{
+  "id": "res-proj-blog-ai-relevance",
+  "topicId": "top-2026-001-blog-ai-relevance",
+  "title": "Dampak Zero-Click, AI Overviews, dan Perilaku Multi-Surface terhadap Relevansi Blog",
+  "objective": "Memverifikasi dampak empiris ringkasan AI terhadap ekonomi klik dan mengevaluasi kelangsungan investasi owned media menurut arahan resmi Google serta studi industri 2025-2026.",
+  "researchQuestions": [
+    {
+      "id": "rq-01",
+      "question": "Apakah Search masih digunakan secara luas bersama AI?",
+      "priority": "HIGH",
+      "status": "ANSWERED",
+      "notes": "Terjawab oleh studi Similarweb 2025-2026."
+    },
+    {
+      "id": "rq-02",
+      "question": "Apakah AI Overview mempengaruhi click-through ke publisher?",
+      "priority": "HIGH",
+      "status": "ANSWERED",
+      "notes": "Terjawab oleh studi Pew Research Center dan Ahrefs."
+    },
+    {
+      "id": "rq-03",
+      "question": "Apakah Google masih menganggap SEO relevan untuk generative AI Search?",
+      "priority": "HIGH",
+      "status": "ANSWERED",
+      "notes": "Terjawab oleh dokumentasi resmi Google Search Central 2026."
+    },
+    {
+      "id": "rq-04",
+      "question": "Jenis konten apa yang direkomendasikan Google di era AI?",
+      "priority": "MEDIUM",
+      "status": "ANSWERED",
+      "notes": "Terjawab oleh panduan konten original E-E-A-T Google Search Central."
+    },
+    {
+      "id": "rq-05",
+      "question": "Apakah owned media masih mendapat investasi?",
+      "priority": "MEDIUM",
+      "status": "ANSWERED",
+      "notes": "Terjawab oleh laporan Content Marketing Institute 2026."
+    }
+  ],
+  "status": "READY",
+  "requiredEvidenceLevel": "E3",
+  "createdAt": "2026-09-14T08:00:00Z",
+  "updatedAt": "2026-09-14T12:00:00Z",
+  "completedAt": null
+}

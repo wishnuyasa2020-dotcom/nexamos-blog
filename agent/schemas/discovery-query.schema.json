@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nexamos.com/schemas/discovery-query.schema.json",
+  "title": "NexaMOS Discovery Query",
+  "description": "Schema for deterministic search query generated to discover external research candidate sources.",
+  "type": "object",
+  "required": [
+    "id",
+    "researchProjectId",
+    "researchQuestionId",
+    "query",
+    "intent",
+    "preferredSourceTypes",
+    "createdAt"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "researchProjectId": {
+      "type": "string"
+    },
+    "researchQuestionId": {
+      "type": "string"
+    },
+    "query": {
+      "type": "string",
+      "minLength": 1
+    },
+    "intent": {
+      "type": "string",
+      "enum": [
+        "FIND_PRIMARY_SOURCE",
+        "FIND_EMPIRICAL_EVIDENCE",
+        "FIND_CURRENT_DATA",
+        "FIND_COUNTER_EVIDENCE",
+        "FIND_DEFINITION",
+        "FIND_LOCAL_CONTEXT",
+        "GENERAL_RESEARCH"
+      ]
+    },
+    "preferredSourceTypes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "requiredEvidenceLevel": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "dateConstraint": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "language": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "domainConstraints": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": "string"
+      }
+    },
+    "createdAt": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

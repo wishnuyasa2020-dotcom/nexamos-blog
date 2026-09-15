@@ -1,0 +1,17 @@
+{
+  "id": "raw-fixture-html",
+  "researchProjectId": "res-proj-ai-relevance-001",
+  "sourceType": "OFFICIAL_DOCUMENTATION",
+  "format": "HTML",
+  "title": "Google Search Central: Information Gain and Helpful Content Guidelines",
+  "url": "https://developers.google.com/search/docs/fundamentals/creating-helpful-content",
+  "publisher": "Google LLC",
+  "author": "Google Search Relations",
+  "publicationDate": "2024-03-05",
+  "language": "en",
+  "content": "<article>\n  <header>\n    <h1>Creating Helpful, Reliable, People-First Content</h1>\n  </header>\n  <main>\n    <p>Google's automated ranking systems are designed to present helpful, reliable information that's primarily created to benefit people, rather than to gain search engine rankings.</p>\n    <blockquote>\"Does your content provide substantial value when compared to other pages in search results, offering unique insights or original reporting?\"</blockquote>\n    <h2>Key Signals for Content Evaluation</h2>\n    <p>Content created primarily for search engine traffic often exhibits high redundancy with existing top-ranking results, resulting in lower information gain scores.</p>\n    <table class=\"metrics-table\">\n      <thead>\n        <tr><th>Factor</th><th>Evaluation Criteria</th><th>Impact Weight</th></tr>\n      </thead>\n      <tbody>\n        <tr><td>Original Data</td><td>First-party findings and proprietary statistics</td><td>High</td></tr>\n        <tr><td>Experience E-E-A-T</td><td>Demonstrated first-hand practical knowledge</td><td>Critical</td></tr>\n      </tbody>\n    </table>\n  </main>\n</article>",
+  "metadata": {
+    "documentationCategory": "Search Quality Guidelines",
+    "status": "Official Canonical Guidance"
+  }
+}

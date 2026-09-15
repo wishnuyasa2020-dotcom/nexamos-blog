@@ -1,0 +1,52 @@
+[
+  {
+    "id": "clm-01",
+    "researchProjectId": "res-proj-blog-ai-relevance",
+    "statement": "Mayoritas pengguna AI generatif (sekitar 95%) tetap menggunakan mesin pencari Google secara paralel dalam customer journey multi-surface.",
+    "claimType": "FACTUAL",
+    "status": "SUPPORTED",
+    "importance": "CRITICAL",
+    "createdAt": "2026-09-14T09:00:00Z",
+    "updatedAt": "2026-09-14T09:30:00Z"
+  },
+  {
+    "id": "clm-02",
+    "researchProjectId": "res-proj-blog-ai-relevance",
+    "statement": "Kehadiran AI Overview dan AI Summary secara empiris memicu fenomena zero-click dan menurunkan CTR organik tradisional hingga lebih dari 50% pada query informational.",
+    "claimType": "CAUSAL",
+    "status": "SUPPORTED",
+    "importance": "CRITICAL",
+    "createdAt": "2026-09-14T09:05:00Z",
+    "updatedAt": "2026-09-14T09:35:00Z"
+  },
+  {
+    "id": "clm-03",
+    "researchProjectId": "res-proj-blog-ai-relevance",
+    "statement": "Dokumentasi resmi Google Search Central 2026 menegaskan fondasi SEO tetap esensial untuk visibilitas di fitur generative AI Google.",
+    "claimType": "FACTUAL",
+    "status": "SUPPORTED",
+    "importance": "CRITICAL",
+    "createdAt": "2026-09-14T09:10:00Z",
+    "updatedAt": "2026-09-14T09:40:00Z"
+  },
+  {
+    "id": "clm-04",
+    "researchProjectId": "res-proj-blog-ai-relevance",
+    "statement": "Alokasi anggaran pemasaran B2B untuk aset owned media (blog & knowledge assets) bertumbuh sebesar 32% guna membangun first-party audience.",
+    "claimType": "FACTUAL",
+    "status": "SUPPORTED",
+    "importance": "SUPPORTING",
+    "createdAt": "2026-09-14T09:15:00Z",
+    "updatedAt": "2026-09-14T09:45:00Z"
+  },
+  {
+    "id": "clm-05",
+    "researchProjectId": "res-proj-blog-ai-relevance",
+    "statement": "Aktivitas blog sebagai media pengetahuan telah mati sepenuhnya dan tidak lagi dikunjungi audiens di era AI.",
+    "claimType": "FORECAST",
+    "status": "CONTRADICTED",
+    "importance": "CRITICAL",
+    "createdAt": "2026-09-14T09:20:00Z",
+    "updatedAt": "2026-09-14T09:50:00Z"
+  }
+]

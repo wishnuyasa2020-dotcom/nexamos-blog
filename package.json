@@ -1,0 +1,26 @@
+{
+  "name": "nexamos-blog",
+  "version": "1.0.0",
+  "description": "NexaMOS Blog Engine & Publishing System",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test --experimental-strip-types tests/*.test.ts",
+    "build": "node --experimental-strip-types scripts/build-blog.ts",
+    "build:fixture": "node --experimental-strip-types scripts/build-blog.ts --fixture",
+    "preview": "node --experimental-strip-types scripts/preview-blog.ts",
+    "ai:smoke": "node --env-file-if-exists=.env --env-file-if-exists=.env.local --experimental-strip-types scripts/smoke-test-ai.ts",
+    "pilot": "node --env-file-if-exists=.env --env-file-if-exists=.env.local --experimental-strip-types scripts/run-pilot-article.ts",
+    "pilot:publish": "node --experimental-strip-types scripts/publish-pilot-article.ts"
+  },
+  "keywords": [
+    "nexamos",
+    "blog",
+    "publishing",
+    "static-site",
+    "seo",
+    "ai-visibility"
+  ],
+  "author": "NexaMOS Engineering",
+  "license": "UNLICENSED"
+}

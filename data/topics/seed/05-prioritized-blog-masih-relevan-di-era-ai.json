@@ -1,0 +1,112 @@
+{
+  "id": "top-seed-005-blog-masih-relevan",
+  "title": "Apakah Aktivitas Blog Masih Relevan di Era AI?",
+  "slug": "apakah-aktivitas-blog-masih-relevan-di-era-ai",
+  "territory": "TACTICAL",
+  "status": "PRIORITIZED",
+  "editorialRole": "AUTHORITY",
+  "audience": {
+    "segment": "B2B Marketers, CMOs, & Enterprise Content Strategists",
+    "jobToBeDone": "Mengevaluasi alokasi investasi owned media di tengah pergeseran ekonomi klik organik akibat AI Search dan zero-click results",
+    "knowledgeLevel": "Advanced / Strategic Decision Makers"
+  },
+  "problem": "Maraknya pemanfaatan AI generatif dan ringkasan AI Search memicu spekulasi bahwa aktivitas blog telah mati, menyebabkan ketidakpastian dalam strategi investasi owned media dan content marketing.",
+  "intent": {
+    "primary": "Evaluasi relevansi blog dan strategi owned media di era generative AI",
+    "secondary": [
+      "Dampak Google AI Overview terhadap traffic organik dan CTR",
+      "Perbedaan commodity content vs non-commodity knowledge",
+      "Peran distribusi multi-surface (Search, Discover, AI Visibility, Direct)"
+    ]
+  },
+  "thesis": "Aktivitas blog sebagai medium tidak mati; yang kehilangan daya adalah model blog berbasis produksi massal artikel informasional generik. Keunggulan kompetitif bergeser dari perebutan klik ke kepemilikan original knowledge, authority, dan hubungan langsung.",
+  "whyNow": "Data industri 2025-2026 mengonfirmasi pergeseran perilaku pencarian dan ekonomi klik secara masif.",
+  "informationGain": {
+    "expectedContribution": "Sintesis mendalam yang mengawinkan data empiris zero-click dengan panduan resmi Google Search Central 2026, membedakan komoditisasi informasi dari produksi aset pengetahuan non-komoditas.",
+    "originalityType": [
+      "EXPERT_INTERPRETATION",
+      "CROSS_THEORY_SYNTHESIS",
+      "STRONG_POINT_OF_VIEW"
+    ],
+    "commodityRisk": "LOW"
+  },
+  "evidencePlan": {
+    "requiredEvidenceLevel": "E3",
+    "plannedSources": [
+      "Google Search Central (2026): Optimizing your website for generative AI features on Google Search",
+      "Pew Research Center (Juli 2025): Google users browsing activity & AI Summary CTR impact",
+      "Ahrefs (Februari 2026): Study on 300,000 keywords correlating AI Overviews with position #1 CTR reduction (~58%)",
+      "Similarweb (Mei 2026): 95% ChatGPT users overlap with Google Search",
+      "Content Marketing Institute (2026): B2B Content Trends Report (32% owned media investment growth)"
+    ],
+    "originalEvidenceRequired": false,
+    "notes": "Bukti empiris sangat lengkap dan mencakup 5 studi independen 2025-2026."
+  },
+  "businessRelevance": {
+    "objective": "Thought Leadership & Category Authority",
+    "funnelRole": "Top-to-Middle of Funnel (Edukasi problem kognitif menuju adopsi platform owned knowledge NexaMOS)",
+    "notes": "Membuka diskursus bahwa AI harus dipakai sebagai production leverage, bukan content farm otomatis."
+  },
+  "recommendedArticleType": "ANALYSIS",
+  "distributionTargets": [
+    "GOOGLE_SEARCH",
+    "GOOGLE_DISCOVER",
+    "GOOGLE_AI",
+    "EMAIL",
+    "SOCIAL"
+  ],
+  "qualification": {
+    "decision": "QUALIFIED",
+    "gates": {
+      "doctrineAlignment": {
+        "gate": "DOCTRINE_ALIGNMENT",
+        "passed": true,
+        "score": 96,
+        "notes": "Pilar utama doktrin NexaMOS: kepemilikan aset pengetahuan owned media."
+      },
+      "territoryClarity": {
+        "gate": "TERRITORY_CLARITY",
+        "passed": true,
+        "score": 90,
+        "notes": "Fokus pada eksekusi kanal publikasi taktis dengan implikasi strategi."
+      },
+      "audienceAndProblem": {
+        "gate": "AUDIENCE_AND_PROBLEM",
+        "passed": true,
+        "score": 94,
+        "notes": "Tension problem paling aktual di kalangan CMO enterprise."
+      },
+      "evidenceAvailability": {
+        "gate": "EVIDENCE_AVAILABILITY",
+        "passed": true,
+        "score": 95,
+        "notes": "Tersedia 5 sumber riset kredibel 2025-2026."
+      },
+      "informationGainPotential": {
+        "gate": "INFORMATION_GAIN_POTENTIAL",
+        "passed": true,
+        "score": 92,
+        "notes": "Sintesis konseptual tajam membedakan komoditas vs non-komoditas."
+      },
+      "executionFeasibility": {
+        "gate": "EXECUTION_FEASIBILITY",
+        "passed": true,
+        "score": 95,
+        "notes": "Outline dan data siap diproduksi."
+      }
+    },
+    "summary": "Topik sangat memenuhi seluruh kriteria kualifikasi NexaMOS dengan skor sangat tinggi di seluruh dimensi.",
+    "qualifiedAt": "2026-09-14T10:15:00Z",
+    "evaluatorVersion": "1.0.0"
+  },
+  "priority": {
+    "strategicValue": 95,
+    "audienceValue": 90,
+    "timeliness": 92,
+    "evidenceReadiness": 95,
+    "differentiationPotential": 88,
+    "overall": 92
+  },
+  "createdAt": "2026-09-14T09:00:00Z",
+  "updatedAt": "2026-09-14T10:30:00Z"
+}

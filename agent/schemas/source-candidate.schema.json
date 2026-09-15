@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nexamos.com/schemas/source-candidate.schema.json",
+  "title": "NexaMOS Source Candidate",
+  "description": "Schema for potential source candidate discovered via external search provider before acquisition.",
+  "type": "object",
+  "required": [
+    "id",
+    "queryId",
+    "researchProjectId",
+    "title",
+    "url",
+    "provider",
+    "status",
+    "discoveredAt"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "queryId": {
+      "type": "string"
+    },
+    "researchProjectId": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "url": {
+      "type": "string"
+    },
+    "snippet": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "publisher": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "author": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "publicationDate": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "sourceType": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "provider": {
+      "type": "string"
+    },
+    "rank": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "DISCOVERED",
+        "EVALUATING",
+        "ACCEPTED",
+        "REJECTED",
+        "DUPLICATE",
+        "ACQUISITION_FAILED",
+        "INGESTED"
+      ]
+    },
+    "discoveredAt": {
+      "type": "string"
+    },
+    "evaluationNotes": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

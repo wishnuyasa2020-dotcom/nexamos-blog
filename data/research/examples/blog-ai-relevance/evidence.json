@@ -1,0 +1,82 @@
+[
+  {
+    "id": "evi-01",
+    "sourceId": "src-similarweb-2026",
+    "researchProjectId": "res-proj-blog-ai-relevance",
+    "content": "Sekitar 95% pengguna aktif ChatGPT tercatat tetap menggunakan mesin pencari Google pada Mei 2026, menunjukkan bahwa adopsi AI generatif tidak menggantikan mesin pencari konvensional melainkan melengkapi customer journey.",
+    "locator": {
+      "section": "Executive Summary",
+      "paragraph": 2
+    },
+    "evidenceLevel": "E3",
+    "capturedAt": "2026-09-14T08:32:00Z",
+    "publicationAllowed": true,
+    "notes": "Mendukung kuat tesis multi-surface koeksistensi.",
+    "createdAt": "2026-09-14T08:32:00Z",
+    "updatedAt": "2026-09-14T08:32:00Z"
+  },
+  {
+    "id": "evi-02",
+    "sourceId": "src-pew-2025",
+    "researchProjectId": "res-proj-blog-ai-relevance",
+    "content": "Pada sesi pencarian di mana AI Summary muncul, hasil pencarian organik tradisional hanya diklik pada sekitar 8% kunjungan, dibandingkan dengan 15% kunjungan pada halaman pencarian tanpa AI Summary.",
+    "locator": {
+      "section": "CTR Breakdown",
+      "table": "Table 1. Click Behaviour on AI Summary Pages"
+    },
+    "evidenceLevel": "E3",
+    "capturedAt": "2026-09-14T08:37:00Z",
+    "publicationAllowed": true,
+    "notes": "Data kuantitatif independen mengenai dampak zero-click.",
+    "createdAt": "2026-09-14T08:37:00Z",
+    "updatedAt": "2026-09-14T08:37:00Z"
+  },
+  {
+    "id": "evi-03",
+    "sourceId": "src-ahrefs-2026",
+    "researchProjectId": "res-proj-blog-ai-relevance",
+    "content": "Analisis terhadap 300.000 kata kunci menemukan bahwa keberadaan Google AI Overviews berkorelasi dengan penurunan CTR posisi #1 organik sebesar ~58% (turun dari rata-rata 7.3% menjadi 2.6%).",
+    "locator": {
+      "section": "Impact on Position #1",
+      "figure": "Chart 3: CTR Distribution with vs without AI Overview"
+    },
+    "evidenceLevel": "E3",
+    "capturedAt": "2026-09-14T08:42:00Z",
+    "publicationAllowed": true,
+    "notes": "Bukti empiris penurunan ekonomi klik organik.",
+    "createdAt": "2026-09-14T08:42:00Z",
+    "updatedAt": "2026-09-14T08:42:00Z"
+  },
+  {
+    "id": "evi-04",
+    "sourceId": "src-google-central-2026",
+    "researchProjectId": "res-proj-blog-ai-relevance",
+    "content": "Panduan resmi Google Search Central 2026 menegaskan bahwa sistem generatif Google mengambil rujukan dari konten web yang memiliki orisinalitas tinggi, struktur entitas jelas, dan standar E-E-A-T yang kuat; praktik SEO tetap penting untuk memastikan konten dapat dirayapi dan dipahami sistem AI.",
+    "locator": {
+      "section": "Core Guidance for AI Search Features",
+      "paragraph": 4
+    },
+    "evidenceLevel": "E3",
+    "capturedAt": "2026-09-14T08:47:00Z",
+    "publicationAllowed": true,
+    "notes": "Dokumentasi otoritas platform primer.",
+    "createdAt": "2026-09-14T08:47:00Z",
+    "updatedAt": "2026-09-14T08:47:00Z"
+  },
+  {
+    "id": "evi-05",
+    "sourceId": "src-cmi-2026",
+    "researchProjectId": "res-proj-blog-ai-relevance",
+    "content": "Sebanyak 32% pemimpin pemasaran B2B meningkatkan anggaran investasi pada aset owned media (seperti blog otoritas, riset mandiri, dan pustaka pengetahuan) untuk membangun first-party data serta memitigasi kenaikan biaya iklan.",
+    "locator": {
+      "section": "Budget Allocation Trends",
+      "page": 14
+    },
+    "evidenceLevel": "E2",
+    "capturedAt": "2026-09-14T08:52:00Z",
+    "publicationAllowed": true,
+    "notes": "Membuktikan kontinuitas investasi pada owned media.",
+    "createdAt": "2026-09-14T08:52:00Z",
+    "updatedAt": "2026-09-14T08:52:00Z"
+  }
+]

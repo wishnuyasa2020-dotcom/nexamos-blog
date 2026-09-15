@@ -1,0 +1,124 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "NexaMOS AI Visibility Validation Result Schema",
+  "type": "object",
+  "required": [
+    "articleId",
+    "googleEligibility",
+    "providerNeutralReadiness",
+    "checks",
+    "issues",
+    "recommendations",
+    "dimensions",
+    "score",
+    "classification",
+    "criticalBlockingReasons",
+    "validatedAt",
+    "policyVersion"
+  ],
+  "properties": {
+    "articleId": { "type": "string" },
+    "googleEligibility": {
+      "type": "string",
+      "enum": ["ELIGIBLE", "ELIGIBILITY_WARNING", "INELIGIBLE", "BLOCKED_BY_SITE_CONTROL"]
+    },
+    "providerNeutralReadiness": {
+      "type": "object",
+      "required": [
+        "retrievability",
+        "answerability",
+        "entityClarity",
+        "claimTraceability",
+        "sourceTransparency",
+        "informationGain"
+      ],
+      "properties": {
+        "retrievability": { "type": "string", "enum": ["HIGH", "MEDIUM", "LOW"] },
+        "answerability": { "type": "string", "enum": ["STRONG", "ADEQUATE", "WEAK"] },
+        "entityClarity": { "type": "string", "enum": ["HIGH", "MEDIUM", "LOW"] },
+        "claimTraceability": { "type": "string", "enum": ["FULL", "PARTIAL", "UNSUPPORTED"] },
+        "sourceTransparency": { "type": "string", "enum": ["TRANSPARENT", "NEEDS_IMPROVEMENT", "OPAQUE"] },
+        "informationGain": { "type": "string", "enum": ["HIGH", "MEDIUM", "LOW"] }
+      }
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["checkId", "dimension", "status", "scoreContribution", "summary"],
+        "properties": {
+          "checkId": { "type": "string" },
+          "dimension": { "type": "string" },
+          "status": { "type": "string", "enum": ["PASS", "WARNING", "FAIL"] },
+          "scoreContribution": { "type": "number", "minimum": 0 },
+          "summary": { "type": "string" },
+          "details": { "type": "object" }
+        }
+      }
+    },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "checkId", "dimension", "severity", "message"],
+        "properties": {
+          "code": { "type": "string" },
+          "checkId": { "type": "string" },
+          "dimension": { "type": "string" },
+          "severity": { "type": "string", "enum": ["INFO", "WARNING", "CRITICAL"] },
+          "message": { "type": "string" },
+          "location": { "type": "string" },
+          "recommendation": { "type": "string" }
+        }
+      }
+    },
+    "recommendations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "title", "description", "suggestedAction"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "CONTENT_CLARIFICATION",
+              "ENTITY_CLARIFICATION",
+              "CLAIM_CLARIFICATION",
+              "SOURCE_TRANSPARENCY",
+              "CITATION_IMPROVEMENT",
+              "INFORMATION_GAIN_IMPROVEMENT",
+              "ACCESSIBILITY_FIX",
+              "MULTIMODAL_IMPROVEMENT",
+              "SEO_TECHNICAL_RETURN",
+              "EDITORIAL_RETURN",
+              "RESEARCH_RETURN"
+            ]
+          },
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "suggestedAction": { "type": "string" },
+          "crossEngineDestination": {
+            "type": "string",
+            "enum": ["RESEARCH", "EDITORIAL", "SEO_TECHNICAL", "VISUAL_DESIGN", "CONTENT_STRATEGY"]
+          },
+          "isAbuseRiskWarning": { "type": "boolean" }
+        }
+      }
+    },
+    "dimensions": {
+      "type": "object",
+      "additionalProperties": { "type": "number" }
+    },
+    "score": { "type": "number", "minimum": 0, "maximum": 100 },
+    "classification": {
+      "type": "string",
+      "enum": ["STRONG", "READY", "READY_WITH_WARNINGS", "REVISION_REQUIRED", "BLOCKED"]
+    },
+    "criticalBlockingReasons": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "validatedAt": { "type": "string", "format": "date-time" },
+    "policyVersion": { "type": "string" }
+  }
+}

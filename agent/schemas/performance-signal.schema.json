@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NexaMOS Performance Signal Schema",
+  "type": "object",
+  "required": [
+    "id",
+    "articleId",
+    "signalType",
+    "confidence",
+    "window",
+    "sampleSufficiency",
+    "metricsObserved",
+    "description",
+    "detectedAt"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "articleId": { "type": "string" },
+    "signalType": {
+      "type": "string",
+      "enum": [
+        "SEARCH_IMPRESSIONS_RISING",
+        "SEARCH_IMPRESSIONS_FALLING",
+        "HIGH_IMPRESSIONS_LOW_CTR",
+        "LOW_IMPRESSIONS_HIGH_CTR",
+        "DISCOVER_VISIBILITY_EMERGING",
+        "DISCOVER_VISIBILITY_SPIKE",
+        "DISCOVER_VISIBILITY_DECAY",
+        "AI_SEARCH_VISIBILITY_EMERGING",
+        "AI_DISCOVER_VISIBILITY_EMERGING",
+        "STRONG_ENGAGEMENT",
+        "WEAK_ENGAGEMENT",
+        "HIGH_TRAFFIC_LOW_ENGAGEMENT",
+        "LOW_TRAFFIC_HIGH_ENGAGEMENT",
+        "CONTENT_DECAY",
+        "EVERGREEN_STABILITY",
+        "UPDATE_OPPORTUNITY",
+        "INTERNAL_LINK_OPPORTUNITY"
+      ]
+    },
+    "confidence": {
+      "type": "string",
+      "enum": ["LOW", "MEDIUM", "HIGH"]
+    },
+    "window": {
+      "type": "object"
+    },
+    "sampleSufficiency": {
+      "type": "string",
+      "enum": ["SUFFICIENT", "LOW_SAMPLE", "INSUFFICIENT"]
+    },
+    "metricsObserved": {
+      "type": "object"
+    },
+    "description": { "type": "string" },
+    "context": { "type": "object" },
+    "detectedAt": { "type": "string", "format": "date-time" }
+  }
+}

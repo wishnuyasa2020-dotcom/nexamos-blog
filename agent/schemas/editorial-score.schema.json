@@ -1,0 +1,205 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nexamos.com/schemas/editorial-score.schema.json",
+  "title": "NexaMOS Editorial Score",
+  "description": "Canonical schema for evaluating article quality and publication readiness based on the 10-dimension 100-point weighting doctrine.",
+  "type": "object",
+  "required": [
+    "articleId",
+    "rawDimensions",
+    "weightedDimensions",
+    "total",
+    "classification",
+    "validationTimestamp",
+    "validatorVersion"
+  ],
+  "properties": {
+    "articleId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identifier of the article being scored."
+    },
+    "rawDimensions": {
+      "type": "object",
+      "description": "Unweighted dimension scores on a 0-100 scale.",
+      "required": [
+        "originalityInformationGain",
+        "evidenceQuality",
+        "expertiseDepth",
+        "strategicRelevance",
+        "readerUsefulness",
+        "structureClarity",
+        "searchReadiness",
+        "discoverReadiness",
+        "aiRetrievalReadiness",
+        "visualMediaQuality"
+      ],
+      "properties": {
+        "originalityInformationGain": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "evidenceQuality": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "expertiseDepth": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "strategicRelevance": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "readerUsefulness": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "structureClarity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "searchReadiness": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "discoverReadiness": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "aiRetrievalReadiness": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "visualMediaQuality": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        }
+      },
+      "additionalProperties": false
+    },
+    "weightedDimensions": {
+      "type": "object",
+      "description": "Calculated scores based on doctrine weights (summing to max 100 points).",
+      "required": [
+        "originalityInformationGain",
+        "evidenceQuality",
+        "expertiseDepth",
+        "strategicRelevance",
+        "readerUsefulness",
+        "structureClarity",
+        "searchReadiness",
+        "discoverReadiness",
+        "aiRetrievalReadiness",
+        "visualMediaQuality"
+      ],
+      "properties": {
+        "originalityInformationGain": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 20,
+          "description": "Max weight: 20 points"
+        },
+        "evidenceQuality": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 15,
+          "description": "Max weight: 15 points"
+        },
+        "expertiseDepth": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 15,
+          "description": "Max weight: 15 points"
+        },
+        "strategicRelevance": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10,
+          "description": "Max weight: 10 points"
+        },
+        "readerUsefulness": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10,
+          "description": "Max weight: 10 points"
+        },
+        "structureClarity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10,
+          "description": "Max weight: 10 points"
+        },
+        "searchReadiness": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 7,
+          "description": "Max weight: 7 points"
+        },
+        "discoverReadiness": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 5,
+          "description": "Max weight: 5 points"
+        },
+        "aiRetrievalReadiness": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 5,
+          "description": "Max weight: 5 points"
+        },
+        "visualMediaQuality": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 3,
+          "description": "Max weight: 3 points"
+        }
+      },
+      "additionalProperties": false
+    },
+    "total": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Aggregate weighted score across all 10 dimensions."
+    },
+    "classification": {
+      "type": "string",
+      "enum": [
+        "FLAGSHIP",
+        "PUBLISH",
+        "REVISION_REQUIRED",
+        "DO_NOT_PUBLISH"
+      ],
+      "description": "Threshold classification: 90-100 FLAGSHIP, 80-89 PUBLISH, 70-79 REVISION_REQUIRED, 0-69 DO_NOT_PUBLISH."
+    },
+    "validationTimestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when scoring was computed."
+    },
+    "validatorVersion": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Version of the scoring engine or rule schema used."
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Editorial evaluation notes or revision recommendations."
+    }
+  },
+  "additionalProperties": false
+}

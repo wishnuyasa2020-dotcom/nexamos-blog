@@ -1,0 +1,106 @@
+{
+  "id": "top-2026-001-blog-ai-relevance",
+  "title": "Apakah Aktivitas Blog Masih Relevan di Era AI?",
+  "slug": "apakah-aktivitas-blog-masih-relevan-di-era-ai",
+  "territory": "TACTICAL",
+  "status": "QUALIFIED",
+  "editorialRole": "AUTHORITY",
+  "audience": {
+    "segment": "B2B Marketers, CMOs, & Enterprise Content Strategists",
+    "jobToBeDone": "Mengevaluasi alokasi investasi owned media di tengah pergeseran ekonomi klik organik akibat AI Search dan zero-click results.",
+    "knowledgeLevel": "Advanced / Strategic Decision Makers"
+  },
+  "problem": "Maraknya pemanfaatan AI generatif dan ringkasan AI Search memicu spekulasi bahwa aktivitas blog telah mati, menyebabkan ketidakpastian dalam strategi investasi owned media dan content marketing.",
+  "intent": {
+    "primary": "Evaluasi relevansi blog dan strategi owned media di era generative AI",
+    "secondary": [
+      "Dampak Google AI Overview terhadap traffic organik dan CTR",
+      "Perbedaan commodity content vs non-commodity knowledge",
+      "Peran distribusi multi-surface (Search, Discover, AI Visibility, Direct)"
+    ]
+  },
+  "thesis": "Aktivitas blog sebagai medium tidak mati; yang kehilangan daya adalah model blog berbasis produksi massal artikel informasional generik. Keunggulan kompetitif bergeser dari perebutan klik ke kepemilikan original knowledge, authority, dan hubungan langsung (first-party audience).",
+  "whyNow": "Data industri 2025-2026 (Pew Research, Ahrefs, Similarweb, Google Central 2026) mengonfirmasi pergeseran perilaku pencarian dan ekonomi klik secara masif.",
+  "informationGain": {
+    "expectedContribution": "Sintesis mendalam yang mengawinkan data empiris zero-click dengan panduan resmi Google Search Central 2026, membedakan komoditisasi informasi dari produksi aset pengetahuan non-komoditas.",
+    "originalityType": [
+      "EXPERT_INTERPRETATION",
+      "CROSS_THEORY_SYNTHESIS",
+      "STRONG_POINT_OF_VIEW"
+    ],
+    "commodityRisk": "LOW"
+  },
+  "evidencePlan": {
+    "requiredEvidenceLevel": "E3",
+    "plannedSources": [
+      "Google Search Central (2026): Optimizing your website for generative AI features on Google Search",
+      "Pew Research Center (Juli 2025): Google users browsing activity & AI Summary CTR impact",
+      "Ahrefs (Februari 2026): Study on 300,000 keywords correlating AI Overviews with position #1 CTR reduction (~58%)",
+      "Similarweb (Mei 2026): 95% ChatGPT users overlap with Google Search",
+      "Content Marketing Institute (2026): B2B Content Trends Report (32% owned media investment growth)"
+    ],
+    "originalEvidenceRequired": false,
+    "notes": "Topik ini diklasifikasikan utama sebagai TACTICAL (eksekusi saluran penerbitan konten), namun memiliki catatan implikasi sekunder yang kuat terhadap STRATEGY (alokasi positioning brand di owned media vs rented audience)."
+  },
+  "businessRelevance": {
+    "objective": "Thought Leadership & Category Authority",
+    "funnelRole": "Top-to-Middle of Funnel (Edukasi problem kognitif menuju adopsi platform owned knowledge NexaMOS)",
+    "notes": "Membuka diskursus bahwa AI harus dipakai sebagai production leverage, bukan content farm otomatis."
+  },
+  "recommendedArticleType": "ANALYSIS",
+  "distributionTargets": [
+    "GOOGLE_SEARCH",
+    "GOOGLE_DISCOVER",
+    "GOOGLE_AI",
+    "EMAIL",
+    "SOCIAL"
+  ],
+  "priority": {
+    "strategicValue": 95,
+    "audienceValue": 90,
+    "differentiationPotential": 88,
+    "timeliness": 92,
+    "evidenceReadiness": 95,
+    "overall": 92
+  },
+  "qualification": {
+    "decision": "QUALIFIED",
+    "gates": {
+      "TERRITORY_FIT": {
+        "gate": "TERRITORY_FIT",
+        "status": "PASS",
+        "explanation": "Sesuai dengan territory kanonikal 'TACTICAL'."
+      },
+      "AUDIENCE_RELEVANCE": {
+        "gate": "AUDIENCE_RELEVANCE",
+        "status": "PASS",
+        "explanation": "Menargetkan segmen B2B Marketers & CMOs dengan masalah pergeseran CTR."
+      },
+      "KNOWLEDGE_VALUE": {
+        "gate": "KNOWLEDGE_VALUE",
+        "status": "PASS",
+        "explanation": "Menyediakan sintesis data empiris multi-sumber."
+      },
+      "EVIDENCE_FEASIBILITY": {
+        "gate": "EVIDENCE_FEASIBILITY",
+        "status": "PASS",
+        "explanation": "Didukung 5 sumber otoritatif independen dan resmi Google."
+      },
+      "NON_COMMODITY_POTENTIAL": {
+        "gate": "NON_COMMODITY_POTENTIAL",
+        "status": "PASS",
+        "explanation": "Risiko komoditas LOW dengan interpretasi ahli."
+      },
+      "BUSINESS_RELEVANCE": {
+        "gate": "BUSINESS_RELEVANCE",
+        "status": "PASS",
+        "explanation": "Mendukung sasaran Thought Leadership & Category Authority."
+      }
+    },
+    "summary": "Topik memenuhi seluruh 6 gerbang kualifikasi editorial NexaMOS dan layak masuk pipeline produksi.",
+    "qualifiedAt": "2026-09-14T00:00:00Z",
+    "evaluatorVersion": "v1.0-deterministic"
+  },
+  "createdAt": "2026-09-14T00:00:00Z",
+  "updatedAt": "2026-09-14T00:00:00Z"
+}

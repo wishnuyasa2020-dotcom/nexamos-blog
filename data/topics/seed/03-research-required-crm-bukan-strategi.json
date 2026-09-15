@@ -1,0 +1,101 @@
+{
+  "id": "top-seed-003-crm-bukan-strategi",
+  "title": "CRM Bukan Strategi: Jebakan Otomasi Penjualan Tanpa Desain Relasi",
+  "slug": "crm-bukan-strategi-jebakan-otomasi",
+  "territory": "STRATEGY",
+  "status": "RESEARCH_REQUIRED",
+  "editorialRole": "FLAGSHIP",
+  "audience": {
+    "segment": "Chief Commercial Officers, VP of Sales, dan Enterprise CRM Directors",
+    "jobToBeDone": "Mencegah kegagalan investasi software CRM dengan menyelaraskan arsitektur data dengan strategi relasi pelanggan yang nyata",
+    "knowledgeLevel": "Executive Decision Maker"
+  },
+  "problem": "Banyak enterprise mengira pengadaan platform CRM secara otomatis menciptakan strategi retensi pelanggan, padahal software tanpa desain interaksi nilai hanya mempercepat kekacauan operasional.",
+  "intent": {
+    "primary": "Analisis kritis mengapa implementasi software CRM gagal tanpa arsitektur strategi relasi",
+    "secondary": [
+      "Perbedaan CRM sebagai software vs CRM sebagai kapabilitas strategis",
+      "Penyebab tingginya angka churn pasca adopsi tool otomatisasi"
+    ]
+  },
+  "thesis": "CRM adalah instrumen pencatatan dan orkestrasi operasional, bukan strategi; diferensiasi retensi lahir dari arsitektur pertukaran nilai dan customer lifetime design, bukan dari dashboard pipeline.",
+  "whyNow": "Belanja tahunan software SaaS CRM terus meningkat sementara skor Net Promoter Score (NPS) dan retensi pelanggan korporat stagnan di banyak industri.",
+  "informationGain": {
+    "expectedContribution": "Model diagnostik multi-tahap: memisahkan 'Tool Capability' dari 'Relationship Architecture' dengan studi empiris implementasi lapangan.",
+    "originalityType": [
+      "ORIGINAL_FRAMEWORK",
+      "STRONG_POINT_OF_VIEW",
+      "EXPERT_INTERPRETATION"
+    ],
+    "commodityRisk": "LOW"
+  },
+  "evidencePlan": {
+    "requiredEvidenceLevel": "E3",
+    "plannedSources": [
+      "Gartner / Forrester research on enterprise CRM adoption rates",
+      "Harvard Business Review studies on CRM failure causes",
+      "Data agregat primer observasi implementasi NexaMOS"
+    ],
+    "originalEvidenceRequired": true,
+    "notes": "Memerlukan konfirmasi bukti primer: data kegagalan adopsi CRM dan sampel kasus enterprise sebelum status dapat dinaikkan ke QUALIFIED."
+  },
+  "businessRelevance": {
+    "objective": "High-Value Enterprise Consultation Alignment",
+    "funnelRole": "Middle-of-Funnel Conversion & Consideration",
+    "notes": "Memposisikan NexaMOS sebagai mitra arsitektur strategi holistik, bukan sekadar vendor tools."
+  },
+  "recommendedArticleType": "ANALYSIS",
+  "distributionTargets": [
+    "GOOGLE_SEARCH",
+    "DIRECT",
+    "EMAIL",
+    "SALES_ENABLEMENT"
+  ],
+  "priority": null,
+  "qualification": {
+    "decision": "RESEARCH_REQUIRED",
+    "gates": {
+      "doctrineAlignment": {
+        "gate": "DOCTRINE_ALIGNMENT",
+        "passed": true,
+        "score": 92,
+        "notes": "Selaras sempurna dengan doktrin strategic orientation NexaMOS."
+      },
+      "territoryClarity": {
+        "gate": "TERRITORY_CLARITY",
+        "passed": true,
+        "score": 95,
+        "notes": "Secara tegas menduduki wilayah STRATEGY."
+      },
+      "audienceAndProblem": {
+        "gate": "AUDIENCE_AND_PROBLEM",
+        "passed": true,
+        "score": 90,
+        "notes": "Masalah enterprise dan target audiens C-level sangat tajam."
+      },
+      "evidenceAvailability": {
+        "gate": "EVIDENCE_AVAILABILITY",
+        "passed": false,
+        "score": 55,
+        "notes": "Memerlukan pengumpulan bukti empiris primer (E3) terkait data kegagalan implementasi CRM di pasar regional."
+      },
+      "informationGainPotential": {
+        "gate": "INFORMATION_GAIN_POTENTIAL",
+        "passed": true,
+        "score": 88,
+        "notes": "Framework yang diajukan memiliki potensi diferensiasi tinggi."
+      },
+      "executionFeasibility": {
+        "gate": "EXECUTION_FEASIBILITY",
+        "passed": true,
+        "score": 85,
+        "notes": "Sumber daya penulisan tersedia, menunggu penyelesaian riset bukti empiris."
+      }
+    },
+    "summary": "Topik sangat kuat secara konseptual dan strategis, namun membutuhkan validasi bukti primer (Evidence Gate) sebelum dapat dilanjutkan ke prioritas dan produksi.",
+    "qualifiedAt": "2026-09-14T09:45:00Z",
+    "evaluatorVersion": "1.0.0"
+  },
+  "createdAt": "2026-09-14T09:15:00Z",
+  "updatedAt": "2026-09-14T09:45:00Z"
+}

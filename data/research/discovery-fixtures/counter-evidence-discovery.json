@@ -1,0 +1,35 @@
+{
+  "fixtureOnly": true,
+  "verificationStatus": "SYNTHETIC_TEST_DATA",
+  "query": {
+    "id": "dq-fixture-counter-001",
+    "researchProjectId": "res-proj-seo-relevance-001",
+    "researchQuestionId": "rq-001",
+    "query": "SEO generative AI search criticism limitation drawback traffic drop",
+    "intent": "FIND_COUNTER_EVIDENCE",
+    "preferredSourceTypes": [
+      "INDUSTRY_RESEARCH",
+      "ACADEMIC_PAPER",
+      "EXPERT_ANALYSIS"
+    ],
+    "createdAt": "2026-03-01T00:00:00.000Z"
+  },
+  "candidates": [
+    {
+      "id": "cand-fixture-003",
+      "queryId": "dq-fixture-counter-001",
+      "researchProjectId": "res-proj-seo-relevance-001",
+      "title": "Digital Publishers Alliance: Empirical Assessment of Organic Click Erosion under Zero-Click AI Overviews",
+      "url": "https://digitalpublishersalliance.org/reports/ai-overview-click-erosion-2025/",
+      "snippet": "Data from 450 publishers reveals an aggregate 28% drop in organic informational traffic on search results containing conversational AI summaries.",
+      "publisher": "Digital Publishers Alliance",
+      "author": "Research Committee",
+      "publicationDate": "2025-09-15",
+      "sourceType": "INDUSTRY_RESEARCH",
+      "provider": "MockSearchProvider",
+      "rank": 1,
+      "status": "DISCOVERED",
+      "discoveredAt": "2026-03-01T00:00:00.000Z"
+    }
+  ]
+}

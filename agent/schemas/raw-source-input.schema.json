@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nexamos.com/schemas/raw-source-input.schema.json",
+  "title": "NexaMOS Raw Source Input",
+  "description": "Schema for raw source payload submitted for ingestion into the NexaMOS research engine.",
+  "type": "object",
+  "required": [
+    "researchProjectId",
+    "sourceType",
+    "format",
+    "content"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "researchProjectId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sourceType": {
+      "type": "string",
+      "enum": [
+        "OFFICIAL_DOCUMENTATION",
+        "GOVERNMENT",
+        "REGULATOR",
+        "ACADEMIC_PAPER",
+        "PRIMARY_RESEARCH",
+        "INDUSTRY_RESEARCH",
+        "COMPANY_PUBLICATION",
+        "NEWS",
+        "EXPERT_ANALYSIS",
+        "BOOK",
+        "INTERVIEW",
+        "DATASET",
+        "INTERNAL_DATA",
+        "INTERNAL_OBSERVATION",
+        "INTERNAL_EXPERIMENT",
+        "COMMUNITY_DISCUSSION",
+        "OTHER"
+      ]
+    },
+    "format": {
+      "type": "string",
+      "enum": [
+        "PLAIN_TEXT",
+        "MARKDOWN",
+        "HTML",
+        "PDF_TEXT",
+        "JSON",
+        "JSON_LD",
+        "CSV",
+        "TABULAR_DATA",
+        "INTERNAL_NOTE"
+      ]
+    },
+    "content": {
+      "type": "string",
+      "minLength": 1
+    },
+    "title": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "url": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "publisher": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "author": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "publicationDate": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "language": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "metadata": {
+      "type": [
+        "object",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

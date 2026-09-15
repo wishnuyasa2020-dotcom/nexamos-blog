@@ -1,0 +1,17 @@
+{
+  "id": "raw-fixture-csv",
+  "researchProjectId": "res-proj-ai-relevance-001",
+  "sourceType": "INDUSTRY_RESEARCH",
+  "format": "CSV",
+  "title": "Ahrefs Organic SERP Click-Through Rate Benchmarks",
+  "url": "https://ahrefs.com/blog/ctr-study-2024/",
+  "publisher": "Ahrefs Pte Ltd",
+  "author": "Tim Soulo",
+  "publicationDate": "2024-04-10",
+  "language": "en",
+  "content": "Ranking Position,Standard Organic CTR,SERP With AI Overview CTR,CTR Drop Percentage\nPosition 1,39.8%,31.2%,-21.6%\nPosition 2,18.7%,15.3%,-18.2%\nPosition 3,10.2%,8.6%,-15.7%\nPosition 4,7.1%,6.0%,-15.5%\nPosition 5,5.3%,4.6%,-13.2%",
+  "metadata": {
+    "totalKeywordsAnalyzed": 300000,
+    "geography": "United States Desktop"
+  }
+}

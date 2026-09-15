@@ -1,0 +1,20 @@
+{
+  "pilotId": "pilot-01-blog-ai-relevance",
+  "topic": {
+    "title": "Apakah Aktivitas Blog Masih Relevan di Era Pencarian Generatif?",
+    "slug": "blog-masih-relevan-di-era-ai",
+    "territory": "STRATEGY",
+    "articleType": "ANALYSIS",
+    "editorialRole": "AUTHORITY",
+    "audience": {
+      "segment": "Enterprise Content Leaders & Information Architects"
+    },
+    "problem": "Bagaimana aktivitas blog mempertahankan efektivitas dan retensi di era Google AI Overviews?",
+    "thesis": "Aktivitas blog bergeser dari sekadar agregator traffic komoditas menjadi pustaka otoritas mandiri yang menyediakan data primer untuk diretrieve secara presisi oleh model bahasa."
+  },
+  "sourceUrls": [
+    "https://developers.google.com/search/docs/fundamentals/creating-helpful-content",
+    "https://developers.google.com/search/blog/2023/02/google-search-and-ai-content"
+  ],
+  "notes": "URL sumber riset primer nyata untuk verifikasi alur end-to-end Pilot 01."
+}

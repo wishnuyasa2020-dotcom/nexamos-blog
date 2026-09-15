@@ -1,0 +1,79 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "EditorialReview",
+  "description": "Schema kanonikal untuk hasil evaluasi review kualitas editorial Phase 3B",
+  "type": "object",
+  "properties": {
+    "articleDraftId": { "type": "string" },
+    "qualityScores": {
+      "type": "object",
+      "properties": {
+        "CLARITY": { "type": "number", "minimum": 0, "maximum": 100 },
+        "COHERENCE": { "type": "number", "minimum": 0, "maximum": 100 },
+        "DEPTH": { "type": "number", "minimum": 0, "maximum": 100 },
+        "THESIS_ALIGNMENT": { "type": "number", "minimum": 0, "maximum": 100 },
+        "INFORMATION_DENSITY": { "type": "number", "minimum": 0, "maximum": 100 },
+        "READER_USEFULNESS": { "type": "number", "minimum": 0, "maximum": 100 },
+        "STRUCTURE": { "type": "number", "minimum": 0, "maximum": 100 },
+        "ORIGINALITY": { "type": "number", "minimum": 0, "maximum": 100 },
+        "TONE_CONSISTENCY": { "type": "number", "minimum": 0, "maximum": 100 },
+        "GROUNDING_PRESERVATION": { "type": "number", "minimum": 0, "maximum": 100 }
+      },
+      "required": [
+        "CLARITY",
+        "COHERENCE",
+        "DEPTH",
+        "THESIS_ALIGNMENT",
+        "INFORMATION_DENSITY",
+        "READER_USEFULNESS",
+        "STRUCTURE",
+        "ORIGINALITY",
+        "TONE_CONSISTENCY",
+        "GROUNDING_PRESERVATION"
+      ]
+    },
+    "overallWritingScore": { "type": "number", "minimum": 0, "maximum": 100 },
+    "status": {
+      "type": "string",
+      "enum": ["PASS", "REVISION_REQUIRED", "HUMAN_REVIEW_REQUIRED", "REJECT"]
+    },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "dimension": { "type": "string" },
+          "code": { "type": "string" },
+          "message": { "type": "string" },
+          "severity": { "type": "string", "enum": ["INFO", "MINOR", "MAJOR", "CRITICAL"] },
+          "sectionId": { "type": ["string", "null"] },
+          "snippet": { "type": ["string", "null"] },
+          "recommendation": { "type": ["string", "null"] }
+        },
+        "required": ["dimension", "code", "message", "severity"]
+      }
+    },
+    "strengths": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "revisionRecommendations": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "reviewedAt": { "type": "string", "format": "date-time" },
+    "reviewPolicyVersion": { "type": "string" }
+  },
+  "required": [
+    "articleDraftId",
+    "qualityScores",
+    "overallWritingScore",
+    "status",
+    "issues",
+    "strengths",
+    "revisionRecommendations",
+    "reviewedAt",
+    "reviewPolicyVersion"
+  ],
+  "additionalProperties": false
+}

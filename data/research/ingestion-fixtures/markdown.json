@@ -1,0 +1,17 @@
+{
+  "id": "raw-fixture-markdown",
+  "researchProjectId": "res-proj-ai-relevance-001",
+  "sourceType": "INDUSTRY_RESEARCH",
+  "format": "MARKDOWN",
+  "title": "Similarweb Search Engine & AI Referral Market Share 2024",
+  "url": "https://www.similarweb.com/reports/search-engine-market-share-2024/",
+  "publisher": "Similarweb Ltd.",
+  "author": "David Carr",
+  "publicationDate": "2024-06-01",
+  "language": "en",
+  "content": "# Market Share Overview\n\nGlobal search engine dynamics reflect steady Google dominance alongside rapid growth in alternative conversational engines.\n\n> \"Traditional organic search clicks remain the primary revenue driver for commercial web publishing, accounting for over 64% of trackable sessions.\"\n\n## Search Engine Traffic Distribution\n\n| Platform | Global Market Share | Referral Growth YoY |\n| --- | --- | --- |\n| Google | 89.2% | -2.1% |\n| Microsoft Bing | 3.4% | +14.2% |\n| Perplexity AI | 0.4% | +480.0% |\n| DuckDuckGo | 1.8% | +3.1% |\n\n## Analysis of Generative Referrals\n\nGenerative AI referrals represent 1.2% of total external referral traffic to digital publishers, demonstrating that conversational search complements rather than eliminates organic destination visits.",
+  "metadata": {
+    "trafficCoverage": "Global Desktop and Mobile",
+    "datasetVersion": "v2024.2"
+  }
+}

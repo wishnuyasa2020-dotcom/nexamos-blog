@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nexamos.com/schemas/research-project.schema.json",
+  "title": "NexaMOS Research Project",
+  "description": "Canonical schema for an investigation project that collects sources, captures evidence, and tests claims for an editorial topic.",
+  "type": "object",
+  "required": [
+    "id",
+    "topicId",
+    "title",
+    "objective",
+    "researchQuestions",
+    "status",
+    "requiredEvidenceLevel",
+    "createdAt",
+    "updatedAt"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the research project."
+    },
+    "topicId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "ID of the target editorial topic being researched."
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Title or descriptive scope of the research project."
+    },
+    "objective": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The empirical or analytical objective of this investigation."
+    },
+    "researchQuestions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "question",
+          "priority",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "question": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "string",
+            "enum": [
+              "HIGH",
+              "MEDIUM",
+              "LOW"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "OPEN",
+              "PARTIALLY_ANSWERED",
+              "ANSWERED",
+              "BLOCKED"
+            ]
+          },
+          "notes": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "description": "Key research questions to answer."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "PLANNED",
+        "COLLECTING",
+        "EVALUATING",
+        "SYNTHESIZING",
+        "READY",
+        "COMPLETED",
+        "BLOCKED",
+        "ARCHIVED"
+      ],
+      "description": "Current lifecycle status of the research project."
+    },
+    "requiredEvidenceLevel": {
+      "type": "string",
+      "enum": [
+        "E0",
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "description": "Target evidence standard required (E0-E4)."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "completedAt": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false
+}

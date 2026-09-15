@@ -1,0 +1,56 @@
+{
+  "id": "top-seed-002-apa-itu-marketing",
+  "title": "Apa Itu Marketing: Meluruskan Reduksionisme Pemasaran Menjadi Sekadar Promosi",
+  "slug": "apa-itu-marketing-dekonstruksi-reduksionisme",
+  "territory": "STRATEGY",
+  "status": "SCREENING",
+  "editorialRole": "REFERENCE",
+  "audience": {
+    "segment": "Founders, CMOs, dan Marketing Directors",
+    "jobToBeDone": "Menata ulang orientasi organisasi pemasaran dari unit taktis iklan menjadi arsitektur pencipta nilai bisnis",
+    "knowledgeLevel": "Leadership / Practitioner"
+  },
+  "problem": "Mayoritas organisasi bisnis mengalami reduksionisme pemahaman: marketing dipersempit menjadi semata-mata aktivitas promosi, akuisisi berbayar, dan social media broadcast, kehilangan esensi arsitektur nilai.",
+  "intent": {
+    "primary": "Definisi komprehensif apa itu marketing menurut prinsip fundamental dan modern",
+    "secondary": [
+      "Perbedaan marketing vs sales vs advertising",
+      "Arsitektur penciptaan dan penangkapan nilai pelanggan"
+    ]
+  },
+  "thesis": "Marketing bukanlah departemen pelaksana promosi hilir, melainkan disiplin hulu yang mengidentifikasi tensi pasar dan mengorkestrasi penawaran bernilai tinggi yang berdaya tahan.",
+  "whyNow": "Meningkatnya Customer Acquisition Cost (CAC) global di saluran berbayar memaksa perusahaan meninjau ulang fondasi pemasaran organik dan strategi nilai jangka panjang.",
+  "informationGain": {
+    "expectedContribution": "Dekonstruksi kekeliruan definisi populer disertai kerangka kerja 3 lapis: Core Market Value, Exchange Architecture, dan Perception Synchronization.",
+    "originalityType": [
+      "EXPERT_INTERPRETATION",
+      "STRONG_POINT_OF_VIEW"
+    ],
+    "commodityRisk": "MEDIUM"
+  },
+  "evidencePlan": {
+    "requiredEvidenceLevel": "E1",
+    "plannedSources": [
+      "Drucker P. (1954) The Practice of Management",
+      "Kotler P. & Keller K.L. Marketing Management canonical references",
+      "Studi kasus CAC inflasi industri SaaS & Enterprise 2024-2025"
+    ],
+    "originalEvidenceRequired": false,
+    "notes": "Sedang menjalani screening kelayakan informasi gain dan sudut pandang diferensiasi untuk menghindari commodity risk."
+  },
+  "businessRelevance": {
+    "objective": "Audience Mindshare & Foundational Reference",
+    "funnelRole": "Top-of-Funnel Educational Pillar",
+    "notes": "Menjadi jangkar rujukan dasar untuk artikel taktis dan strategis turunan."
+  },
+  "recommendedArticleType": "EXPLAINER",
+  "distributionTargets": [
+    "GOOGLE_SEARCH",
+    "SOCIAL",
+    "EMAIL"
+  ],
+  "priority": null,
+  "qualification": null,
+  "createdAt": "2026-09-14T08:30:00Z",
+  "updatedAt": "2026-09-14T09:00:00Z"
+}

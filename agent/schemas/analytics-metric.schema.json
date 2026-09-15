@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NexaMOS Analytics Metric Schema",
+  "type": "object",
+  "required": [
+    "id",
+    "sourceType",
+    "providerName",
+    "rawPageIdentifier",
+    "dimensions",
+    "rawValues",
+    "sourceTimezone",
+    "ingestedAt"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "sourceType": {
+      "type": "string",
+      "enum": [
+        "GOOGLE_SEARCH",
+        "GOOGLE_DISCOVER",
+        "GOOGLE_GENERATIVE_AI_SEARCH",
+        "GOOGLE_GENERATIVE_AI_DISCOVER",
+        "GA4",
+        "INTERNAL_EVENT",
+        "MANUAL_IMPORT",
+        "OTHER"
+      ]
+    },
+    "providerName": { "type": "string" },
+    "rawPageIdentifier": { "type": "string" },
+    "dimensions": {
+      "type": "object",
+      "required": ["date"],
+      "properties": {
+        "page": { "type": "string" },
+        "query": { "type": "string" },
+        "country": { "type": "string" },
+        "device": { "type": "string" },
+        "searchAppearance": { "type": "string" },
+        "date": { "type": "string" }
+      }
+    },
+    "rawValues": {
+      "type": "object"
+    },
+    "sourceTimezone": { "type": "string" },
+    "ingestedAt": { "type": "string", "format": "date-time" },
+    "supersedesId": { "type": ["string", "null"] },
+    "isSyntheticTestData": { "type": "boolean" },
+    "fixtureOnly": { "type": "boolean" }
+  }
+}

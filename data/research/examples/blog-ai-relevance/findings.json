@@ -1,0 +1,45 @@
+[
+  {
+    "id": "fnd-01",
+    "researchProjectId": "res-proj-blog-ai-relevance",
+    "statement": "Audiens tidak meninggalkan mesin pencari demi AI generatif, melainkan mengadopsi model customer journey multi-surface di mana Search dan AI digunakan secara koeksisten (95% overlap).",
+    "supportingClaimIds": [
+      "clm-01"
+    ],
+    "confidence": "HIGH",
+    "limitations": [
+      "Data telemetri web mencerminkan agregat global dan dapat bervariasi pada segmen demografi tertentu."
+    ],
+    "createdAt": "2026-09-14T10:00:00Z",
+    "updatedAt": "2026-09-14T10:00:00Z"
+  },
+  {
+    "id": "fnd-02",
+    "researchProjectId": "res-proj-blog-ai-relevance",
+    "statement": "Fitur ringkasan AI (AI Overview / AI Summary) secara empiris memangkas rasio klik organik tradisional hingga ~58%, mengubah model monetisasi berbasis impresi klik mentah menjadi model visibilitas otoritas entitas.",
+    "supportingClaimIds": [
+      "clm-02"
+    ],
+    "confidence": "HIGH",
+    "limitations": [
+      "Tingkat penurunan CTR paling tajam terjadi pada kueri informational, sedangkan kueri transaksional atau navigasional memiliki pola berbeda."
+    ],
+    "createdAt": "2026-09-14T10:10:00Z",
+    "updatedAt": "2026-09-14T10:10:00Z"
+  },
+  {
+    "id": "fnd-03",
+    "researchProjectId": "res-proj-blog-ai-relevance",
+    "statement": "Aktivitas blog tidak mati, melainkan berevolusi: produksi massal konten komoditas mengalami kebangkrutan utilitas, sedangkan investasi pada aset owned media otoritatif justru meningkat (+32%) dan tetap menjadi syarat utama pengenalan entitas oleh AI Google.",
+    "supportingClaimIds": [
+      "clm-03",
+      "clm-04"
+    ],
+    "confidence": "HIGH",
+    "limitations": [
+      "Keberhasilan menuntut komitmen pada original research dan standar pembuktian minimal E2-E3."
+    ],
+    "createdAt": "2026-09-14T10:20:00Z",
+    "updatedAt": "2026-09-14T10:20:00Z"
+  }
+]

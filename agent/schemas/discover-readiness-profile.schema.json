@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "NexaMOS Google Discover Readiness Profile Schema",
+  "type": "object",
+  "required": [
+    "targetAudience",
+    "territory",
+    "expectedTimeliness",
+    "minimumVisualRequirements"
+  ],
+  "properties": {
+    "targetAudience": { "type": "string" },
+    "territory": {
+      "type": "string",
+      "enum": ["INTELLIGENCE", "STRATEGY", "TACTICAL"]
+    },
+    "expectedTimeliness": {
+      "type": "string",
+      "enum": ["CURRENT", "EVERGREEN_RELEVANT"]
+    },
+    "minimumVisualRequirements": {
+      "type": "object",
+      "required": ["minWidth", "minPixels", "aspectRatioPreferred"],
+      "properties": {
+        "minWidth": { "type": "integer", "default": 1200 },
+        "minPixels": { "type": "integer", "default": 300000 },
+        "aspectRatioPreferred": { "type": "string", "default": "16:9" }
+      }
+    }
+  }
+}

@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nexamos.com/schemas/normalized-source.schema.json",
+  "title": "NexaMOS Normalized Source Document",
+  "description": "Schema for structured, normalized document extracted from raw source content.",
+  "type": "object",
+  "required": [
+    "id",
+    "sourceId",
+    "researchProjectId",
+    "title",
+    "format",
+    "sections",
+    "tables",
+    "metadata",
+    "contentHash",
+    "normalizedAt"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "sourceId": {
+      "type": "string"
+    },
+    "researchProjectId": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "format": {
+      "type": "string",
+      "enum": [
+        "PLAIN_TEXT",
+        "MARKDOWN",
+        "HTML",
+        "PDF_TEXT",
+        "JSON",
+        "JSON_LD",
+        "CSV",
+        "TABULAR_DATA",
+        "INTERNAL_NOTE"
+      ]
+    },
+    "language": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "sections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "text",
+          "order"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "heading": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "text": {
+            "type": "string"
+          },
+          "order": {
+            "type": "integer"
+          },
+          "locator": {
+            "type": [
+              "object",
+              "null"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "tables": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "headers",
+          "rows"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "headers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "rows": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "locator": {
+            "type": [
+              "object",
+              "null"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "metadata": {
+      "type": "object"
+    },
+    "contentHash": {
+      "type": "string"
+    },
+    "normalizedAt": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NexaMOS Performance Diagnosis Schema",
+  "type": "object",
+  "required": [
+    "id",
+    "articleId",
+    "signals",
+    "diagnosisType",
+    "summary",
+    "confidence",
+    "evidence",
+    "limitations",
+    "createdAt"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "articleId": { "type": "string" },
+    "signals": {
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "diagnosisType": {
+      "type": "string",
+      "enum": [
+        "SEARCH_PRESENTATION_WEAKNESS",
+        "SEARCH_DEMAND_WEAKNESS",
+        "DISCOVER_PRESENTATION_OPPORTUNITY",
+        "STRONG_CONTENT_WEAK_DISTRIBUTION",
+        "STRONG_DISTRIBUTION_WEAK_ENGAGEMENT",
+        "CONTENT_REFRESH_OPPORTUNITY",
+        "TOPIC_AUTHORITY_GAIN",
+        "AI_VISIBILITY_GAIN"
+      ]
+    },
+    "summary": { "type": "string" },
+    "confidence": {
+      "type": "string",
+      "enum": ["LOW", "MEDIUM", "HIGH"]
+    },
+    "evidence": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "limitations": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "anomaliesConsidered": {
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "createdAt": { "type": "string", "format": "date-time" }
+  }
+}

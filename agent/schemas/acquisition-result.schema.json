@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nexamos.com/schemas/acquisition-result.schema.json",
+  "title": "NexaMOS Acquisition Result",
+  "description": "Schema for the outcome of acquiring raw content from a candidate source target.",
+  "type": "object",
+  "required": [
+    "candidate",
+    "rawSourceInput",
+    "providerName",
+    "acquiredAt",
+    "contentSizeBytes"
+  ],
+  "properties": {
+    "candidate": {
+      "type": "object"
+    },
+    "rawSourceInput": {
+      "type": "object"
+    },
+    "providerName": {
+      "type": "string"
+    },
+    "acquiredAt": {
+      "type": "string"
+    },
+    "contentSizeBytes": {
+      "type": "integer"
+    }
+  },
+  "additionalProperties": false
+}

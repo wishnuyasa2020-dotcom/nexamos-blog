@@ -1,0 +1,51 @@
+{
+  "fixtureOnly": true,
+  "verificationStatus": "SYNTHETIC_TEST_DATA",
+  "query": {
+    "id": "dq-fixture-primary-001",
+    "researchProjectId": "res-proj-seo-relevance-001",
+    "researchQuestionId": "rq-001",
+    "query": "SEO generative AI search official documentation Google Search Central",
+    "intent": "FIND_PRIMARY_SOURCE",
+    "preferredSourceTypes": [
+      "OFFICIAL_DOCUMENTATION",
+      "GOVERNMENT",
+      "PRIMARY_RESEARCH"
+    ],
+    "createdAt": "2026-03-01T00:00:00.000Z"
+  },
+  "candidates": [
+    {
+      "id": "cand-fixture-001",
+      "queryId": "dq-fixture-primary-001",
+      "researchProjectId": "res-proj-seo-relevance-001",
+      "title": "Google Search Central: Creating Helpful, Reliable Content for SEO and AI Search",
+      "url": "https://developers.google.com/search/docs/fundamentals/creating-helpful-content",
+      "snippet": "Official documentation and guidance on how creators and SEO professionals succeed in generative AI search with original reporting, depth of expertise, and direct information gain signals.",
+      "publisher": "Google LLC",
+      "author": "Google Search Relations Team",
+      "publicationDate": "2025-11-10",
+      "sourceType": "OFFICIAL_DOCUMENTATION",
+      "provider": "MockSearchProvider",
+      "rank": 1,
+      "status": "DISCOVERED",
+      "discoveredAt": "2026-03-01T00:00:00.000Z"
+    },
+    {
+      "id": "cand-fixture-002",
+      "queryId": "dq-fixture-primary-001",
+      "researchProjectId": "res-proj-seo-relevance-001",
+      "title": "W3C Technical Architecture Group: Verifiable Provenance in Web Agent Interfaces",
+      "url": "https://www.w3.org/TR/2025/agent-provenance-guidelines/",
+      "snippet": "Specifications for source attribution and entity groundings in agentic and conversational web discovery.",
+      "publisher": "World Wide Web Consortium (W3C)",
+      "author": "W3C Working Group",
+      "publicationDate": "2025-08-20",
+      "sourceType": "OFFICIAL_DOCUMENTATION",
+      "provider": "MockSearchProvider",
+      "rank": 2,
+      "status": "DISCOVERED",
+      "discoveredAt": "2026-03-01T00:00:00.000Z"
+    }
+  ]
+}

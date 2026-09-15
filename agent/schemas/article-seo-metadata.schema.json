@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "NexaMOS Article SEO Metadata Schema",
+  "type": "object",
+  "required": ["title", "description", "slug", "robots"],
+  "properties": {
+    "title": { "type": "string" },
+    "description": { "type": "string" },
+    "slug": { "type": "string" },
+    "canonicalUrl": { "type": ["string", "null"] },
+    "robots": {
+      "type": "object",
+      "required": ["index", "follow"],
+      "properties": {
+        "index": { "type": "boolean" },
+        "follow": { "type": "boolean" }
+      }
+    },
+    "author": {
+      "type": ["object", "null"],
+      "properties": {
+        "name": { "type": "string" },
+        "url": { "type": ["string", "null"] },
+        "role": { "type": ["string", "null"] },
+        "credentialsVerified": { "type": "boolean" }
+      }
+    },
+    "publisher": {
+      "type": ["object", "null"],
+      "properties": {
+        "name": { "type": "string" },
+        "logoUrl": { "type": ["string", "null"] },
+        "url": { "type": ["string", "null"] }
+      }
+    },
+    "publishedAt": { "type": ["string", "null"] },
+    "updatedAt": { "type": ["string", "null"] },
+    "primaryImage": {
+      "type": ["object", "null"],
+      "properties": {
+        "url": { "type": "string" },
+        "alt": { "type": "string" },
+        "width": { "type": "number" },
+        "height": { "type": "number" },
+        "caption": { "type": ["string", "null"] }
+      }
+    },
+    "additionalImages": {
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "structuredData": {
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "publicationStatus": {
+      "type": "string",
+      "enum": ["DRAFT", "PUBLISHED", "ARCHIVED"]
+    }
+  }
+}
