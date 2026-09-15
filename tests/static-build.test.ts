@@ -427,7 +427,7 @@ describe('Pilot 01: Build Tooling, Static Exporter & Local Preview', () => {
       assert.match(html, /<meta name="robots" content="index, follow/);
     });
 
-    test('Blog Index memuat kartu artikel publik dengan tautan internal /[slug]', async () => {
+    test('Blog Index memuat kartu artikel publik dengan tautan /blog/[slug]', async () => {
       const exporter = new StaticFileExporter(TEST_WORKSPACE, TEST_DIST);
       const pkg = createValidArticlePackage('arsitektur-informasi-ai');
 
@@ -439,7 +439,7 @@ describe('Pilot 01: Build Tooling, Static Exporter & Local Preview', () => {
       });
 
       const indexHtml = await fs.readFile(path.join(TEST_DIST, 'index.html'), 'utf-8');
-      assert.match(indexHtml, /href="\/arsitektur-informasi-ai"/);
+      assert.match(indexHtml, /href="\/blog\/arsitektur-informasi-ai"/);
       assert.match(indexHtml, /<h2>Arsitektur Informasi untuk Mesin Penjawab Generatif<\/h2>/);
     });
   });

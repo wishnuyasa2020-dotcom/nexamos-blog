@@ -211,7 +211,7 @@ ${jsonLdScript}
 
         return `
       <article class="blog-card">
-        <a href="${item.internalRoute || `/${item.slug}`}" class="card-link">
+        <a href="${item.canonicalPath || item.publicCanonicalPath || `/blog/${item.slug}`}" class="card-link">
           ${heroThumb}
           <div class="card-content">
             <div class="card-meta">
