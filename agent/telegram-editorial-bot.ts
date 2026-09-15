@@ -63,7 +63,8 @@ export function slugify(text: string): string {
     .replace(/[\u0300-\u036f]/g, '')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '')
-    .slice(0, 60);
+    .slice(0, 45)
+    .replace(/-+$/, '');
 }
 
 /**
@@ -501,23 +502,26 @@ Atau cukup bagikan link studi/berita yang ingin dianalisis!
       const totalWords = draft.sections.reduce((acc, s) => acc + s.content.split(/\s+/).length, 0);
       const estMinutes = Math.max(1, Math.ceil(totalWords / 200));
 
+      // Callback data Telegram maksimal 64 byte
+      const safeSlug = slug.slice(0, 45);
+
       // Kirim hasil draf dan tombol persetujuan
       const inlineMarkup: TelegramInlineKeyboardMarkup = {
         inline_keyboard: [
           [
             {
               text: '🚀 Setujui & Publish ke Live',
-              callback_data: `publish:${slug}`
+              callback_data: `publish:${safeSlug}`
             }
           ],
           [
             {
               text: '👁️ Baca Ringkasan Draf',
-              callback_data: `read:${slug}`
+              callback_data: `read:${safeSlug}`
             },
             {
               text: '❌ Batalkan',
-              callback_data: `cancel:${slug}`
+              callback_data: `cancel:${safeSlug}`
             }
           ]
         ]
@@ -746,7 +750,7 @@ Silakan pilih tindakan berikut:`;
       await execAsync(`git config user.name "${gitUser}"`, { cwd: this.workspaceRoot });
       await execAsync(`git config user.email "${gitEmail}"`, { cwd: this.workspaceRoot });
 
-      await execAsync('git add content/published/ content/drafts/ dist/', { cwd: this.workspaceRoot });
+      await execAsync('git add content/published/ content/drafts/', { cwd: this.workspaceRoot });
       await execAsync(`git commit -m "feat(blog): publish '${draft.title}' via Telegram Bot"`, { cwd: this.workspaceRoot });
 
       if (githubToken) {
