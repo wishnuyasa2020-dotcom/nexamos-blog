@@ -1,0 +1,130 @@
+/// <reference path="./ambient.d.ts" />
+/**
+ * NexaMOS Telegram Editorial Bot - Test Suite
+ *
+ * Menguji:
+ * 1. Input parser (ekstraksi URL dan pembersihan topik)
+ * 2. Slugify (konversi judul menjadi slug aman)
+ * 3. Security authorization (whitelist User ID)
+ * 4. Telegram client initialization & error guards
+ */
+
+import { describe, test } from 'node:test';
+import assert from 'node:assert';
+
+import { parseTelegramInput, slugify } from '../agent/telegram-editorial-bot.ts';
+import { isUserAuthorized, loadTelegramConfig } from '../infrastructure/telegram/telegram-config.ts';
+import { TelegramClient } from '../infrastructure/telegram/telegram-client.ts';
+
+describe('NexaMOS Telegram Editorial Bot Unit Tests', () => {
+  // ===========================================================================
+  // 1. INPUT PARSER TESTS
+  // ===========================================================================
+  describe('1. Input Parser Tests', () => {
+    test('Mengekstrak URL tunggal dan membersihkan judul topik', () => {
+      const input = 'Bikin artikel: Arsitektur CRM Pasien Estetika https://kemenkes.go.id/regulasi-rekam-medis';
+      const parsed = parseTelegramInput(input);
+
+      assert.strictEqual(parsed.topic, 'Arsitektur CRM Pasien Estetika');
+      assert.strictEqual(parsed.urls.length, 1);
+      assert.strictEqual(parsed.urls[0], 'https://kemenkes.go.id/regulasi-rekam-medis');
+    });
+
+    test('Mengekstrak banyak URL dari teks terpisah', () => {
+      const input = 'Tolong buat artikel tentang Retensi Pasien Klinik\nSumber 1: https://example.com/studi-retensi\nSumber 2: https://kemenkes.go.id/data';
+      const parsed = parseTelegramInput(input);
+
+      assert.match(parsed.topic, /Retensi Pasien Klinik/);
+      assert.strictEqual(parsed.urls.length, 2);
+      assert.strictEqual(parsed.urls[0], 'https://example.com/studi-retensi');
+      assert.strictEqual(parsed.urls[1], 'https://kemenkes.go.id/data');
+    });
+
+    test('Menerima teks murni tanpa URL', () => {
+      const input = 'Strategi Pemasaran Berbasis Bukti untuk Klinik Kecantikan';
+      const parsed = parseTelegramInput(input);
+
+      assert.strictEqual(parsed.topic, 'Strategi Pemasaran Berbasis Bukti untuk Klinik Kecantikan');
+      assert.strictEqual(parsed.urls.length, 0);
+    });
+
+    test('Membersihkan berbagai variasi prefix perintah', () => {
+      const p1 = parseTelegramInput('/bikin Topik Keren');
+      assert.strictEqual(p1.topic, 'Topik Keren');
+
+      const p2 = parseTelegramInput('buatkan artikel: Panduan Retrievabilitas AI');
+      assert.strictEqual(p2.topic, 'Panduan Retrievabilitas AI');
+
+      const p3 = parseTelegramInput('topik: Analisis Pasar');
+      assert.strictEqual(p3.topic, 'Analisis Pasar');
+    });
+  });
+
+  // ===========================================================================
+  // 2. SLUGIFY TESTS
+  // ===========================================================================
+  describe('2. Slugify Tests', () => {
+    test('Mengonversi kalimat menjadi slug URL ramah SEO', () => {
+      const slug = slugify('Arsitektur CRM & Sistem Rekam Medis Elektronik');
+      assert.strictEqual(slug, 'arsitektur-crm-sistem-rekam-medis-elektronik');
+    });
+
+    test('Menghilangkan aksen dan tanda baca berbahaya', () => {
+      const slug = slugify('Apakah Blog Masih Relevan di Era AI? (Studi Kasus #1!)');
+      assert.strictEqual(slug, 'apakah-blog-masih-relevan-di-era-ai-studi-kasus-1');
+    });
+
+    test('Membatasi panjang slug maksimal 60 karakter', () => {
+      const longTitle = 'Ini Adalah Judul Artikel Yang Sangat Panjang Sekali Melebihi Batas Normal Slug URL';
+      const slug = slugify(longTitle);
+      assert.ok(slug.length <= 60);
+      assert.doesNotMatch(slug, /-$/);
+    });
+  });
+
+  // ===========================================================================
+  // 3. SECURITY AUTHORIZATION TESTS
+  // ===========================================================================
+  describe('3. Security Authorization Tests', () => {
+    const mockConfig = {
+      botToken: '123456:mock-token',
+      allowedUserId: '1455808077',
+      apiBaseUrl: 'https://api.telegram.org'
+    };
+
+    test('Mengizinkan Telegram User ID yang terdaftar', () => {
+      assert.strictEqual(isUserAuthorized('1455808077', mockConfig), true);
+      assert.strictEqual(isUserAuthorized(1455808077, mockConfig), true);
+    });
+
+    test('Menolak Telegram User ID yang tidak terdaftar', () => {
+      assert.strictEqual(isUserAuthorized('9999999999', mockConfig), false);
+      assert.strictEqual(isUserAuthorized(12345, mockConfig), false);
+    });
+
+    test('Menolak jika allowedUserId kosong', () => {
+      const emptyConfig = { ...mockConfig, allowedUserId: '' };
+      assert.strictEqual(isUserAuthorized('1455808077', emptyConfig), false);
+    });
+  });
+
+  // ===========================================================================
+  // 4. TELEGRAM CLIENT INITIALIZATION
+  // ===========================================================================
+  describe('4. Telegram Client Initialization', () => {
+    test('Melempar error jika bot token kosong saat panggilan API', async () => {
+      const client = new TelegramClient({
+        botToken: '',
+        allowedUserId: '1455808077',
+        apiBaseUrl: 'https://api.telegram.org'
+      });
+
+      await assert.rejects(
+        async () => {
+          await client.getMe();
+        },
+        /TELEGRAM_CLIENT_ERROR: Bot token belum disetel/
+      );
+    });
+  });
+});

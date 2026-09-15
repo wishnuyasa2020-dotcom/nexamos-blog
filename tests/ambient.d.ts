@@ -145,6 +145,32 @@ declare module 'node:assert/strict' {
   export default assert;
 }
 
+declare module 'node:child_process' {
+  export interface ExecException extends Error {
+    cmd?: string;
+    killed?: boolean;
+    code?: number;
+    signal?: string;
+  }
+
+  export function exec(
+    command: string,
+    callback?: (error: ExecException | null, stdout: string, stderr: string) => void
+  ): any;
+
+  export function exec(
+    command: string,
+    options: { cwd?: string; env?: Record<string, string | undefined>; timeout?: number; maxBuffer?: number },
+    callback?: (error: ExecException | null, stdout: string, stderr: string) => void
+  ): any;
+
+  export function execSync(command: string, options?: any): string | Uint8Array;
+}
+
+declare module 'node:util' {
+  export function promisify<T = any>(fn: Function): (...args: any[]) => Promise<T>;
+}
+
 declare namespace NodeJS {
   interface ProcessEnv {
     [key: string]: string | undefined;
@@ -154,6 +180,7 @@ declare namespace NodeJS {
     cwd(): string;
     argv: string[];
     exit(code?: number): never;
+    on(event: string, listener: (...args: any[]) => void): this;
   }
 }
 
@@ -165,3 +192,4 @@ declare function fetch(input: string | URL, init?: any): Promise<{
   text(): Promise<string>;
   json(): Promise<any>;
 }>;
+

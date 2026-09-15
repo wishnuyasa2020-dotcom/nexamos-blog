@@ -11,7 +11,8 @@
     "preview": "node --experimental-strip-types scripts/preview-blog.ts",
     "ai:smoke": "node --env-file-if-exists=.env --env-file-if-exists=.env.local --experimental-strip-types scripts/smoke-test-ai.ts",
     "pilot": "node --env-file-if-exists=.env --env-file-if-exists=.env.local --experimental-strip-types scripts/run-pilot-article.ts",
-    "pilot:publish": "node --experimental-strip-types scripts/publish-pilot-article.ts"
+    "pilot:publish": "node --experimental-strip-types scripts/publish-pilot-article.ts",
+    "bot": "node --env-file-if-exists=.env --env-file-if-exists=.env.local --experimental-strip-types scripts/start-telegram-bot.ts"
   },
   "keywords": [
     "nexamos",
