@@ -181,6 +181,8 @@ export class PublicationHtmlRenderer {
 ${this.renderAnalyticsAndVerification(options)}  <title>${sanitizedHeadline} | NexaMOS</title>
   <meta name="description" content="${this.sanitizeHtml(pkg.description)}" />
   <link rel="canonical" href="${pkg.canonicalUrl}" />
+  <link rel="icon" type="image/png" href="/blog/brand/favicon.png" />
+  <link rel="apple-touch-icon" href="/blog/brand/favicon.png" />
   <link rel="stylesheet" href="/blog/style.css" />
   <meta name="robots" content="${pkg.robots.index ? 'index' : 'noindex'}, ${pkg.robots.follow ? 'follow' : 'nofollow'}, max-image-preview:large, max-snippet:-1" />
   
@@ -204,7 +206,9 @@ ${jsonLdScript}
 </head>
 <body class="nexamos-article-view">
   <header class="site-nav">
-    <a href="/" class="brand-logo">NexaMOS</a>
+    <a href="/" class="brand-logo" aria-label="NexaMOS">
+      <img src="/blog/brand/logoNexa.png" alt="NexaMOS" class="brand-logo-img" width="133" height="50" />
+    </a>
     <nav>
       <a href="/">Beranda</a>
       <a href="/blog" class="active">Blog Otoritas</a>
@@ -302,12 +306,16 @@ ${jsonLdScript}
 ${this.renderAnalyticsAndVerification(opts)}  <title>Blog Otoritas & Riset Rekayasa Informasi | NexaMOS</title>
   <meta name="description" content="Kumpulan pemikiran strategis, bukti riset primer, dan panduan taktis arsitektur informasi NexaMOS di era pencarian generatif." />
   <link rel="canonical" href="${cleanSiteUrl}/blog" />
+  <link rel="icon" type="image/png" href="/blog/brand/favicon.png" />
+  <link rel="apple-touch-icon" href="/blog/brand/favicon.png" />
   <link rel="stylesheet" href="/blog/style.css" />
   <meta name="robots" content="index, follow" />
 </head>
 <body class="nexamos-blog-index">
   <header class="site-nav">
-    <a href="/" class="brand-logo">NexaMOS</a>
+    <a href="/" class="brand-logo" aria-label="NexaMOS">
+      <img src="/blog/brand/logoNexa.png" alt="NexaMOS" class="brand-logo-img" width="133" height="50" />
+    </a>
     <nav>
       <a href="/">Beranda</a>
       <a href="/blog" class="active">Blog Otoritas</a>

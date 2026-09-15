@@ -90,14 +90,24 @@ body::before {
   font-size: 1.4rem;
   font-weight: 800;
   letter-spacing: -0.03em;
-  background: var(--gradient-glow);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
   text-decoration: none;
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+.site-nav .brand-logo-img {
+  height: 38px;
+  width: auto;
+  max-width: 170px;
+  object-fit: contain;
+  display: block;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease, filter 0.25s ease;
+}
+
+.site-nav .brand-logo:hover .brand-logo-img {
+  transform: translateY(-1px) scale(1.02);
+  filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.35));
 }
 
 .site-nav nav {
@@ -500,7 +510,10 @@ main {
 /* Responsive adjustments */
 @media (max-width: 640px) {
   .site-nav {
-    padding: 1rem;
+    padding: 0.85rem 1rem;
+  }
+  .site-nav .brand-logo-img {
+    height: 30px;
   }
   .article-grid {
     grid-template-columns: 1fr;
