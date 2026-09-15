@@ -718,9 +718,42 @@ Silakan pilih tindakan berikut:`;
 
     // Git Commit & Push
     try {
+      const gitUser = process.env.GIT_USER_NAME || 'NexaMOS Editorial Bot';
+      const gitEmail = process.env.GIT_USER_EMAIL || 'bot@nexamos.cloud';
+      const githubToken = process.env.GITHUB_TOKEN;
+      const remoteUrl = githubToken
+        ? `https://${githubToken}@github.com/wishnuyasa2020-dotcom/nexamos-blog.git`
+        : 'origin';
+
+      // Pastikan direktori .git ada (terutama bila dideploy via container image tanpa .git)
+      const gitDir = path.join(this.workspaceRoot, '.git');
+      let hasGit = false;
+      try {
+        await fs.stat(gitDir);
+        hasGit = true;
+      } catch {
+        hasGit = false;
+      }
+
+      if (!hasGit && githubToken) {
+        await execAsync('git init', { cwd: this.workspaceRoot });
+        await execAsync(`git remote add origin ${remoteUrl}`, { cwd: this.workspaceRoot });
+        await execAsync('git branch -M main', { cwd: this.workspaceRoot });
+        await execAsync('git fetch origin main --depth=1', { cwd: this.workspaceRoot });
+        await execAsync('git reset origin/main', { cwd: this.workspaceRoot });
+      }
+
+      await execAsync(`git config user.name "${gitUser}"`, { cwd: this.workspaceRoot });
+      await execAsync(`git config user.email "${gitEmail}"`, { cwd: this.workspaceRoot });
+
       await execAsync('git add content/published/ content/drafts/ dist/', { cwd: this.workspaceRoot });
       await execAsync(`git commit -m "feat(blog): publish '${draft.title}' via Telegram Bot"`, { cwd: this.workspaceRoot });
-      await execAsync('git push origin main', { cwd: this.workspaceRoot });
+
+      if (githubToken) {
+        await execAsync(`git push ${remoteUrl} main`, { cwd: this.workspaceRoot });
+      } else {
+        await execAsync('git push origin main', { cwd: this.workspaceRoot });
+      }
     } catch (gitErr: any) {
       console.warn(`[WARN] Git push warning: ${gitErr.message}`);
     }
