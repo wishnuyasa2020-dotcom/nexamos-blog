@@ -12,7 +12,39 @@
 
 import type { PublicationPackage } from './publication.ts';
 
+export interface HtmlRenderOptions {
+  siteUrl?: string;
+  googleSiteVerification?: string;
+  gaMeasurementId?: string;
+}
+
 export class PublicationHtmlRenderer {
+  /**
+   * Render tag verifikasi Google Search Console dan Google Analytics 4 jika tersedia
+   */
+  public static renderAnalyticsAndVerification(options?: HtmlRenderOptions): string {
+    if (!options) return '';
+    const tags: string[] = [];
+
+    if (options.googleSiteVerification) {
+      tags.push(`  <meta name="google-site-verification" content="${this.sanitizeHtml(options.googleSiteVerification)}" />`);
+    }
+
+    if (options.gaMeasurementId && /^G-[A-Za-z0-9]+$/i.test(options.gaMeasurementId)) {
+      const sanitizedId = this.sanitizeHtml(options.gaMeasurementId.toUpperCase());
+      tags.push(`  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=${sanitizedId}"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '${sanitizedId}');
+  </script>`);
+    }
+
+    return tags.length > 0 ? `${tags.join('\n')}\n` : '';
+  }
+
   /**
    * Sanitasi konten editorial dari tag skrip berbahaya atau URL javascript:
    */
@@ -59,7 +91,7 @@ export class PublicationHtmlRenderer {
   /**
    * Render Halaman Penuh Artikel /blog/[slug]
    */
-  public static renderArticlePage(pkg: PublicationPackage): string {
+  public static renderArticlePage(pkg: PublicationPackage, options?: HtmlRenderOptions): string {
     const sanitizedHeadline = this.sanitizeHtml(pkg.title);
     const sanitizedDek = pkg.articleContent.dek ? this.sanitizeHtml(pkg.articleContent.dek) : '';
     const authorName = this.sanitizeHtml(pkg.author.name);
@@ -146,7 +178,7 @@ export class PublicationHtmlRenderer {
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>${sanitizedHeadline} | NexaMOS</title>
+${this.renderAnalyticsAndVerification(options)}  <title>${sanitizedHeadline} | NexaMOS</title>
   <meta name="description" content="${this.sanitizeHtml(pkg.description)}" />
   <link rel="canonical" href="${pkg.canonicalUrl}" />
   <link rel="stylesheet" href="/blog/style.css" />
@@ -218,9 +250,12 @@ ${jsonLdScript}
    */
   public static renderBlogIndexPage(
     publishedArticles: PublicationPackage[],
-    siteUrl: string = 'https://nexamos.cloud'
+    siteUrlOrOptions: string | HtmlRenderOptions = 'https://nexamos.cloud'
   ): string {
-    const cleanSiteUrl = siteUrl.replace(/\/$/, '');
+    const opts: HtmlRenderOptions = typeof siteUrlOrOptions === 'string'
+      ? { siteUrl: siteUrlOrOptions }
+      : (siteUrlOrOptions || {});
+    const cleanSiteUrl = (opts.siteUrl || 'https://nexamos.cloud').replace(/\/+$/, '');
 
     // Urutkan artikel terbit berdasarkan publishedAt DESC
     const sortedArticles = [...publishedArticles].sort((a, b) => {
@@ -236,7 +271,7 @@ ${jsonLdScript}
         const dateStr = item.publishedAt
           ? new Date(item.publishedAt).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })
           : '';
-        const heroUrl = item.heroImage ? this.normalizeAssetUrl(item.heroImage.url, siteUrl) : '';
+        const heroUrl = item.heroImage ? this.normalizeAssetUrl(item.heroImage.url, cleanSiteUrl) : '';
         const heroThumb = heroUrl
           ? `<img src="${heroUrl}" alt="${this.sanitizeHtml(item.heroImage!.alt)}" width="400" height="225" loading="lazy" />`
           : '';
@@ -264,7 +299,7 @@ ${jsonLdScript}
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Blog Otoritas & Riset Rekayasa Informasi | NexaMOS</title>
+${this.renderAnalyticsAndVerification(opts)}  <title>Blog Otoritas & Riset Rekayasa Informasi | NexaMOS</title>
   <meta name="description" content="Kumpulan pemikiran strategis, bukti riset primer, dan panduan taktis arsitektur informasi NexaMOS di era pencarian generatif." />
   <link rel="canonical" href="${cleanSiteUrl}/blog" />
   <link rel="stylesheet" href="/blog/style.css" />

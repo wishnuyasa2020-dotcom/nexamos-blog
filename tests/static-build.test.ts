@@ -23,6 +23,7 @@ import { StaticFileExporter } from '../infrastructure/publishing/static-file-exp
 import { startPreviewServer, MIME_TYPES } from '../scripts/preview-blog.ts';
 import { createDevFixturePackage, runBuild } from '../scripts/build-blog.ts';
 import type { PublicationPackage } from '../engines/publishing/publication.ts';
+import { PublicationHtmlRenderer } from '../engines/publishing/html-renderer.ts';
 
 const TEST_WORKSPACE = path.resolve(process.cwd(), 'temp_test_build_workspace');
 const TEST_DIST = path.join(TEST_WORKSPACE, 'dist');
@@ -580,6 +581,80 @@ describe('Pilot 01: Build Tooling, Static Exporter & Local Preview', () => {
 
       const articleStat = await fs.stat(path.join(TEST_WORKSPACE, 'dist', 'blog-masih-relevan-di-era-ai', 'index.html'));
       assert.ok(articleStat.isFile());
+    });
+  });
+
+  // ===========================================================================
+  // 7. ANALYTICS & SEARCH CONSOLE VERIFICATION TAGS
+  // ===========================================================================
+  describe('7. Analytics & Search Console Verification Tags', () => {
+    test('PublicationHtmlRenderer menyisipkan meta google-site-verification jika dikonfigurasi', () => {
+      const fixturePkg = createDevFixturePackage();
+      const html = PublicationHtmlRenderer.renderBlogIndexPage([fixturePkg], {
+        googleSiteVerification: 'gsc-sample-token-abc123xyz'
+      });
+
+      assert.match(html, /<meta name="google-site-verification" content="gsc-sample-token-abc123xyz" \/>/);
+    });
+
+    test('PublicationHtmlRenderer menyisipkan snippet GA4 (gtag.js) jika Measurement ID valid', () => {
+      const fixturePkg = createDevFixturePackage();
+      const html = PublicationHtmlRenderer.renderBlogIndexPage([fixturePkg], {
+        gaMeasurementId: 'G-NEXAMOS123'
+      });
+
+      assert.match(html, /https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=G-NEXAMOS123/);
+      assert.match(html, /gtag\('config', 'G-NEXAMOS123'\);/);
+    });
+
+    test('PublicationHtmlRenderer menyisipkan GSC dan GA4 pada renderArticlePage', () => {
+      const fixturePkg = createDevFixturePackage();
+      const html = PublicationHtmlRenderer.renderArticlePage(fixturePkg, {
+        googleSiteVerification: 'gsc-art-token',
+        gaMeasurementId: 'G-ART999'
+      });
+
+      assert.match(html, /<meta name="google-site-verification" content="gsc-art-token" \/>/);
+      assert.match(html, /https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=G-ART999/);
+    });
+
+    test('PublicationHtmlRenderer mengabaikan GA Measurement ID berformat tidak valid', () => {
+      const fixturePkg = createDevFixturePackage();
+      const html = PublicationHtmlRenderer.renderBlogIndexPage([fixturePkg], {
+        gaMeasurementId: 'UA-123456-7' // Format UA lama dilarang (wajib format GA4 G-XXXX)
+      });
+
+      assert.doesNotMatch(html, /googletagmanager\.com\/gtag\/js/);
+    });
+
+    test('PublicationHtmlRenderer tidak menyisipkan tag pelacak jika options kosong / undefined', () => {
+      const fixturePkg = createDevFixturePackage();
+      const html = PublicationHtmlRenderer.renderBlogIndexPage([fixturePkg]);
+
+      assert.doesNotMatch(html, /google-site-verification/);
+      assert.doesNotMatch(html, /googletagmanager\.com\/gtag\/js/);
+    });
+
+    test('StaticFileExporter meneruskan googleSiteVerification dan gaMeasurementId ke file fisik dist/', async () => {
+      const exporter = new StaticFileExporter(TEST_WORKSPACE);
+      const fixturePkg = createDevFixturePackage();
+
+      await exporter.exportBlog({
+        workspaceRoot: TEST_WORKSPACE,
+        packages: [fixturePkg],
+        clean: true,
+        isDevelopmentFixture: true,
+        googleSiteVerification: 'gsc-exporter-test-token',
+        gaMeasurementId: 'G-EXPORT777'
+      });
+
+      const indexContent = await fs.readFile(path.join(TEST_WORKSPACE, 'dist', 'index.html'), 'utf-8');
+      assert.match(indexContent, /<meta name="google-site-verification" content="gsc-exporter-test-token" \/>/);
+      assert.match(indexContent, /https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=G-EXPORT777/);
+
+      const articleContent = await fs.readFile(path.join(TEST_WORKSPACE, 'dist', fixturePkg.slug, 'index.html'), 'utf-8');
+      assert.match(articleContent, /<meta name="google-site-verification" content="gsc-exporter-test-token" \/>/);
+      assert.match(articleContent, /https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=G-EXPORT777/);
     });
   });
 });

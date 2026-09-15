@@ -28,6 +28,8 @@ export interface StaticExportOptions {
   siteUrl?: string;
   copyPublicAssets?: boolean;
   isDevelopmentFixture?: boolean;
+  googleSiteVerification?: string;
+  gaMeasurementId?: string;
 }
 
 export interface ContentHashItem {
@@ -98,15 +100,23 @@ export class StaticFileExporter {
       // 3. Validasi Slug dan Integritas Paket
       this.validatePackages(options.packages, isDevelopmentFixture);
 
+      const googleSiteVerification = options.googleSiteVerification ?? publicConfig.googleSiteVerification;
+      const gaMeasurementId = options.gaMeasurementId ?? publicConfig.gaMeasurementId;
+      const renderOptions = {
+        siteUrl,
+        googleSiteVerification,
+        gaMeasurementId
+      };
+
       // 4. Render & Write Blog Index: dist/index.html
-      const indexHtml = PublicationHtmlRenderer.renderBlogIndexPage(options.packages, siteUrl);
+      const indexHtml = PublicationHtmlRenderer.renderBlogIndexPage(options.packages, renderOptions);
       const indexPath = path.join(outputDirectory, 'index.html');
       await this.atomicWriteFile(indexPath, indexHtml);
       filesWritten.push('index.html');
 
       // 5. Render & Write Articles: dist/[slug]/index.html
       for (const pkg of options.packages) {
-        const articleHtml = PublicationHtmlRenderer.renderArticlePage(pkg);
+        const articleHtml = PublicationHtmlRenderer.renderArticlePage(pkg, renderOptions);
         const articleDir = path.join(outputDirectory, pkg.slug);
         const articlePath = path.join(articleDir, 'index.html');
 
@@ -242,7 +252,7 @@ export class StaticFileExporter {
   /**
    * Menulis file secara aman (atomic write) dengan fallback yang andal
    */
-  private async atomicWriteFile(targetPath: string, content: string | Buffer): Promise<void> {
+  private async atomicWriteFile(targetPath: string, content: string | Uint8Array): Promise<void> {
     const dir = path.dirname(targetPath);
     await fs.mkdir(dir, { recursive: true });
 

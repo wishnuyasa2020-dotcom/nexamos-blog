@@ -11,6 +11,8 @@ export interface PublicConfig {
   blogBasePath: string;
   previewPort: number;
   previewHost: string;
+  googleSiteVerification?: string;
+  gaMeasurementId?: string;
 }
 
 export function getPublicConfig(): PublicConfig {
@@ -29,11 +31,19 @@ export function getPublicConfig(): PublicConfig {
   const previewPort = Number.isInteger(parsedPort) && parsedPort > 0 ? parsedPort : 4173;
   const previewHost = rawHost?.trim() || '127.0.0.1';
 
+  const rawGsc = process.env.PUBLIC_GOOGLE_SITE_VERIFICATION?.trim();
+  const googleSiteVerification = rawGsc ? rawGsc : undefined;
+
+  const rawGa = process.env.PUBLIC_GA_MEASUREMENT_ID?.trim();
+  const gaMeasurementId = rawGa && /^G-[A-Za-z0-9]+$/i.test(rawGa) ? rawGa.toUpperCase() : undefined;
+
   return {
     siteUrl,
     blogBasePath,
     previewPort,
-    previewHost
+    previewHost,
+    googleSiteVerification,
+    gaMeasurementId
   };
 }
 
