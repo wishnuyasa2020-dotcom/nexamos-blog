@@ -34,7 +34,7 @@ export function getPublicConfig(): PublicConfig {
   const rawGsc = process.env.PUBLIC_GOOGLE_SITE_VERIFICATION?.trim();
   const googleSiteVerification = rawGsc ? rawGsc : undefined;
 
-  const rawGa = process.env.PUBLIC_GA_MEASUREMENT_ID?.trim();
+  const rawGa = process.env.PUBLIC_GA_MEASUREMENT_ID?.trim() || 'G-7BKT098RDB';
   const gaMeasurementId = rawGa && /^G-[A-Za-z0-9]+$/i.test(rawGa) ? rawGa.toUpperCase() : undefined;
 
   return {
