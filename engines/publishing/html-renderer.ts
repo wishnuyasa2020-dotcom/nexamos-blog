@@ -27,6 +27,36 @@ export class PublicationHtmlRenderer {
   }
 
   /**
+   * Normalisasi path aset lokal agar kompatibel dengan reverse proxy /blog
+   */
+  public static normalizeAssetUrl(url: string, siteUrl: string = 'https://nexamos.cloud'): string {
+    if (!url) return '';
+    if (url.startsWith('http://') || url.startsWith('https://')) {
+      return url;
+    }
+    if (url.startsWith('/blog/')) {
+      return url;
+    }
+    if (url.startsWith('/')) {
+      return `/blog${url}`;
+    }
+    return `/blog/${url}`;
+  }
+
+  /**
+   * Mengubah aset URL menjadi absolut untuk meta tag OG / Twitter
+   */
+  public static toAbsoluteAssetUrl(url: string, siteUrl: string = 'https://nexamos.cloud'): string {
+    if (!url) return '';
+    if (url.startsWith('http://') || url.startsWith('https://')) {
+      return url;
+    }
+    const normalized = this.normalizeAssetUrl(url, siteUrl);
+    const cleanSiteUrl = siteUrl.replace(/\/+$/, '');
+    return `${cleanSiteUrl}${normalized}`;
+  }
+
+  /**
    * Render Halaman Penuh Artikel /blog/[slug]
    */
   public static renderArticlePage(pkg: PublicationPackage): string {
@@ -58,12 +88,13 @@ export class PublicationHtmlRenderer {
     // Render Hero Image jika tersedia
     let heroImageHtml = '';
     if (pkg.heroImage) {
+      const heroUrl = this.normalizeAssetUrl(pkg.heroImage.url);
       const captionHtml = pkg.heroImage.caption
         ? `<figcaption>${this.sanitizeHtml(pkg.heroImage.caption)}</figcaption>`
         : '';
       heroImageHtml = `
     <figure class="article-hero-image">
-      <img src="${pkg.heroImage.url}" alt="${this.sanitizeHtml(pkg.heroImage.alt)}" width="${pkg.heroImage.width}" height="${pkg.heroImage.height}" loading="eager" fetchpriority="high" />
+      <img src="${heroUrl}" alt="${this.sanitizeHtml(pkg.heroImage.alt)}" width="${pkg.heroImage.width}" height="${pkg.heroImage.height}" loading="eager" fetchpriority="high" />
       ${captionHtml}
     </figure>`;
     }
@@ -118,7 +149,7 @@ export class PublicationHtmlRenderer {
   <title>${sanitizedHeadline} | NexaMOS</title>
   <meta name="description" content="${this.sanitizeHtml(pkg.description)}" />
   <link rel="canonical" href="${pkg.canonicalUrl}" />
-  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="/blog/style.css" />
   <meta name="robots" content="${pkg.robots.index ? 'index' : 'noindex'}, ${pkg.robots.follow ? 'follow' : 'nofollow'}, max-image-preview:large, max-snippet:-1" />
   
   <!-- Open Graph -->
@@ -126,13 +157,13 @@ export class PublicationHtmlRenderer {
   <meta property="og:description" content="${this.sanitizeHtml(pkg.description)}" />
   <meta property="og:url" content="${pkg.canonicalUrl}" />
   <meta property="og:type" content="article" />
-  ${pkg.heroImage ? `<meta property="og:image" content="${pkg.heroImage.url}" />` : ''}
+  ${pkg.heroImage ? `<meta property="og:image" content="${this.toAbsoluteAssetUrl(pkg.heroImage.url)}" />` : ''}
   
   <!-- Twitter Card -->
   <meta name="twitter:card" content="${pkg.heroImage ? 'summary_large_image' : 'summary'}" />
   <meta name="twitter:title" content="${sanitizedHeadline}" />
   <meta name="twitter:description" content="${this.sanitizeHtml(pkg.description)}" />
-  ${pkg.heroImage ? `<meta name="twitter:image" content="${pkg.heroImage.url}" />` : ''}
+  ${pkg.heroImage ? `<meta name="twitter:image" content="${this.toAbsoluteAssetUrl(pkg.heroImage.url)}" />` : ''}
 
   <!-- Structured Data JSON-LD -->
   <script type="application/ld+json">
@@ -205,8 +236,9 @@ ${jsonLdScript}
         const dateStr = item.publishedAt
           ? new Date(item.publishedAt).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })
           : '';
-        const heroThumb = item.heroImage
-          ? `<img src="${item.heroImage.url}" alt="${this.sanitizeHtml(item.heroImage.alt)}" width="400" height="225" loading="lazy" />`
+        const heroUrl = item.heroImage ? this.normalizeAssetUrl(item.heroImage.url, siteUrl) : '';
+        const heroThumb = heroUrl
+          ? `<img src="${heroUrl}" alt="${this.sanitizeHtml(item.heroImage!.alt)}" width="400" height="225" loading="lazy" />`
           : '';
 
         return `
@@ -235,7 +267,7 @@ ${jsonLdScript}
   <title>Blog Otoritas & Riset Rekayasa Informasi | NexaMOS</title>
   <meta name="description" content="Kumpulan pemikiran strategis, bukti riset primer, dan panduan taktis arsitektur informasi NexaMOS di era pencarian generatif." />
   <link rel="canonical" href="${cleanSiteUrl}/blog" />
-  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="/blog/style.css" />
   <meta name="robots" content="index, follow" />
 </head>
 <body class="nexamos-blog-index">

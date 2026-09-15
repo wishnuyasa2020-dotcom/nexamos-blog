@@ -161,7 +161,7 @@ async function publishPilotArticle(): Promise<void> {
       blogBasePath: '/blog',
       publishedAt: new Date().toISOString(),
       heroImage: {
-        url: '/images/hero-blog-ai-era.webp',
+        url: '/blog/images/hero-blog-ai-era.webp',
         alt: 'Arsitektur Informasi Mandiri dan Retrievabilitas Konten di Era AI Overviews',
         width: 1200,
         height: 630,

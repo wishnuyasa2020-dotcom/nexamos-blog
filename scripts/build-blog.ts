@@ -105,7 +105,7 @@ export function createDevFixturePackage(): PublicationPackage {
       claimTraceability: 'HIGH'
     },
     heroImage: {
-      url: '/images/hero-blog-ai-era.webp',
+      url: '/blog/images/hero-blog-ai-era.webp',
       alt: 'Visualisasi grafik keterlacakan sumber informasi pada sistem AI search',
       width: 1200,
       height: 630
