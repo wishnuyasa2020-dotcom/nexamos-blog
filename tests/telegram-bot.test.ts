@@ -271,6 +271,15 @@ describe('NexaMOS Telegram Editorial Bot Unit Tests', () => {
       assert.strictEqual(override2.articleType, 'EXPLAINER');
     });
 
+    test('Mengklasifikasikan Competitive Intelligence dan Arsitektur ke INTELLIGENCE dan FRAMEWORK', () => {
+      const intent = classifyEditorialIntent(
+        'Transformasi Competitive Intelligence oleh AI: Potensi, Hambatan, dan Arsitektur Strategis',
+        'Transformasi Competitive Intelligence oleh AI: Potensi, Hambatan, dan Arsitektur Strategis'
+      );
+      assert.strictEqual(intent.territory, 'INTELLIGENCE');
+      assert.strictEqual(intent.articleType, 'FRAMEWORK');
+    });
+
     test('Default fallback ke STRATEGY dan ANALYSIS untuk topik umum', () => {
       const fallback = classifyEditorialIntent('Tinjauan Komprehensif Entitas Organisasi', 'Tinjauan Komprehensif Entitas Organisasi');
       assert.strictEqual(fallback.territory, 'STRATEGY');

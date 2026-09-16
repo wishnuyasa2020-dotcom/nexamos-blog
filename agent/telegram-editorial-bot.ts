@@ -103,15 +103,15 @@ export function classifyEditorialIntent(text: string, topic: string): Classified
 
   // 2. Heuristik Alami Berdasarkan Nuansa Teks
   if (!detectedType) {
-    if (/\b(cara|panduan|langkah|step by step|tutorial|setup|instalasi|konfigurasi|tata cara|praktik)\b/i.test(combined)) {
+    if (/\b(cara|panduan|langkah|step by step|tutorial|setup|instalasi|konfigurasi|tata cara|praktik|how to|implementasi)\b/i.test(combined)) {
       detectedType = 'HOW_TO';
-    } else if (/\b(apa itu|pengertian|definisi|mengenal|konsep dasar|fungsi dari|artinya)\b/i.test(combined)) {
+    } else if (/\b(apa itu|pengertian|definisi|mengenal|konsep dasar|fungsi dari|artinya|explainer|memahami)\b/i.test(combined)) {
       detectedType = 'EXPLAINER';
-    } else if (/\b(kerangka|framework|model|blueprint|arsitektur konseptual|pilar)\b/i.test(combined)) {
+    } else if (/\b(kerangka|framework|model|blueprint|arsitektur|metodologi|pilar|struktur sistem)\b/i.test(combined)) {
       detectedType = 'FRAMEWORK';
     } else if (/\b(studi kasus|case study|bedah kasus|pelajaran dari)\b/i.test(combined)) {
       detectedType = 'CASE_STUDY';
-    } else if (/\b(vs|versus|perbandingan|komparasi|dibandingkan|mana yang lebih)\b/i.test(combined)) {
+    } else if (/\b(vs|versus|perbandingan|komparasi|dibandingkan|mana yang lebih|benchmark)\b/i.test(combined)) {
       detectedType = 'COMPARATIVE_ANALYSIS';
     } else if (/\b(tren|trend|prediksi|outlook|masa depan|tahun 202[0-9]|prospek)\b/i.test(combined)) {
       detectedType = 'TREND_ANALYSIS';
@@ -123,11 +123,11 @@ export function classifyEditorialIntent(text: string, topic: string): Classified
   }
 
   if (!detectedTerritory) {
-    if (/\b(teknis|crm|whatsapp|api|workflow|otomasi|automasi|integrasi|eksekusi|coding|database|webhook|retargeting|tools|implementasi)\b/i.test(combined)) {
-      detectedTerritory = 'TACTICAL';
-    } else if (/\b(data|intelijen|sinyal|fakta|pasar|industri|riset|anatomi|regulasi|kemenkes|statistik|tren|perilaku|llm|kecerdasan buatan)\b/i.test(combined)) {
+    if (/\b(competitive intelligence|market intelligence|intelligence|intelijen|kompetitor|pesaing|sinyal|fakta|pasar|market|industri|riset|anatomi|regulasi|kemenkes|statistik|tren|trend|landscape|lanskap|perilaku|llm)\b/i.test(combined)) {
       detectedTerritory = 'INTELLIGENCE';
-    } else if (/\b(strategi|pricing|harga|positioning|bisnis|skala|margin|arah|roi|cvr|keputusan|investasi|kebijakan|monetisasi)\b/i.test(combined)) {
+    } else if (/\b(teknis|crm|whatsapp|api|workflow|otomasi|automasi|integrasi|eksekusi|coding|database|webhook|retargeting|tools|implementasi|taktik|tactical)\b/i.test(combined)) {
+      detectedTerritory = 'TACTICAL';
+    } else if (/\b(strategi|strategic|strategis|pricing|harga|positioning|bisnis|skala|margin|arah|roi|cvr|keputusan|investasi|kebijakan|monetisasi)\b/i.test(combined)) {
       detectedTerritory = 'STRATEGY';
     } else {
       // Korelasi alami dari ArticleType jika tidak ada kata kunci spesifik
