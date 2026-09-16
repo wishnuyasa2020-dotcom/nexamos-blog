@@ -99,7 +99,11 @@ FORMAT JSON YANG WAJIB DIHASILKAN:
     const brief = request.researchBrief;
 
     // Himpun ID yang sah untuk validasi ketat anti-halusinasi
-    const allowedClaimIds = new Set(brief.supportedClaims.map((c) => c.id));
+    const allowedClaimIds = new Set([
+      ...brief.supportedClaims.map((c) => c.id),
+      ...(brief.partiallySupportedClaims || []).map((c) => c.id),
+      ...(brief.keyFindings || []).map((f) => f.id)
+    ]);
     const allowedSourceIds = new Set((brief.sourceIndex || []).map((s) => (s as any).sourceId || (s as any).id));
     const allowedEvidenceIds = new Set((brief.evidenceIndex || []).map((e) => (e as any).evidenceId || (e as any).id));
 
@@ -115,8 +119,10 @@ Rencana Seksi:
 ${JSON.stringify(plan.sectionPlan, null, 2)}
 
 DATA RISET RESMI YANG WAJIB DIKUTIP:
-Klaim Terbukti:
+Klaim Terbukti (Supported Claims):
 ${JSON.stringify(brief.supportedClaims.map((c) => ({ id: c.id, statement: c.statement })), null, 2)}
+Temuan Kunci (Key Findings):
+${JSON.stringify((brief.keyFindings || []).map((f) => ({ id: f.id, statement: f.statement })), null, 2)}
 Indeks Bukti:
 ${JSON.stringify((brief.evidenceIndex || []).slice(0, 10).map((e) => ({ id: (e as any).evidenceId || (e as any).id, sourceId: e.sourceId, text: ((e as any).quote || (e as any).textSnippet || '').slice(0, 200) })), null, 2)}
 Indeks Sumber:
@@ -172,6 +178,35 @@ FORMAT JSON YANG WAJIB DIHASILKAN:
     });
 
     const parsed = StructuredOutputValidator.parseJson(response.content);
+
+    // Normalisasi variasi minor format claimId jika cocok dengan allowedClaimIds
+    if (parsed && Array.isArray(parsed.claimUsages) && allowedClaimIds.size > 0) {
+      for (const cu of parsed.claimUsages) {
+        if (cu && cu.claimId && !allowedClaimIds.has(cu.claimId)) {
+          const match = Array.from(allowedClaimIds).find(
+            (id) => id.toLowerCase() === cu.claimId.toLowerCase() ||
+                    id.replace(/-/g, '') === cu.claimId.replace(/-/g, '')
+          );
+          if (match) {
+            cu.claimId = match;
+          }
+        }
+      }
+      if (Array.isArray(parsed.citationMap)) {
+        for (const cm of parsed.citationMap) {
+          if (cm && cm.claimId && !allowedClaimIds.has(cm.claimId)) {
+            const match = Array.from(allowedClaimIds).find(
+              (id) => id.toLowerCase() === cm.claimId.toLowerCase() ||
+                      id.replace(/-/g, '') === cm.claimId.replace(/-/g, '')
+            );
+            if (match) {
+              cm.claimId = match;
+            }
+          }
+        }
+      }
+    }
+
     return StructuredOutputValidator.validateArticleDraft(parsed, {
       allowedClaimIds,
       allowedSourceIds,
