@@ -59,7 +59,8 @@ const RESERVED_SLUGS = new Set([
   'draft',
   'tag',
   'category',
-  'author'
+  'author',
+  'articles'
 ]);
 
 export class StaticFileExporter {
@@ -136,7 +137,13 @@ export class StaticFileExporter {
       await this.atomicWriteFile(sitemapPath, sitemapXml);
       filesWritten.push('sitemap.xml');
 
-      // 7. Copy Public Assets jika ada
+      // 7. Generate & Write Articles JSON Feed: dist/articles.json
+      const articlesJson = this.generateArticlesJson(options.packages, siteUrl);
+      const articlesJsonPath = path.join(outputDirectory, 'articles.json');
+      await this.atomicWriteFile(articlesJsonPath, articlesJson);
+      filesWritten.push('articles.json');
+
+      // 8. Copy Public Assets jika ada
       if (copyAssets) {
         const publicDir = path.join(workspaceRoot, 'public');
         const copied = await this.copyStaticAssets(publicDir, outputDirectory);
@@ -339,4 +346,57 @@ export class StaticFileExporter {
     await copyRecursive(sourceDir, targetDir, '');
     return copiedFiles;
   }
+
+  /**
+   * Membangun feed data JSON statis untuk integrasi eksternal (misal: Landing Page Highlight)
+   * Menyediakan metadata artikel terurut dari yang terbaru (publishedAt descending)
+   */
+  public generateArticlesJson(packages: PublicationPackage[], siteUrl: string): string {
+    const cleanSiteUrl = siteUrl.replace(/\/+$/, '');
+
+    // Urutkan artikel dari yang paling baru (publishedAt descending)
+    const sorted = [...packages].sort((a, b) => {
+      const timeA = a.publishedAt ? new Date(a.publishedAt).getTime() : 0;
+      const timeB = b.publishedAt ? new Date(b.publishedAt).getTime() : 0;
+      return timeB - timeA;
+    });
+
+    const feed = sorted.map((pkg) => {
+      const url = pkg.canonicalUrl || `${cleanSiteUrl}/blog/${pkg.slug}`;
+      let heroImageUrl: string | undefined = undefined;
+
+      if (pkg.heroImage?.url) {
+        if (pkg.heroImage.url.startsWith('http://') || pkg.heroImage.url.startsWith('https://')) {
+          heroImageUrl = pkg.heroImage.url;
+        } else if (pkg.heroImage.url.startsWith('/blog/')) {
+          heroImageUrl = pkg.heroImage.url;
+        } else if (pkg.heroImage.url.startsWith('/')) {
+          heroImageUrl = `/blog${pkg.heroImage.url}`;
+        } else {
+          heroImageUrl = `/blog/${pkg.heroImage.url}`;
+        }
+      }
+
+      return {
+        slug: pkg.slug,
+        title: pkg.title,
+        dek: pkg.articleContent?.dek || pkg.description || '',
+        territory: pkg.territory,
+        articleType: pkg.articleType,
+        editorialRole: pkg.editorialRole,
+        url,
+        heroImageUrl,
+        heroImageAlt: pkg.heroImage?.alt || pkg.title,
+        author: {
+          name: pkg.author?.name || 'Tim Riset & Rekayasa NexaMOS',
+          role: pkg.author?.role || 'NexaMOS Knowledge & AI Engineering',
+          avatarUrl: pkg.author?.avatarUrl || 'https://nexamos.cloud/authors/default.png'
+        },
+        publishedAt: pkg.publishedAt || new Date().toISOString()
+      };
+    });
+
+    return JSON.stringify(feed, null, 2);
+  }
 }
+

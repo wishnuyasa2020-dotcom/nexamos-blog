@@ -190,6 +190,7 @@ describe('Pilot 01: Build Tooling, Static Exporter & Local Preview', () => {
       assert.ok(result.filesWritten.includes('index.html'), 'index.html harus ditulis');
       assert.ok(result.filesWritten.includes('arsitektur-informasi-ai/index.html'), 'artikel harus ditulis');
       assert.ok(result.filesWritten.includes('sitemap.xml'), 'sitemap.xml harus ditulis');
+      assert.ok(result.filesWritten.includes('articles.json'), 'articles.json harus ditulis');
 
       // Verifikasi keberadaan file fisik di disk
       const indexStat = await fs.stat(path.join(TEST_DIST, 'index.html'));
@@ -201,10 +202,46 @@ describe('Pilot 01: Build Tooling, Static Exporter & Local Preview', () => {
       const sitemapStat = await fs.stat(path.join(TEST_DIST, 'sitemap.xml'));
       assert.ok(sitemapStat.isFile());
 
+      const articlesJsonStat = await fs.stat(path.join(TEST_DIST, 'articles.json'));
+      assert.ok(articlesJsonStat.isFile());
+
       // Verifikasi content hashes
       assert.strictEqual(result.contentHashes.length, 1);
       assert.strictEqual(result.contentHashes[0].slug, 'arsitektur-informasi-ai');
       assert.ok(result.contentHashes[0].hash.length > 10);
+    });
+
+    test('Mengekspor dist/articles.json terurut dari yang terbaru untuk konsumsi Landing Page', async () => {
+      const exporter = new StaticFileExporter(TEST_WORKSPACE, TEST_DIST);
+      const pkgOlder = createValidArticlePackage('artikel-lama');
+      pkgOlder.publishedAt = '2026-09-01T10:00:00.000Z';
+      pkgOlder.title = 'Artikel Lama';
+
+      const pkgNewer = createValidArticlePackage('artikel-baru');
+      pkgNewer.publishedAt = '2026-09-15T10:00:00.000Z';
+      pkgNewer.title = 'Artikel Baru';
+
+      await exporter.exportBlog({
+        workspaceRoot: TEST_WORKSPACE,
+        outputDirectory: TEST_DIST,
+        packages: [pkgOlder, pkgNewer],
+        clean: true
+      });
+
+      const rawJson = await fs.readFile(path.join(TEST_DIST, 'articles.json'), 'utf-8');
+      const feed = JSON.parse(rawJson);
+
+      assert.ok(Array.isArray(feed), 'feed harus berupa array');
+      assert.strictEqual(feed.length, 2);
+      // Terurut dari yang terbaru
+      assert.strictEqual(feed[0].slug, 'artikel-baru');
+      assert.strictEqual(feed[1].slug, 'artikel-lama');
+      assert.strictEqual(feed[0].url, 'https://nexamos.cloud/blog/artikel-baru');
+      assert.ok(feed[0].title);
+      assert.ok(feed[0].dek);
+      assert.ok(feed[0].territory);
+      assert.ok(feed[0].articleType);
+      assert.ok(feed[0].author);
     });
 
     test('Canonical URL di HTML dan Sitemap selalu mengarah ke https://nexamos.cloud/blog/[slug]', async () => {
