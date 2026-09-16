@@ -74,20 +74,20 @@
     "claimTraceability": "FULL"
   },
   "heroImage": {
-    "url": "/blog/images/hero-blog-ai-era.webp",
-    "alt": "Memahami Lead dalam Pemasaran Digital: Konsep, Proses, dan Strategi Konversi",
+    "url": "/blog/images/hero-apa-itu-lead-sumber.webp",
+    "alt": "Diagram sistem kualifikasi lead dan transformasi status entitas dalam arsitektur pemasaran digital",
     "width": 1200,
     "height": 630,
-    "caption": "Lead adalah aset strategis yang memerlukan pendekatan sistematis dan nurturing berbasis data agar dapat dikonversi menjadi pelanggan loyal."
+    "caption": "Mekanisme transformasi status entitas dari sinyal pasar anonim, proses kualifikasi berpagar, hingga konversi menjadi pelanggan aktif."
   },
   "visualAssets": [
     {
-      "url": "/blog/images/hero-blog-ai-era.webp",
+      "url": "/blog/images/hero-apa-itu-lead-sumber.webp",
       "width": 1200,
       "height": 630,
       "aspectRatio": "16:9",
-      "alt": "Memahami Lead dalam Pemasaran Digital: Konsep, Proses, dan Strategi Konversi",
-      "caption": "Lead adalah aset strategis yang memerlukan pendekatan sistematis dan nurturing berbasis data agar dapat dikonversi menjadi pelanggan loyal."
+      "alt": "Diagram sistem kualifikasi lead dan transformasi status entitas dalam arsitektur pemasaran digital",
+      "caption": "Mekanisme transformasi status entitas dari sinyal pasar anonim, proses kualifikasi berpagar, hingga konversi menjadi pelanggan aktif."
     }
   ],
   "structuredData": {
@@ -115,7 +115,7 @@
           }
         },
         "image": [
-          "/blog/images/hero-blog-ai-era.webp"
+          "/blog/images/hero-apa-itu-lead-sumber.webp"
         ]
       },
       {
