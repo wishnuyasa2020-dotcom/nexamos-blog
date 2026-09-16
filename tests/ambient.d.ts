@@ -44,6 +44,7 @@ declare module 'node:http' {
 
   export interface Server {
     listen(port: number, host?: string, callback?: () => void): this;
+    listen(port: number, callback?: () => void): this;
     close(callback?: () => void): this;
     address(): { port: number; address: string; family: string } | string | null;
     on(event: string, listener: (...args: any[]) => void): this;

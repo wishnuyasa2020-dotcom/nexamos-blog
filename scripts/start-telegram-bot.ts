@@ -35,32 +35,59 @@ async function main() {
     );
   });
 
-  server.listen(port, () => {
+  server.listen(port, '0.0.0.0', () => {
     console.log(`[HTTP] Cloud healthcheck server berjalan di port ${port}`);
   });
 
-  const bot = new TelegramEditorialBot();
+  let bot = new TelegramEditorialBot();
+  let isShuttingDown = false;
+
+  const shutdown = () => {
+    if (isShuttingDown) return;
+    isShuttingDown = true;
+    try {
+      bot.stop();
+    } catch {
+      // ignore
+    }
+    server.close(() => {
+      process.exit(0);
+    });
+    // Fallback force exit jika graceful close menggantung lebih dari 5 detik
+    const forceExitTimer: any = setTimeout(() => process.exit(0), 5000);
+    if (forceExitTimer && typeof forceExitTimer.unref === 'function') {
+      forceExitTimer.unref();
+    }
+  };
 
   // Tangani graceful shutdown
   process.on('SIGINT', () => {
     console.log('\nMenerima sinyal SIGINT. Menghentikan bot...');
-    bot.stop();
-    server.close();
-    process.exit(0);
+    shutdown();
   });
 
   process.on('SIGTERM', () => {
     console.log('\nMenerima sinyal SIGTERM. Menghentikan bot...');
-    bot.stop();
-    server.close();
-    process.exit(0);
+    shutdown();
   });
 
-  await bot.start();
+  // Supervisor loop: Pastikan bot me-restart jika terjadi fatal runtime error tanpa mematikan HTTP server
+  while (!isShuttingDown) {
+    try {
+      await bot.start();
+      break; // Normal stop jika bot.stop() dipanggil
+    } catch (err: any) {
+      if (isShuttingDown) break;
+      console.error('[ERROR] Bot unhandled exception:', err?.message || err);
+      console.log('Mencoba me-restart bot dalam 5 detik... (HTTP healthcheck server tetap aktif)');
+      await new Promise((r) => setTimeout(r, 5000));
+      bot = new TelegramEditorialBot();
+    }
+  }
 }
 
 main().catch((err) => {
-  console.error('[FATAL] Bot gagal dijalankan:', err);
+  console.error('[FATAL] Server runner gagal diinisialisasi:', err);
   process.exit(1);
 });
 

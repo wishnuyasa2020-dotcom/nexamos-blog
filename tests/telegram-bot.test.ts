@@ -126,5 +126,67 @@ describe('NexaMOS Telegram Editorial Bot Unit Tests', () => {
         /TELEGRAM_CLIENT_ERROR: Bot token belum disetel/
       );
     });
+
+    test('Menangani respons HTML/Bad Gateway dari reverse proxy tanpa crash JSON parse', async () => {
+      const originalFetch = globalThis.fetch;
+      try {
+        globalThis.fetch = async () => {
+          return new Response('<html><body>502 Bad Gateway</body></html>', {
+            status: 502,
+            statusText: 'Bad Gateway',
+            headers: { 'Content-Type': 'text/html' }
+          });
+        };
+
+        const client = new TelegramClient({
+          botToken: 'mock-token',
+          allowedUserId: '1455808077',
+          apiBaseUrl: 'https://api.telegram.org'
+        });
+
+        await assert.rejects(
+          async () => {
+            await client.getMe();
+          },
+          /TELEGRAM_HTTP_ERROR: \[502\] Bad Gateway/
+        );
+      } finally {
+        globalThis.fetch = originalFetch;
+      }
+    });
+
+    test('Menangani respons error standar dari Telegram API (ok: false)', async () => {
+      const originalFetch = globalThis.fetch;
+      try {
+        globalThis.fetch = async () => {
+          return new Response(
+            JSON.stringify({
+              ok: false,
+              error_code: 409,
+              description: 'Conflict: terminated by other getUpdates request'
+            }),
+            {
+              status: 409,
+              headers: { 'Content-Type': 'application/json' }
+            }
+          );
+        };
+
+        const client = new TelegramClient({
+          botToken: 'mock-token',
+          allowedUserId: '1455808077',
+          apiBaseUrl: 'https://api.telegram.org'
+        });
+
+        await assert.rejects(
+          async () => {
+            await client.getMe();
+          },
+          /TELEGRAM_API_ERROR: \[409\] Conflict: terminated by other getUpdates request/
+        );
+      } finally {
+        globalThis.fetch = originalFetch;
+      }
+    });
   });
 });

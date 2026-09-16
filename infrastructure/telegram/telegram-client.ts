@@ -112,10 +112,16 @@ export class TelegramClient {
     }
 
     const response = await fetch(url, options);
-    const data = await response.json();
+    const rawText = await response.text();
+    let data: any;
+    try {
+      data = JSON.parse(rawText);
+    } catch {
+      throw new Error(`TELEGRAM_HTTP_ERROR: [${response.status}] ${response.statusText || rawText.slice(0, 100) || 'Gagal memproses respons dari Telegram'}`);
+    }
 
     if (!data.ok) {
-      throw new Error(`TELEGRAM_API_ERROR: [${data.error_code}] ${data.description}`);
+      throw new Error(`TELEGRAM_API_ERROR: [${data.error_code || response.status}] ${data.description || response.statusText}`);
     }
 
     return data.result as T;

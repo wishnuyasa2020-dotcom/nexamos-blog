@@ -19,7 +19,7 @@ import path from 'node:path';
 import { exec } from 'node:child_process';
 import { promisify } from 'node:util';
 
-import { TelegramClient, type TelegramUpdate, type TelegramInlineKeyboardMarkup } from '../infrastructure/telegram/telegram-client.ts';
+import { TelegramClient, type TelegramUpdate, type TelegramInlineKeyboardMarkup, type TelegramUser } from '../infrastructure/telegram/telegram-client.ts';
 import { loadTelegramConfig, isUserAuthorized } from '../infrastructure/telegram/telegram-config.ts';
 import { loadAIProviderConfig, isAIConfigured } from '../infrastructure/ai/ai-provider-config.ts';
 import { AIProviderFactory } from '../infrastructure/ai/ai-provider-factory.ts';
@@ -115,7 +115,27 @@ export class TelegramEditorialBot {
     console.log('Mode: Mobile Workflow (Long Polling)');
     console.log('====================================================');
 
-    const me = await this.client.getMe();
+    // Inisialisasi koneksi bot dengan retry guard (antisipasi 502 Bad Gateway / fluktuasi jaringan saat startup)
+    let me: TelegramUser | null = null;
+    let attempt = 0;
+    while (this.isRunning && !me) {
+      try {
+        attempt++;
+        me = await this.client.getMe();
+      } catch (err: any) {
+        if (!this.isRunning || err?.name === 'AbortError') {
+          return;
+        }
+        const delay = Math.min(attempt * 2000, 10000);
+        console.warn(`[WARN] Gagal inisialisasi getMe (${err.message}). Mencoba lagi dalam ${delay / 1000} detik... (percobaan #${attempt})`);
+        await new Promise((r) => setTimeout(r, delay));
+      }
+    }
+
+    if (!me || !this.isRunning) {
+      return;
+    }
+
     console.log(`Bot terhubung: @${me.username} (${me.first_name})`);
     console.log('Menunggu pesan masuk dari Telegram...\n');
 
