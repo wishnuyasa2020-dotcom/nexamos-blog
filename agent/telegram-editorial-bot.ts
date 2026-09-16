@@ -649,7 +649,7 @@ Atau cukup bagikan link studi/berita yang ingin dianalisis!
         researchProjectId: 'proj-telegram',
         statement: c.statement,
         claimType: c.claimType || 'FACTUAL',
-        importance: c.importance || 'PRIMARY',
+        importance: c.importance || 'CRITICAL',
         status: 'SUPPORTED' as const,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
@@ -663,7 +663,7 @@ Atau cukup bagikan link studi/berita yang ingin dianalisis!
             researchProjectId: 'proj-telegram',
             statement: `Analisis strategis dan arsitektur informasi mengenai ${parsed.topic}`,
             claimType: 'FACTUAL',
-            importance: 'PRIMARY',
+            importance: 'CRITICAL',
             status: 'SUPPORTED',
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString()

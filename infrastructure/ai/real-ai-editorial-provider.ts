@@ -39,7 +39,7 @@ export class RealAIEditorialProvider implements AIEditorialProvider {
   public async createEditorialPlan(request: EditorialGenerationRequest): Promise<EditorialPlan> {
     const brief = request.researchBrief;
     const claims = brief.supportedClaims.map((c) => ({ id: c.id, statement: c.statement }));
-    const findings = brief.keyFindings.map((f) => ({ id: f.id, headline: f.headline }));
+    const findings = brief.keyFindings.map((f) => ({ id: f.id, statement: f.statement }));
     const limitations = brief.limitations || [];
 
     const prompt = `${EDITORIAL_SYSTEM_HARD_RULE}
