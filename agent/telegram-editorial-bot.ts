@@ -1002,32 +1002,39 @@ Silakan pilih tindakan berikut:`;
       }
     }
 
-    // 4. Konfigurasi identitas committer
+    // 4. Pastikan branch lokal terdefinisi sebagai main (mengatasi detached HEAD di container cloud)
+    try {
+      await execAsync('git branch -M main', { cwd: this.workspaceRoot });
+    } catch {
+      // Abaikan jika sudah main
+    }
+
+    // 5. Konfigurasi identitas committer
     await execAsync(`git config user.name "${gitUser}"`, { cwd: this.workspaceRoot });
     await execAsync(`git config user.email "${gitEmail}"`, { cwd: this.workspaceRoot });
 
-    // 5. Stage file yang diperbarui
+    // 6. Stage file yang diperbarui
     await execAsync('git add content/published/ content/drafts/ public/images/', { cwd: this.workspaceRoot });
 
-    // 6. Commit jika ada perubahan
+    // 7. Commit jika ada perubahan
     const { stdout: statusOut } = await execAsync('git status --porcelain', { cwd: this.workspaceRoot });
     if (statusOut.trim().length > 0) {
       await execAsync(`git commit -m "feat(blog): publish '${draft.title}' via Telegram Bot"`, { cwd: this.workspaceRoot });
     }
 
-    // 7. Eksekusi Push (Wajib melempar error jika gagal, JANGAN telan secara diam-diam!)
+    // 8. Eksekusi Push (Wajib melempar error jika gagal, JANGAN telan secara diam-diam!)
     try {
       if (githubToken) {
         // Fetch & sinkronkan commit remote terbaru agar push tidak ditolak non-fast-forward
         try {
-          await execAsync(`git fetch origin main`, { cwd: this.workspaceRoot });
+          await execAsync(`git fetch ${authenticatedRemoteUrl} main`, { cwd: this.workspaceRoot });
           await execAsync(`git merge --no-edit FETCH_HEAD`, { cwd: this.workspaceRoot });
         } catch (syncErr: any) {
           console.warn(`[WARN] Remote sync notice: ${syncErr.message}`);
         }
-        await execAsync(`git push origin main`, { cwd: this.workspaceRoot });
+        await execAsync(`git push ${authenticatedRemoteUrl} HEAD:main`, { cwd: this.workspaceRoot });
       } else {
-        await execAsync('git push origin main', { cwd: this.workspaceRoot });
+        await execAsync('git push origin HEAD:main', { cwd: this.workspaceRoot });
       }
     } catch (pushErr: any) {
       throw new Error(
