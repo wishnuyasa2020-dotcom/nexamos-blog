@@ -12,7 +12,7 @@
 import { describe, test } from 'node:test';
 import assert from 'node:assert';
 
-import { parseTelegramInput, slugify, TelegramEditorialBot } from '../agent/telegram-editorial-bot.ts';
+import { parseTelegramInput, slugify, classifyEditorialIntent, TelegramEditorialBot } from '../agent/telegram-editorial-bot.ts';
 import { isUserAuthorized, loadTelegramConfig } from '../infrastructure/telegram/telegram-config.ts';
 import { TelegramClient } from '../infrastructure/telegram/telegram-client.ts';
 
@@ -232,6 +232,49 @@ describe('NexaMOS Telegram Editorial Bot Unit Tests', () => {
         if (originalRender) process.env.RENDER = originalRender;
         else delete process.env.RENDER;
       }
+    });
+  });
+
+  // ===========================================================================
+  // 6. DYNAMIC EDITORIAL INTENT CLASSIFICATION TESTS
+  // ===========================================================================
+  describe('6. Dynamic Editorial Intent Classification Tests', () => {
+    test('Mengklasifikasikan panduan teknis ke TACTICAL dan HOW_TO', () => {
+      const intent = classifyEditorialIntent('Cara setting WhatsApp API untuk klinik', 'Cara setting WhatsApp API untuk klinik');
+      assert.strictEqual(intent.territory, 'TACTICAL');
+      assert.strictEqual(intent.articleType, 'HOW_TO');
+    });
+
+    test('Mengklasifikasikan konsep dan definisi ke INTELLIGENCE dan EXPLAINER', () => {
+      const intent = classifyEditorialIntent('Apa itu Lead Scoring dan Fungsinya', 'Apa itu Lead Scoring dan Fungsinya');
+      assert.strictEqual(intent.territory, 'INTELLIGENCE');
+      assert.strictEqual(intent.articleType, 'EXPLAINER');
+    });
+
+    test('Mengklasifikasikan model kerangka dan pricing ke STRATEGY dan FRAMEWORK', () => {
+      const intent = classifyEditorialIntent('Model Kerangka Pricing Kursus Online', 'Model Kerangka Pricing Kursus Online');
+      assert.strictEqual(intent.territory, 'STRATEGY');
+      assert.strictEqual(intent.articleType, 'FRAMEWORK');
+    });
+
+    test('Mengklasifikasikan studi kasus industri ke CASE_STUDY', () => {
+      const intent = classifyEditorialIntent('Studi Kasus Efisiensi Operasional Klinik', 'Studi Kasus Efisiensi Operasional Klinik');
+      assert.strictEqual(intent.articleType, 'CASE_STUDY');
+    });
+
+    test('Mengakomodasi explicit override dari tag teks pengguna', () => {
+      const override1 = classifyEditorialIntent('[HOW_TO] Optimasi Retensi Pelanggan', 'Optimasi Retensi Pelanggan');
+      assert.strictEqual(override1.articleType, 'HOW_TO');
+
+      const override2 = classifyEditorialIntent('/tactical /explainer Konfigurasi Webhook', 'Konfigurasi Webhook');
+      assert.strictEqual(override2.territory, 'TACTICAL');
+      assert.strictEqual(override2.articleType, 'EXPLAINER');
+    });
+
+    test('Default fallback ke STRATEGY dan ANALYSIS untuk topik umum', () => {
+      const fallback = classifyEditorialIntent('Tinjauan Komprehensif Entitas Organisasi', 'Tinjauan Komprehensif Entitas Organisasi');
+      assert.strictEqual(fallback.territory, 'STRATEGY');
+      assert.strictEqual(fallback.articleType, 'ANALYSIS');
     });
   });
 });

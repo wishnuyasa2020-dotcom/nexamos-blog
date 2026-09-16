@@ -34,6 +34,7 @@ import { GroundingGuard } from '../engines/editorial/grounding-guard.ts';
 import type { Topic } from '../engines/ideation/domain/topic.types.ts';
 import type { EditorialRole } from '../engines/ideation/domain/editorial-role.ts';
 import type { ArticleType } from '../engines/ideation/domain/article-type.ts';
+import type { Territory } from '../engines/ideation/domain/territory.ts';
 import type { EditorialGenerationRequest } from '../engines/editorial/editorial-generation-request.ts';
 import type { ResearchBrief } from '../engines/research/orchestrator/research-brief.ts';
 import type { ResearchEvidence } from '../engines/research/domain/research-evidence.ts';
@@ -52,6 +53,99 @@ export interface ParsedTelegramInput {
   topic: string;
   urls: string[];
   rawText: string;
+}
+
+export interface ClassifiedEditorialIntent {
+  territory: Territory;
+  articleType: ArticleType;
+  editorialRole: EditorialRole;
+}
+
+/**
+ * Pengklasifikasi dinamis wilayah pengetahuan (Territory) dan tipe format (ArticleType)
+ * Mendukung override eksplisit (misal [HOW_TO], /howto, [TACTICAL])
+ * serta heuristik cerdas berbasis kosakata topik (misal: "cara", "apa itu", "kerangka", "pricing", "crm")
+ */
+export function classifyEditorialIntent(text: string, topic: string): ClassifiedEditorialIntent {
+  const combined = `${text} ${topic}`.toLowerCase();
+
+  // 1. Deteksi Explicit Override dari tag atau slash command
+  let detectedType: ArticleType | null = null;
+  let detectedTerritory: Territory | null = null;
+
+  // Article Type overrides
+  if (/\[how_to\]|\[howto\]|\/howto|\/how_to|\b(tipe|format)\s*:\s*how_to/i.test(text)) {
+    detectedType = 'HOW_TO';
+  } else if (/\[explainer\]|\/explainer|\b(tipe|format)\s*:\s*explainer/i.test(text)) {
+    detectedType = 'EXPLAINER';
+  } else if (/\[framework\]|\/framework|\b(tipe|format)\s*:\s*framework/i.test(text)) {
+    detectedType = 'FRAMEWORK';
+  } else if (/\[case_study\]|\/casestudy|\/case_study|\b(tipe|format)\s*:\s*case_study/i.test(text)) {
+    detectedType = 'CASE_STUDY';
+  } else if (/\[trend\]|\/trend|\/trend_analysis|\b(tipe|format)\s*:\s*trend/i.test(text)) {
+    detectedType = 'TREND_ANALYSIS';
+  } else if (/\[comparative\]|\/compare|\b(tipe|format)\s*:\s*comparative/i.test(text)) {
+    detectedType = 'COMPARATIVE_ANALYSIS';
+  } else if (/\[research\]|\/research|\b(tipe|format)\s*:\s*research/i.test(text)) {
+    detectedType = 'ORIGINAL_RESEARCH';
+  } else if (/\[analysis\]|\/analysis|\b(tipe|format)\s*:\s*analysis/i.test(text)) {
+    detectedType = 'ANALYSIS';
+  }
+
+  // Territory overrides
+  if (/\[tactical\]|\/tactical|\bterritory\s*:\s*tactical/i.test(text)) {
+    detectedTerritory = 'TACTICAL';
+  } else if (/\[intelligence\]|\/intelligence|\bterritory\s*:\s*intelligence/i.test(text)) {
+    detectedTerritory = 'INTELLIGENCE';
+  } else if (/\[strategy\]|\/strategy|\bterritory\s*:\s*strategy/i.test(text)) {
+    detectedTerritory = 'STRATEGY';
+  }
+
+  // 2. Heuristik Alami Berdasarkan Nuansa Teks
+  if (!detectedType) {
+    if (/\b(cara|panduan|langkah|step by step|tutorial|setup|instalasi|konfigurasi|tata cara|praktik)\b/i.test(combined)) {
+      detectedType = 'HOW_TO';
+    } else if (/\b(apa itu|pengertian|definisi|mengenal|konsep dasar|fungsi dari|artinya)\b/i.test(combined)) {
+      detectedType = 'EXPLAINER';
+    } else if (/\b(kerangka|framework|model|blueprint|arsitektur konseptual|pilar)\b/i.test(combined)) {
+      detectedType = 'FRAMEWORK';
+    } else if (/\b(studi kasus|case study|bedah kasus|pelajaran dari)\b/i.test(combined)) {
+      detectedType = 'CASE_STUDY';
+    } else if (/\b(vs|versus|perbandingan|komparasi|dibandingkan|mana yang lebih)\b/i.test(combined)) {
+      detectedType = 'COMPARATIVE_ANALYSIS';
+    } else if (/\b(tren|trend|prediksi|outlook|masa depan|tahun 202[0-9]|prospek)\b/i.test(combined)) {
+      detectedType = 'TREND_ANALYSIS';
+    } else if (/\b(riset|data primer|survei|penelitian empiris|temuan riset)\b/i.test(combined)) {
+      detectedType = 'ORIGINAL_RESEARCH';
+    } else {
+      detectedType = 'ANALYSIS';
+    }
+  }
+
+  if (!detectedTerritory) {
+    if (/\b(teknis|crm|whatsapp|api|workflow|otomasi|automasi|integrasi|eksekusi|coding|database|webhook|retargeting|tools|implementasi)\b/i.test(combined)) {
+      detectedTerritory = 'TACTICAL';
+    } else if (/\b(data|intelijen|sinyal|fakta|pasar|industri|riset|anatomi|regulasi|kemenkes|statistik|tren|perilaku|llm|kecerdasan buatan)\b/i.test(combined)) {
+      detectedTerritory = 'INTELLIGENCE';
+    } else if (/\b(strategi|pricing|harga|positioning|bisnis|skala|margin|arah|roi|cvr|keputusan|investasi|kebijakan|monetisasi)\b/i.test(combined)) {
+      detectedTerritory = 'STRATEGY';
+    } else {
+      // Korelasi alami dari ArticleType jika tidak ada kata kunci spesifik
+      if (detectedType === 'HOW_TO') {
+        detectedTerritory = 'TACTICAL';
+      } else if (detectedType === 'EXPLAINER' || detectedType === 'TREND_ANALYSIS') {
+        detectedTerritory = 'INTELLIGENCE';
+      } else {
+        detectedTerritory = 'STRATEGY';
+      }
+    }
+  }
+
+  return {
+    territory: detectedTerritory,
+    articleType: detectedType,
+    editorialRole: 'AUTHORITY'
+  };
 }
 
 /**
@@ -77,7 +171,8 @@ export function parseTelegramInput(text: string): ParsedTelegramInput {
 
   let cleaned = text.replace(urlRegex, '').trim();
   cleaned = cleaned
-    .replace(/^(\/bikin|\/write|\/buat|\/generate|\/create)\s+/i, '')
+    .replace(/^(\/bikin|\/write|\/buat|\/generate|\/create|\/howto|\/how_to|\/framework|\/explainer|\/analysis|\/tactical|\/strategy|\/intelligence)\s+/i, '')
+    .replace(/^\[(how_to|howto|framework|explainer|analysis|tactical|strategy|intelligence|case_study|trend)\]\s*/i, '')
     .replace(/^(bikin|buat|tulis|buatkan|generate)\s+artikel\s*:?\s*/i, '')
     .replace(/^(topik|judul|masalah)\s*:\s*/i, '')
     .replace(/^(sumber|link|referensi)\s*:\s*/i, '')
@@ -420,10 +515,14 @@ Atau cukup bagikan link studi/berita yang ingin dianalisis!
       return;
     }
 
+    const classification = classifyEditorialIntent(rawText, parsed.topic);
+    const territory: Territory = classification.territory;
+    const recommendedType: ArticleType = classification.articleType;
+
     // Kirim konfirmasi penerimaan tugas
     await this.client.sendMessage(
       chatId,
-      `⏳ <b>Menerima Permintaan Artikel Baru</b>\n\n• <b>Topik:</b> "${parsed.topic}"\n• <b>Slug:</b> <code>${slug}</code>\n• <b>Sumber:</b> ${parsed.urls.length > 0 ? parsed.urls.join('\n') : '<i>(Tanpa link eksternal — menggunakan basis pengetahuan internal NexaMOS)</i>'}\n\n<i>Sedang memproses riset dan draf naskah...</i>`,
+      `⏳ <b>Menerima Permintaan Artikel Baru</b>\n\n• <b>Topik:</b> "${parsed.topic}"\n• <b>Wilayah (Territory):</b> <code>${territory}</code>\n• <b>Tipe Format:</b> <code>${recommendedType}</code>\n• <b>Slug:</b> <code>${slug}</code>\n• <b>Sumber:</b> ${parsed.urls.length > 0 ? parsed.urls.join('\n') : '<i>(Tanpa link eksternal — menggunakan basis pengetahuan internal NexaMOS)</i>'}\n\n<i>Sedang memproses riset dan draf naskah...</i>`,
       { parse_mode: 'HTML', disable_web_page_preview: true }
     );
 
@@ -486,8 +585,8 @@ Atau cukup bagikan link studi/berita yang ingin dianalisis!
         id: `top-${Date.now().toString(36)}`,
         title: parsed.topic,
         slug,
-        territory: 'STRATEGY',
-        recommendedArticleType: 'ANALYSIS',
+        territory,
+        recommendedArticleType: recommendedType,
         editorialRole: 'AUTHORITY',
         audience: { segment: 'Enterprise Content Leaders' },
         problem: parsed.topic,
@@ -699,6 +798,10 @@ Atau cukup bagikan link studi/berita yang ingin dianalisis!
 
 📰 <b>${draft.title}</b>
 <i>${draft.dek || ''}</i>
+
+🏷️ <b>Klasifikasi Editorial:</b>
+• <b>Wilayah (Territory):</b> <code>${draft.territory}</code>
+• <b>Tipe Format:</b> <code>${draft.articleType}</code>
 
 📊 <b>Rincian Naskah:</b>
 • Seksi: ${draft.sections.length} bagian
