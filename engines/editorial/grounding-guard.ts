@@ -97,7 +97,8 @@ export class GroundingGuard {
     const validClaimIds = new Set<string>([
       ...brief.supportedClaims.map((c) => c.id),
       ...brief.partiallySupportedClaims.map((c) => c.id),
-      ...brief.disputedClaims.map((c) => c.id)
+      ...brief.disputedClaims.map((c) => c.id),
+      ...(brief.keyFindings || []).map((f) => f.id)
     ]);
 
     const validSourceIds = new Set<string>(brief.sourceIndex.map((s) => s.sourceId));
