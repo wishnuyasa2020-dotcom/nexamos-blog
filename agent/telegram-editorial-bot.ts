@@ -1058,8 +1058,8 @@ Silakan pilih tindakan berikut:`;
 
     // Git Commit & Push ke GitHub
     const githubToken = process.env.GITHUB_TOKEN?.trim();
-    const gitUser = process.env.GIT_USER_NAME || 'NexaMOS Editorial Bot';
-    const gitEmail = process.env.GIT_USER_EMAIL || 'bot@nexamos.cloud';
+    const gitUser = process.env.GIT_USER_NAME || 'Wishnu';
+    const gitEmail = process.env.GIT_USER_EMAIL || 'wishnuyasa2020@gmail.com';
 
     // 1. Validasi Keberadaan GITHUB_TOKEN di Cloud/Hosting
     const isCloudEnv = process.env.NODE_ENV === 'production' || !!process.env.RENDER || !!process.env.KOYEB;
