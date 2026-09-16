@@ -762,7 +762,7 @@ Silakan pilih tindakan berikut:`;
         await this.client.editMessageText(
           chatId,
           messageId,
-          `🚀 <b>Artikel Berhasil Dipublikasikan Live!</b>\n\n🌐 <b>URL:</b> <a href="${liveUrl}">${liveUrl}</a>\n\nDalam ~20 detik perubahan otomatis tayang langsung di Vercel.`,
+          `🚀 <b>Artikel Berhasil Dipublikasikan Live!</b>\n\n🌐 <b>URL:</b> <a href="${liveUrl}">${liveUrl}</a>\n\nPerubahan berhasil di-push ke GitHub dan tayang otomatis di Vercel dalam ~20-30 detik.`,
           { parse_mode: 'HTML', disable_web_page_preview: false }
         );
       } catch (err: any) {
@@ -770,7 +770,7 @@ Silakan pilih tindakan berikut:`;
         await this.client.editMessageText(
           chatId,
           messageId,
-          `❌ <b>Publikasi Gagal</b>\n\nError: <code>${err.message}</code>`,
+          `❌ <b>Publikasi Gagal</b>\n\n⚠️ <i>Proses dihentikan demi menjaga integritas data & menghindari broken link / 404.</i>\n\n<b>Penyebab:</b>\n<code>${err.message}</code>`,
           { parse_mode: 'HTML' }
         );
       }
@@ -780,9 +780,22 @@ Silakan pilih tindakan berikut:`;
     // 2. Aksi BACA RINGKASAN
     if (action === 'read' && slug) {
       await this.client.answerCallbackQuery(callbackId);
-      const draftFilePath = path.join(this.workspaceRoot, 'content', 'drafts', `${slug}-draft.json`);
+      const draftsDir = path.join(this.workspaceRoot, 'content', 'drafts');
+      let draftFilePath = path.join(draftsDir, `${slug}-draft.json`);
       try {
-        const raw = await fs.readFile(draftFilePath, 'utf-8');
+        let raw = '';
+        try {
+          raw = await fs.readFile(draftFilePath, 'utf-8');
+        } catch {
+          const files = await fs.readdir(draftsDir);
+          const matched = files.find((f) => f.startsWith(slug) && f.endsWith('-draft.json'));
+          if (matched) {
+            draftFilePath = path.join(draftsDir, matched);
+            raw = await fs.readFile(draftFilePath, 'utf-8');
+          } else {
+            throw new Error('Draf tidak ditemukan');
+          }
+        }
         const data = JSON.parse(raw);
         const draft: ArticleDraft = data.draft;
 
@@ -814,14 +827,34 @@ Silakan pilih tindakan berikut:`;
   /**
    * Menjalankan publikasi resmi artikel dan git push
    */
-  public async publishArticle(slug: string): Promise<string> {
-    const draftPath = path.join(this.workspaceRoot, 'content', 'drafts', `${slug}-draft.json`);
-    const rawDraft = await fs.readFile(draftPath, 'utf-8');
-    const draftData = JSON.parse(rawDraft);
+  public async publishArticle(slugInput: string): Promise<string> {
+    const draftsDir = path.join(this.workspaceRoot, 'content', 'drafts');
+    let draftPath = path.join(draftsDir, `${slugInput}-draft.json`);
+    let rawDraft = '';
 
+    try {
+      rawDraft = await fs.readFile(draftPath, 'utf-8');
+    } catch {
+      // Fallback toleransi jika slug terpotong atau memiliki variasi panjang
+      try {
+        const files = await fs.readdir(draftsDir);
+        const matched = files.find((f) => f.startsWith(slugInput) && f.endsWith('-draft.json'));
+        if (matched) {
+          draftPath = path.join(draftsDir, matched);
+          rawDraft = await fs.readFile(draftPath, 'utf-8');
+        } else {
+          throw new Error(`Draf artikel '${slugInput}' tidak ditemukan di content/drafts/.`);
+        }
+      } catch (err: any) {
+        throw new Error(`Draf artikel '${slugInput}' tidak ditemukan: ${err.message}`);
+      }
+    }
+
+    const draftData = JSON.parse(rawDraft);
     const draft: ArticleDraft = draftData.draft;
     const topic: Topic = draftData.topic;
     const brief: ResearchBrief = draftData.brief;
+    const slug = draft.slug || slugInput;
 
     const candidate: PublicationCandidate = {
       candidateId: `cand-${slug}`,
@@ -920,46 +953,89 @@ Silakan pilih tindakan berikut:`;
     // Static Export ke dist/
     await runBuild({ isFixture: false, workspaceRoot: this.workspaceRoot });
 
-    // Git Commit & Push
+    // Git Commit & Push ke GitHub
+    const githubToken = process.env.GITHUB_TOKEN?.trim();
+    const gitUser = process.env.GIT_USER_NAME || 'NexaMOS Editorial Bot';
+    const gitEmail = process.env.GIT_USER_EMAIL || 'bot@nexamos.cloud';
+
+    // 1. Validasi Keberadaan GITHUB_TOKEN di Cloud/Hosting
+    const isCloudEnv = process.env.NODE_ENV === 'production' || !!process.env.RENDER || !!process.env.KOYEB;
+    if (!githubToken && isCloudEnv) {
+      throw new Error(
+        'GITHUB_TOKEN belum disetel di environment variables server bot (Render/Koyeb)! ' +
+        'Bot membutuhkan GitHub Personal Access Token (PAT dengan izin repository) agar dapat melakukan auto-push ke GitHub untuk men-trigger Vercel.'
+      );
+    }
+
+    const authenticatedRemoteUrl = githubToken
+      ? `https://${githubToken}@github.com/wishnuyasa2020-dotcom/nexamos-blog.git`
+      : 'origin';
+
+    // 2. Safe directory fix untuk container Linux / Docker
     try {
-      const gitUser = process.env.GIT_USER_NAME || 'NexaMOS Editorial Bot';
-      const gitEmail = process.env.GIT_USER_EMAIL || 'bot@nexamos.cloud';
-      const githubToken = process.env.GITHUB_TOKEN;
-      const remoteUrl = githubToken
-        ? `https://${githubToken}@github.com/wishnuyasa2020-dotcom/nexamos-blog.git`
-        : 'origin';
+      await execAsync('git config --global --add safe.directory "*"', { cwd: this.workspaceRoot });
+    } catch {
+      // Abaikan jika tidak diizinkan di sistem lokal
+    }
 
-      // Pastikan direktori .git ada (terutama bila dideploy via container image tanpa .git)
-      const gitDir = path.join(this.workspaceRoot, '.git');
-      let hasGit = false;
+    // 3. Pastikan direktori .git ada
+    const gitDir = path.join(this.workspaceRoot, '.git');
+    let hasGit = false;
+    try {
+      await fs.stat(gitDir);
+      hasGit = true;
+    } catch {
+      hasGit = false;
+    }
+
+    if (!hasGit && githubToken) {
+      await execAsync('git init', { cwd: this.workspaceRoot });
+      await execAsync(`git remote add origin ${authenticatedRemoteUrl}`, { cwd: this.workspaceRoot });
+      await execAsync('git branch -M main', { cwd: this.workspaceRoot });
+      await execAsync('git fetch origin main --depth=1', { cwd: this.workspaceRoot });
+      await execAsync('git reset origin/main', { cwd: this.workspaceRoot });
+    } else if (hasGit && githubToken) {
       try {
-        await fs.stat(gitDir);
-        hasGit = true;
+        await execAsync(`git remote set-url origin ${authenticatedRemoteUrl}`, { cwd: this.workspaceRoot });
       } catch {
-        hasGit = false;
+        // Abaikan jika set-url gagal
       }
+    }
 
-      if (!hasGit && githubToken) {
-        await execAsync('git init', { cwd: this.workspaceRoot });
-        await execAsync(`git remote add origin ${remoteUrl}`, { cwd: this.workspaceRoot });
-        await execAsync('git branch -M main', { cwd: this.workspaceRoot });
-        await execAsync('git fetch origin main --depth=1', { cwd: this.workspaceRoot });
-        await execAsync('git reset origin/main', { cwd: this.workspaceRoot });
-      }
+    // 4. Konfigurasi identitas committer
+    await execAsync(`git config user.name "${gitUser}"`, { cwd: this.workspaceRoot });
+    await execAsync(`git config user.email "${gitEmail}"`, { cwd: this.workspaceRoot });
 
-      await execAsync(`git config user.name "${gitUser}"`, { cwd: this.workspaceRoot });
-      await execAsync(`git config user.email "${gitEmail}"`, { cwd: this.workspaceRoot });
+    // 5. Stage file yang diperbarui
+    await execAsync('git add content/published/ content/drafts/ public/images/', { cwd: this.workspaceRoot });
 
-      await execAsync('git add content/published/ content/drafts/ public/images/', { cwd: this.workspaceRoot });
+    // 6. Commit jika ada perubahan
+    const { stdout: statusOut } = await execAsync('git status --porcelain', { cwd: this.workspaceRoot });
+    if (statusOut.trim().length > 0) {
       await execAsync(`git commit -m "feat(blog): publish '${draft.title}' via Telegram Bot"`, { cwd: this.workspaceRoot });
+    }
 
+    // 7. Eksekusi Push (Wajib melempar error jika gagal, JANGAN telan secara diam-diam!)
+    try {
       if (githubToken) {
-        await execAsync(`git push ${remoteUrl} main`, { cwd: this.workspaceRoot });
+        // Fetch & sinkronkan commit remote terbaru agar push tidak ditolak non-fast-forward
+        try {
+          await execAsync(`git fetch origin main`, { cwd: this.workspaceRoot });
+          await execAsync(`git merge --no-edit FETCH_HEAD`, { cwd: this.workspaceRoot });
+        } catch (syncErr: any) {
+          console.warn(`[WARN] Remote sync notice: ${syncErr.message}`);
+        }
+        await execAsync(`git push origin main`, { cwd: this.workspaceRoot });
       } else {
         await execAsync('git push origin main', { cwd: this.workspaceRoot });
       }
-    } catch (gitErr: any) {
-      console.warn(`[WARN] Git push warning: ${gitErr.message}`);
+    } catch (pushErr: any) {
+      throw new Error(
+        `Git push ke GitHub gagal: ${pushErr.message}. ` +
+        (githubToken
+          ? 'Pastikan GITHUB_TOKEN memiliki scope/izin write repository.'
+          : 'Pastikan GITHUB_TOKEN telah disetel di environment variables server hosting.')
+      );
     }
 
     return `https://nexamos.cloud/blog/${slug}`;
