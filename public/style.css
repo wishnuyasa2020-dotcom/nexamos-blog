@@ -228,14 +228,16 @@ main {
 
 .card-meta {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
   margin-bottom: 1rem;
   font-size: 0.8rem;
   font-family: var(--font-mono);
 }
 
 .card-meta .territory {
+  display: inline-block;
   background: rgba(56, 189, 248, 0.15);
   color: var(--accent-cyan);
   padding: 0.25rem 0.6rem;
@@ -246,6 +248,7 @@ main {
 
 .card-meta time {
   color: var(--text-muted);
+  font-size: 0.78rem;
 }
 
 .card-content h2 {
@@ -444,6 +447,26 @@ main {
   margin-bottom: 1.4rem;
   line-height: 1.8;
   color: #cbd5e1;
+}
+
+.article-section p strong {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.article-section p em {
+  font-style: italic;
+  color: #f1f5f9;
+}
+
+.article-section p code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  background: rgba(56, 189, 248, 0.1);
+  color: var(--accent-cyan);
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  border: 1px solid rgba(56, 189, 248, 0.2);
 }
 
 /* -----------------------------------------------------------------------------

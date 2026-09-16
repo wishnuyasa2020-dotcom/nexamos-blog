@@ -23,6 +23,7 @@ import { TelegramClient, type TelegramUpdate, type TelegramInlineKeyboardMarkup 
 import { loadTelegramConfig, isUserAuthorized } from '../infrastructure/telegram/telegram-config.ts';
 import { loadAIProviderConfig, isAIConfigured } from '../infrastructure/ai/ai-provider-config.ts';
 import { AIProviderFactory } from '../infrastructure/ai/ai-provider-factory.ts';
+import { AIHttpClient } from '../infrastructure/ai/ai-http-client.ts';
 import { HttpSourceAcquisitionProvider } from '../engines/research/acquisition/providers/http-source-acquisition-provider.ts';
 import type { SourceCandidate } from '../engines/research/acquisition/source-candidate.ts';
 import { ResearchIngestionService } from '../engines/research/ingestion/research-ingestion-service.ts';
@@ -161,14 +162,14 @@ export class TelegramEditorialBot {
       return;
     }
 
-    // 2. Tangani Pesan Teks
-    if (update.message && update.message.text) {
+    // 2. Tangani Pesan Masuk (Teks atau Media)
+    if (update.message) {
       await this.handleMessage(update.message);
     }
   }
 
   /**
-   * Memproses pesan teks masuk
+   * Memproses pesan teks atau media masuk
    */
   private async handleMessage(message: any): Promise<void> {
     const chatId = message.chat.id;
@@ -186,6 +187,16 @@ export class TelegramEditorialBot {
       return;
     }
 
+    // Tangani Unggahan Foto / Gambar Hero
+    if (message.photo || (message.document && message.document.mime_type?.startsWith('image/'))) {
+      await this.handleImageUpload(message);
+      return;
+    }
+
+    if (!text) {
+      return;
+    }
+
     // Perintah /start atau /help
     if (text === '/start' || text === '/help') {
       await this.sendHelpMessage(chatId);
@@ -200,6 +211,134 @@ export class TelegramEditorialBot {
 
     // Eksekusi Pipeline Pembuatan Artikel
     await this.processArticleCreation(chatId, text);
+  }
+
+  /**
+   * Menangani unggahan gambar hero dari pengguna via Telegram
+   */
+  private async handleImageUpload(message: any): Promise<void> {
+    const chatId = message.chat.id;
+    const caption = (message.caption || '').trim();
+
+    // 1. Tentukan target slug artikel
+    let targetSlug: string | null = null;
+    let articleTitle = 'Artikel Draf';
+
+    // Cek jika caption berisi slug eksplisit, misal: "slug: apa-itu-lead" atau "/slug apa-itu-lead"
+    if (caption) {
+      const match = caption.match(/(?:slug\s*:\s*|\/slug\s+)?([a-z0-9-]+)/i);
+      if (match && match[1]) {
+        targetSlug = slugify(match[1]);
+      }
+    }
+
+    const draftsDir = path.join(this.workspaceRoot, 'content', 'drafts');
+
+    // Jika targetSlug belum ditentukan dari caption, ambil draf terbaru dari folder content/drafts
+    if (!targetSlug) {
+      try {
+        const draftFiles = await fs.readdir(draftsDir);
+        const jsonDrafts = draftFiles.filter((f) => f.endsWith('-draft.json'));
+
+        if (jsonDrafts.length > 0) {
+          let latestDate = 0;
+          let latestFile = jsonDrafts[0];
+
+          for (const df of jsonDrafts) {
+            try {
+              const raw = await fs.readFile(path.join(draftsDir, df), 'utf-8');
+              const data = JSON.parse(raw);
+              const createdAt = data.createdAt ? new Date(data.createdAt).getTime() : 0;
+              if (createdAt > latestDate) {
+                latestDate = createdAt;
+                latestFile = df;
+                articleTitle = data.draft?.title || articleTitle;
+              }
+            } catch {
+              // Abaikan file rusak
+            }
+          }
+
+          targetSlug = latestFile.replace(/-draft\.json$/, '');
+        }
+      } catch (err) {
+        console.warn('[WARN] Gagal membaca folder draf:', err);
+      }
+    }
+
+    if (!targetSlug) {
+      await this.client.sendMessage(
+        chatId,
+        '⚠️ <b>Tidak ada draf aktif yang ditemukan.</b>\n\nSilakan buat draf artikel terlebih dahulu, atau kirim gambar dengan caption: <code>slug: nama-slug-artikel</code>',
+        { parse_mode: 'HTML' }
+      );
+      return;
+    }
+
+    // Ambil file_id dari foto (resolusi tertinggi ada di elemen terakhir array photo)
+    let fileId: string | null = null;
+    if (message.photo && message.photo.length > 0) {
+      fileId = message.photo[message.photo.length - 1].file_id;
+    } else if (message.document) {
+      fileId = message.document.file_id;
+    }
+
+    if (!fileId) {
+      await this.client.sendMessage(chatId, '⚠️ Gagal mendeteksi data file gambar.');
+      return;
+    }
+
+    await this.client.sendChatAction(chatId, 'upload_document');
+
+    try {
+      // Dapatkan metadata file_path dari Telegram
+      const fileMeta = await this.client.getFile(fileId);
+      if (!fileMeta.file_path) {
+        throw new Error('Telegram tidak mengembalikan file_path untuk file ini.');
+      }
+
+      // Download buffer biner
+      const buffer = await this.client.downloadFile(fileMeta.file_path);
+
+      // Simpan ke public/images/
+      const publicImagesDir = path.join(this.workspaceRoot, 'public', 'images');
+      await fs.mkdir(publicImagesDir, { recursive: true });
+
+      const webpPath = path.join(publicImagesDir, `hero-${targetSlug}.webp`);
+      const jpgPath = path.join(publicImagesDir, `hero-${targetSlug}.jpg`);
+
+      await fs.writeFile(webpPath, buffer);
+      await fs.writeFile(jpgPath, buffer);
+
+      const safeSlug = targetSlug.slice(0, 45);
+      const inlineMarkup: TelegramInlineKeyboardMarkup = {
+        inline_keyboard: [
+          [
+            {
+              text: '🚀 Setujui & Publish ke Live',
+              callback_data: `publish:${safeSlug}`
+            }
+          ]
+        ]
+      };
+
+      const responseText = `✅ <b>Hero Image Berhasil Diterima & Disimpan!</b>\n\n` +
+        `📁 <b>File:</b> <code>public/images/hero-${targetSlug}.webp</code>\n` +
+        `📰 <b>Ditautkan ke:</b> ${articleTitle}\n\n` +
+        `Visual sudah terpasang dan lolos QC. Silakan klik tombol di bawah untuk langsung menayangkan artikel ke live domain:`;
+
+      await this.client.sendMessage(chatId, responseText, {
+        parse_mode: 'HTML',
+        reply_markup: inlineMarkup
+      });
+    } catch (err: any) {
+      console.error('[ERROR] Gagal mengunduh dan menyimpan gambar:', err);
+      await this.client.sendMessage(
+        chatId,
+        `❌ Gagal menyimpan gambar: <code>${err.message}</code>`,
+        { parse_mode: 'HTML' }
+      );
+    }
   }
 
   /**
@@ -476,6 +615,14 @@ Atau cukup bagikan link studi/berita yang ingin dianalisis!
       const guardResult = groundingGuard.evaluate(draft, researchBrief, editorialPlan);
 
 
+      // 7. Rumuskan Visual Prompt dengan Qwen / AI Provider sesuai NEXAMOS_VISUAL_AGENT_MEMORY.md
+      const visualPrompt = await this.generateVisualPrompt(
+        parsed.topic,
+        draft.title,
+        draft.dek || '',
+        draft.sections
+      );
+
       // Simpan draf ke content/drafts/
       const draftsDir = path.join(this.workspaceRoot, 'content', 'drafts');
       await fs.mkdir(draftsDir, { recursive: true });
@@ -488,6 +635,7 @@ Atau cukup bagikan link studi/berita yang ingin dianalisis!
             brief: researchBrief,
             topic: topicEntity,
             guardEvaluation: guardResult,
+            visualPrompt,
             createdAt: new Date().toISOString()
           },
           null,
@@ -537,6 +685,12 @@ Atau cukup bagikan link studi/berita yang ingin dianalisis!
 • Kata: ~${totalWords} kata (Waktu baca: ~${estMinutes} menit)
 • Grounding: <b>${guardResult.status}</b> (${guardResult.issues.length} catatan)
 • Sumber Sitasi: ${researchBrief.sourceIndex.length} rujukan
+
+🎨 <b>Prompt Visual NexaMOS (Siap Copy ke Midjourney / Flux / DALL-E):</b>
+<code>${visualPrompt}</code>
+
+📸 <b>Langkah QC Gambar:</b>
+Kirim/upload foto hasil generate langsung ke chat bot ini! File otomatis disimpan ke <code>public/images/hero-${safeSlug}.webp</code>.
 
 Silakan pilih tindakan berikut:`;
 
@@ -679,6 +833,32 @@ Silakan pilih tindakan berikut:`;
       updatedAt: new Date().toISOString()
     };
 
+    // Resolusi Hero Image dinamis berbasis slug artikel
+    const publicImagesDir = path.join(this.workspaceRoot, 'public', 'images');
+    const possibleExtensions = ['.webp', '.jpg', '.jpeg', '.png'];
+    let resolvedHeroFileName: string | null = null;
+
+    for (const ext of possibleExtensions) {
+      const candidateFile = `hero-${slug}${ext}`;
+      try {
+        await fs.stat(path.join(publicImagesDir, candidateFile));
+        resolvedHeroFileName = candidateFile;
+        break;
+      } catch {
+        // file belum ada
+      }
+    }
+
+    const heroImageUrl = resolvedHeroFileName
+      ? `/blog/images/${resolvedHeroFileName}`
+      : `/blog/images/hero-${slug}.webp`;
+
+    if (!resolvedHeroFileName) {
+      console.warn(
+        `[WARN] Hero image fisik belum ditemukan di public/images/hero-${slug}.webp. Menggunakan target URL dinamis: ${heroImageUrl}`
+      );
+    }
+
     const publicationPackage = PublicationPackageBuilder.build(
       candidate,
       draft,
@@ -690,7 +870,7 @@ Silakan pilih tindakan berikut:`;
         blogBasePath: '/blog',
         publishedAt: new Date().toISOString(),
         heroImage: {
-          url: '/blog/images/hero-blog-ai-era.webp',
+          url: heroImageUrl,
           alt: draft.title,
           width: 1200,
           height: 630,
@@ -750,7 +930,7 @@ Silakan pilih tindakan berikut:`;
       await execAsync(`git config user.name "${gitUser}"`, { cwd: this.workspaceRoot });
       await execAsync(`git config user.email "${gitEmail}"`, { cwd: this.workspaceRoot });
 
-      await execAsync('git add content/published/ content/drafts/', { cwd: this.workspaceRoot });
+      await execAsync('git add content/published/ content/drafts/ public/images/', { cwd: this.workspaceRoot });
       await execAsync(`git commit -m "feat(blog): publish '${draft.title}' via Telegram Bot"`, { cwd: this.workspaceRoot });
 
       if (githubToken) {
@@ -763,5 +943,86 @@ Silakan pilih tindakan berikut:`;
     }
 
     return `https://nexamos.cloud/blog/${slug}`;
+  }
+
+  /**
+   * Merumuskan Visual Prompt siap pakai untuk Midjourney / DALL-E / Flux
+   * Berdasarkan NexaMOS Visual DNA (NEXAMOS_VISUAL_AGENT_MEMORY.md)
+   */
+  public async generateVisualPrompt(
+    topic: string,
+    draftTitle: string,
+    draftDek: string,
+    sections: { heading?: string | null; content: string }[]
+  ): Promise<string> {
+    try {
+      const aiConfig = loadAIProviderConfig();
+      if (!isAIConfigured(aiConfig)) {
+        return this.createFallbackVisualPrompt(topic);
+      }
+
+      const client = new AIHttpClient(aiConfig);
+      const summaryContext = sections
+        .slice(0, 3)
+        .map((s) => `${s.heading || ''}: ${s.content.slice(0, 150)}`)
+        .join('\n');
+
+      const systemPrompt = `You are the Principal Visual Art Director for NexaMOS (Marketing Operating System).
+Your mission: Translate marketing technology & strategy articles into a single, compelling, futuristic editorial visual concept adhering strictly to the NexaMOS Visual DNA (from NEXAMOS_VISUAL_AGENT_MEMORY.md).
+
+NEXAMOS VISUAL DNA & RULES:
+1. North Star: "Making the invisible marketing system visible." Show the core system mechanism, not just the topic.
+2. Mental Model: Distributed Market Signals -> Data Stream -> Qualification / Processing Gate -> State Transformation -> Activated Customer Entity.
+3. Aesthetic: Futuristic editorial technology illustration + abstract system/data visualization + subtle dimensional 3D depth. Premium, intelligent, precise, sophisticated, minimalist, generous negative space.
+4. Canvas: Deep black / near-black background (#000000).
+5. Core Semantic Palette:
+   - Green (#00D690) = action, conversion, active customer entity
+   - Teal (#04B394) = relationship, qualification gate, state transition
+   - Cyan (#03A0A7) = market signals, raw data stream, computation
+   - Signature flow: #03A0A7 -> #04B394 -> #00D690
+6. Strict Anti-Patterns (NEVER INCLUDE):
+   - NO humanoid robots or robot heads
+   - NO glowing AI brain or circuit-board brains
+   - NO fake software dashboards, UI windows, or graphs/charts
+   - NO office workers, handshakes, or human figures
+   - NO smartphones or gadget mockups
+   - NO text, words, labels, typography, or brand logos
+   - NO rainbow neon, cyberpunk cities, or excessive clutter
+
+OUTPUT REQUIREMENT:
+Generate a single, dense, production-ready image generation prompt in English (optimized for Midjourney v6 / Flux / DALL-E 3).
+Start with: "Futuristic editorial technology illustration of [core mechanism]..."
+Describe the 3D abstract geometric elements, materials (dark matte obsidian, translucent crystal glass, laser-thin paths), the exact NexaMOS color flow (#03A0A7 to #04B394 to #00D690), dramatic subtle rim lighting, clean central composition, generous negative space, and deep black background. End with "--ar 16:9".
+Output ONLY the prompt text without any preamble or markdown tags.`;
+
+      const userPrompt = `Generate the NexaMOS Midjourney/Flux prompt for this article:
+Topic: "${topic}"
+Headline: "${draftTitle}"
+Dek: "${draftDek}"
+Key Mechanism Context:
+${summaryContext}`;
+
+      const response = await client.complete({
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: userPrompt }
+        ],
+        responseFormat: 'text',
+        temperature: 0.3
+      });
+
+      const promptText = response.content.trim().replace(/^["']|["']$/g, '');
+      return promptText.includes('--ar 16:9') ? promptText : `${promptText} --ar 16:9`;
+    } catch (err) {
+      console.warn('[WARN] Gagal merumuskan visual prompt via AI, menggunakan formula fallback:', err);
+      return this.createFallbackVisualPrompt(topic);
+    }
+  }
+
+  /**
+   * Formula prompt visual default jika API AI offline
+   */
+  private createFallbackVisualPrompt(topic: string): string {
+    return `Futuristic editorial technology illustration of ${topic} marketing mechanism. Abstract system data visualization with subtle dimensional 3D depth on deep black background (#000000). Showing directional data flow transitioning through a precision geometric qualification gate, shifting from cyan (#03A0A7) to luminous teal (#04B394) to active emerald green (#00D690) nodes. Minimalist, premium, matte dark glass and luminous paths, generous negative space, high contrast, editorial quality. No text, no human figures, no robots, no UI dashboards, no smartphones --ar 16:9`;
   }
 }

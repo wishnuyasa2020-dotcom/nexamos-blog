@@ -18,7 +18,8 @@ declare module 'node:fs/promises' {
   export function mkdir(path: string, options?: { recursive?: boolean }): Promise<string | undefined>;
   export function readFile(path: string, options?: string | { encoding?: string; flag?: string }): Promise<string>;
   export function writeFile(path: string, data: string | Uint8Array, options?: string | { encoding?: string; flag?: string }): Promise<void>;
-  export function stat(path: string): Promise<{ isFile(): boolean; isDirectory(): boolean; size: number }>;
+  export function stat(path: string): Promise<{ isFile(): boolean; isDirectory(): boolean; size: number; mtimeMs?: number }>;
+  export function access(path: string, mode?: number): Promise<void>;
   export function readdir(path: string, options?: { withFileTypes?: boolean }): Promise<any[]>;
   export function rm(path: string, options?: { recursive?: boolean; force?: boolean }): Promise<void>;
   export function copyFile(src: string, dest: string): Promise<void>;
@@ -186,10 +187,17 @@ declare namespace NodeJS {
 
 declare const process: NodeJS.Process;
 
+declare class Buffer extends Uint8Array {
+  static from(data: any): Buffer;
+}
+
 declare function fetch(input: string | URL, init?: any): Promise<{
+  ok: boolean;
   status: number;
+  statusText?: string;
   headers: { get(name: string): string | null };
   text(): Promise<string>;
   json(): Promise<any>;
+  arrayBuffer(): Promise<ArrayBuffer>;
 }>;
 

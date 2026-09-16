@@ -59,6 +59,22 @@ export class PublicationHtmlRenderer {
   }
 
   /**
+   * Konversi inline markdown (bold, italic, inline code) menjadi elemen HTML semantis
+   */
+  public static renderInlineMarkdown(content: string): string {
+    if (!content) return '';
+    const sanitized = this.sanitizeHtml(content);
+    return sanitized
+      // Bold: **text**
+      .replace(/\*\*([^*\n]+?)\*\*/g, '<strong>$1</strong>')
+      // Italic: *text* (dijalankan 2 pass untuk menangani token berdampingan e.g. (*a*) (*b*))
+      .replace(/(^|[^*])\*([^*\n]+?)\*([^*]|$)/g, '$1<em>$2</em>$3')
+      .replace(/(^|[^*])\*([^*\n]+?)\*([^*]|$)/g, '$1<em>$2</em>$3')
+      // Inline code: `text`
+      .replace(/`([^`\n]+?)`/g, '<code>$1</code>');
+  }
+
+  /**
    * Normalisasi path aset lokal agar kompatibel dengan reverse proxy /blog
    */
   public static normalizeAssetUrl(url: string, siteUrl: string = 'https://nexamos.cloud'): string {
@@ -101,12 +117,12 @@ export class PublicationHtmlRenderer {
     const renderedSections = pkg.articleContent.sections
       .sort((a, b) => a.order - b.order)
       .map((s) => {
-        const headingHtml = s.heading ? `<h2>${this.sanitizeHtml(s.heading)}</h2>` : '';
+        const headingHtml = s.heading ? `<h2>${this.renderInlineMarkdown(s.heading)}</h2>` : '';
         const bodyParagraphs = s.content
           .split('\n\n')
           .map((p) => p.trim())
           .filter((p) => p.length > 0)
-          .map((p) => `<p>${this.sanitizeHtml(p)}</p>`)
+          .map((p) => `<p>${this.renderInlineMarkdown(p)}</p>`)
           .join('\n');
 
         return `

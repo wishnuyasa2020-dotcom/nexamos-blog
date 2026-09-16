@@ -33,12 +33,30 @@ export interface TelegramInlineKeyboardMarkup {
   inline_keyboard: TelegramInlineKeyboardButton[][];
 }
 
+export interface TelegramPhotoSize {
+  file_id: string;
+  file_unique_id: string;
+  width: number;
+  height: number;
+  file_size?: number;
+}
+
+export interface TelegramDocument {
+  file_id: string;
+  file_name?: string;
+  mime_type?: string;
+  file_size?: number;
+}
+
 export interface TelegramMessage {
   message_id: number;
   from?: TelegramUser;
   chat: TelegramChat;
   date: number;
   text?: string;
+  caption?: string;
+  photo?: TelegramPhotoSize[];
+  document?: TelegramDocument;
 }
 
 export interface TelegramCallbackQuery {
@@ -63,11 +81,13 @@ export interface SendMessageOptions {
 export class TelegramClient {
   private readonly botToken: string;
   private readonly baseUrl: string;
+  private readonly fileBaseUrl: string;
 
   constructor(config?: TelegramConfig) {
     const activeConfig = config || loadTelegramConfig();
     this.botToken = activeConfig.botToken;
     this.baseUrl = `${activeConfig.apiBaseUrl}/bot${this.botToken}`;
+    this.fileBaseUrl = `${activeConfig.apiBaseUrl}/file/bot${this.botToken}`;
   }
 
   /**
@@ -159,6 +179,31 @@ export class TelegramClient {
       text,
       show_alert: showAlert
     });
+  }
+
+  /**
+   * Ambil info file dari Telegram (termasuk file_path untuk unduhan)
+   */
+  public async getFile(fileId: string): Promise<{ file_id: string; file_size?: number; file_path?: string }> {
+    return this.callApi<{ file_id: string; file_size?: number; file_path?: string }>('getFile', {
+      file_id: fileId
+    });
+  }
+
+  /**
+   * Unduh file biner dari server Telegram
+   */
+  public async downloadFile(filePath: string): Promise<Buffer> {
+    if (!this.botToken) {
+      throw new Error('TELEGRAM_CLIENT_ERROR: Bot token belum disetel.');
+    }
+    const fileUrl = `${this.fileBaseUrl}/${filePath}`;
+    const response = await fetch(fileUrl);
+    if (!response.ok) {
+      throw new Error(`TELEGRAM_DOWNLOAD_ERROR: [${response.status}] Gagal mengunduh file ${filePath}`);
+    }
+    const arrayBuffer = await response.arrayBuffer();
+    return Buffer.from(arrayBuffer);
   }
 
   /**
