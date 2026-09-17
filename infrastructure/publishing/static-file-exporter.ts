@@ -392,7 +392,11 @@ export class StaticFileExporter {
           role: pkg.author?.role || 'NexaMOS Knowledge & AI Engineering',
           avatarUrl: pkg.author?.avatarUrl || 'https://nexamos.cloud/authors/default.png'
         },
-        publishedAt: pkg.publishedAt || new Date().toISOString()
+        publishedAt: pkg.publishedAt || new Date().toISOString(),
+        translations: pkg.translations ? {
+          id: pkg.translations.id ? { title: pkg.translations.id.title, dek: pkg.translations.id.dek } : undefined,
+          en: pkg.translations.en ? { title: pkg.translations.en.title, dek: pkg.translations.en.dek } : undefined
+        } : undefined
       };
     });
 
