@@ -139,6 +139,51 @@ body::before {
   border: 1px solid rgba(56, 189, 248, 0.25);
 }
 
+/* Language Switcher */
+.lang-switch-wrap {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  border-radius: 99px;
+  padding: 2px 3px;
+  gap: 2px;
+  margin-left: 0.5rem;
+}
+
+.lang-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 99px;
+  padding: 4px 9px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  line-height: 1;
+}
+
+.lang-btn:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.lang-btn.active {
+  background: rgba(56, 189, 248, 0.15);
+  color: var(--accent-cyan);
+  border-color: rgba(56, 189, 248, 0.35);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+}
+
+.lang-flag {
+  font-size: 12px;
+  line-height: 1;
+}
+
 /* -----------------------------------------------------------------------------
  * MAIN LAYOUT & HERO
  * -------------------------------------------------------------------------- */
@@ -540,7 +585,25 @@ main {
   }
 
   .site-nav .brand-logo-img {
-    height: 50px;
+    height: 40px;
+  }
+
+  .site-nav nav {
+    gap: 0.4rem;
+  }
+
+  .site-nav nav a {
+    padding: 0.35rem 0.55rem;
+    font-size: 0.825rem;
+  }
+
+  .lang-switch-wrap {
+    margin-left: 0.2rem;
+  }
+
+  .lang-btn {
+    padding: 3px 6px;
+    font-size: 10px;
   }
 
   .article-grid {

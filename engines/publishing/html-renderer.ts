@@ -190,7 +190,7 @@ export class PublicationHtmlRenderer {
     const jsonLdScript = JSON.stringify(pkg.structuredData, null, 2);
 
     return `<!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -221,15 +221,7 @@ ${jsonLdScript}
   </script>
 </head>
 <body class="nexamos-article-view">
-  <header class="site-nav">
-    <a href="/" class="brand-logo" aria-label="NexaMOS">
-      <img src="/blog/brand/logoNexa.png" alt="NexaMOS" class="brand-logo-img" width="133" height="50" />
-    </a>
-    <nav>
-      <a href="/">Beranda</a>
-      <a href="/blog" class="active">Blog Otoritas</a>
-    </nav>
-  </header>
+${this.renderSiteNav()}
 
   <main>
     <article class="primary-article" itemscope itemtype="https://schema.org/BlogPosting">
@@ -259,8 +251,9 @@ ${jsonLdScript}
   </main>
 
   <footer class="site-footer">
-    <p>&copy; ${new Date().getFullYear()} NexaMOS. Seluruh hak cipta dilindungi undang-undang.</p>
+    <p data-i18n="footer_copy">&copy; ${new Date().getFullYear()} NexaMOS. All rights reserved.</p>
   </footer>
+${this.renderI18nScript()}
 </body>
 </html>`;
   }
@@ -307,7 +300,7 @@ ${jsonLdScript}
             </div>
             <h2>${title}</h2>
             <p>${excerpt}</p>
-            <span class="read-more">Baca Selengkapnya &rarr;</span>
+            <span class="read-more" data-i18n="read_more">Read Full Article &rarr;</span>
           </div>
         </a>
       </article>`;
@@ -315,7 +308,7 @@ ${jsonLdScript}
       .join('\n');
 
     return `<!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -328,31 +321,106 @@ ${this.renderAnalyticsAndVerification(opts)}  <title>Blog Otoritas & Riset Rekay
   <meta name="robots" content="index, follow" />
 </head>
 <body class="nexamos-blog-index">
-  <header class="site-nav">
-    <a href="/" class="brand-logo" aria-label="NexaMOS">
-      <img src="/blog/brand/logoNexa.png" alt="NexaMOS" class="brand-logo-img" width="133" height="50" />
-    </a>
-    <nav>
-      <a href="/">Beranda</a>
-      <a href="/blog" class="active">Blog Otoritas</a>
-    </nav>
-  </header>
+${this.renderSiteNav()}
 
   <main>
     <section class="blog-hero">
       <h1>NexaMOS Knowledge & Engineering Journal</h1>
-      <p>Publikasi otoritas pemikiran, analisis data primer, dan arsitektur informasi mandiri.</p>
+      <p data-i18n="hero_sub">Authority publication, primary data insights, and sovereign information architecture.</p>
     </section>
 
     <section class="article-grid">
-      ${articleCards.length > 0 ? articleCards : '<p class="no-articles">Belum ada artikel yang dipublikasikan.</p>'}
+      ${articleCards.length > 0 ? articleCards : '<p class="no-articles" data-i18n="no_articles">No articles published yet.</p>'}
     </section>
   </main>
 
   <footer class="site-footer">
-    <p>&copy; ${new Date().getFullYear()} NexaMOS. Seluruh hak cipta dilindungi undang-undang.</p>
+    <p data-i18n="footer_copy">&copy; ${new Date().getFullYear()} NexaMOS. All rights reserved.</p>
   </footer>
+${this.renderI18nScript()}
 </body>
 </html>`;
+  }
+
+  /**
+   * Render Navigation Header Bersama dengan Toggle Switcher Bahasa
+   */
+  public static renderSiteNav(): string {
+    return `  <header class="site-nav">
+    <a href="/" class="brand-logo" aria-label="NexaMOS">
+      <img src="/blog/brand/logoNexa.png" alt="NexaMOS" class="brand-logo-img" width="133" height="50" />
+    </a>
+    <nav>
+      <a href="/" data-i18n="nav_home">Home</a>
+      <a href="/blog" class="active" data-i18n="nav_blog">Authority Blog</a>
+      <div class="lang-switch-wrap" role="group" aria-label="Pilih Bahasa / Language Selection">
+        <button type="button" class="lang-btn" data-lang="id" onclick="setBlogLanguage('id')">
+          <span class="lang-flag">🇮🇩</span> ID
+        </button>
+        <button type="button" class="lang-btn active" data-lang="en" onclick="setBlogLanguage('en')">
+          <span class="lang-flag">🇬🇧</span> EN
+        </button>
+      </div>
+    </nav>
+  </header>`;
+  }
+
+  /**
+   * Render Script i18n Ringan Sinkron dengan localStorage landing page
+   */
+  public static renderI18nScript(): string {
+    const currentYear = new Date().getFullYear();
+    return `  <script>
+    (function() {
+      const I18N_BLOG = {
+        en: {
+          nav_home: "Home",
+          nav_blog: "Authority Blog",
+          hero_sub: "Authority publication, primary data insights, and sovereign information architecture.",
+          read_more: "Read Full Article &rarr;",
+          no_articles: "No articles published yet.",
+          footer_copy: "&copy; ${currentYear} NexaMOS. All rights reserved."
+        },
+        id: {
+          nav_home: "Beranda",
+          nav_blog: "Blog Otoritas",
+          hero_sub: "Publikasi otoritas pemikiran, analisis data primer, dan arsitektur informasi mandiri.",
+          read_more: "Baca Selengkapnya &rarr;",
+          no_articles: "Belum ada artikel yang dipublikasikan.",
+          footer_copy: "&copy; ${currentYear} NexaMOS. Seluruh hak cipta dilindungi undang-undang."
+        }
+      };
+
+      window.setBlogLanguage = function(lang) {
+        if (lang !== 'id' && lang !== 'en') lang = 'en';
+        try {
+          localStorage.setItem('nexamos_lang', lang);
+        } catch(e) {}
+        document.documentElement.lang = lang;
+
+        const dict = I18N_BLOG[lang] || I18N_BLOG.en;
+        document.querySelectorAll('[data-i18n]').forEach(function(el) {
+          const key = el.getAttribute('data-i18n');
+          if (dict[key]) el.innerHTML = dict[key];
+        });
+
+        document.querySelectorAll('.lang-btn').forEach(function(btn) {
+          btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+        });
+      };
+
+      let initial = 'en';
+      try {
+        const saved = localStorage.getItem('nexamos_lang');
+        if (saved === 'id' || saved === 'en') initial = saved;
+      } catch(e) {}
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() { setBlogLanguage(initial); });
+      } else {
+        setBlogLanguage(initial);
+      }
+    })();
+  </script>`;
   }
 }
