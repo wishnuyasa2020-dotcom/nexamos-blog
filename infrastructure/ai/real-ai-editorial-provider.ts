@@ -251,4 +251,81 @@ FORMAT JSON YANG WAJIB DIHASILKAN:
     const parsed = StructuredOutputValidator.parseJson(response.content);
     return StructuredOutputValidator.validateSection(parsed, section.id, section.order);
   }
+
+  /**
+   * Menerjemahkan naskah artikel ke Bahasa Inggris dengan integritas grounding
+   */
+  public async translateDraftToEnglish(draft: {
+    title: string;
+    dek?: string | null;
+    sections: Array<{ id: string; heading?: string | null; content: string; order: number; purpose?: string }>;
+  }): Promise<{
+    title: string;
+    dek: string;
+    sections: Array<{ id: string; heading: string; content: string; order: number; purpose: string }>;
+  }> {
+    const payloadToTranslate = {
+      title: draft.title,
+      dek: draft.dek || '',
+      sections: draft.sections.map((s) => ({
+        id: s.id,
+        heading: s.heading || '',
+        content: s.content,
+        order: s.order,
+        purpose: s.purpose || 'ANALYSIS'
+      }))
+    };
+
+    const systemPrompt = `You are the Principal Content Architect & Senior Editorial Director for NexaMOS (Marketing Operating System).
+Translate this authoritative Indonesian marketing & technology analysis article into sophisticated, high-impact, fluent English for enterprise executives and search generative engines.
+CRITICAL INSTRUCTIONS:
+1. Maintain the exact same section IDs, ordering, and purposes.
+2. Translate all headings and body paragraphs accurately, preserving any specific technical terminology, metrics, and claim tags (e.g. claim-1, claim-2, KPI names).
+3. Do NOT add new claims or invent facts.
+4. Output MUST be valid JSON only matching the schema.`;
+
+    const userPrompt = `TRANSLATE THE FOLLOWING ARTICLE TO PROFESSIONAL ENGLISH:
+${JSON.stringify(payloadToTranslate, null, 2)}
+
+REQUIRED JSON OUTPUT FORMAT:
+{
+  "title": "Compelling English title",
+  "dek": "Insightful English dek / subtitle",
+  "sections": [
+    {
+      "id": "sec-1",
+      "heading": "English heading",
+      "content": "English content...",
+      "order": 1,
+      "purpose": "HOOK | CONTEXT | ..."
+    }
+  ]
+}`;
+
+    const response = await this.client.complete({
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userPrompt }
+      ],
+      responseFormat: 'json_object',
+      temperature: 0.2
+    });
+
+    const parsed = StructuredOutputValidator.parseJson(response.content);
+    if (!parsed || !parsed.title || !Array.isArray(parsed.sections)) {
+      throw new Error('AI Translation gagal menghasilkan struktur artikel yang valid.');
+    }
+
+    return {
+      title: parsed.title,
+      dek: parsed.dek || '',
+      sections: parsed.sections.map((s: any, idx: number) => ({
+        id: s.id || `sec-${idx + 1}`,
+        heading: s.heading || '',
+        content: s.content || '',
+        order: s.order || idx + 1,
+        purpose: s.purpose || 'ANALYSIS'
+      }))
+    };
+  }
 }

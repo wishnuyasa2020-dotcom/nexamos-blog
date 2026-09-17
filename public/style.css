@@ -614,3 +614,21 @@ main {
     font-size: 2rem;
   }
 }
+
+/* -----------------------------------------------------------------------------
+ * BILINGUAL TOGGLE & LANGUAGE BLOCKS
+ * -------------------------------------------------------------------------- */
+.article-lang-block,
+.card-lang-block {
+  display: block;
+  animation: fadeInLang 0.2s ease-in-out;
+}
+
+@keyframes fadeInLang {
+  from {
+    opacity: 0.85;
+  }
+  to {
+    opacity: 1;
+  }
+}

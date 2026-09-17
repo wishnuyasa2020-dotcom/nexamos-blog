@@ -606,4 +606,96 @@ describe('Phase 6 Tests: Publishing & Production Workflow', () => {
       assert.strictEqual(rollbackRes.newContentHash, hash1);
     });
   });
+
+  // ===========================================================================
+  // 6. BILINGUAL PUBLISHING & MULTI-LANGUAGE RENDERING
+  // ===========================================================================
+  describe('6. Bilingual Publishing & Dynamic Toggle Rendering', () => {
+    test('PublicationHtmlRenderer me-render blok dwibahasa EN dan ID ketika translations tersedia', () => {
+      const candidate = createMockCandidate({ slug: 'artikel-bilingual-test' });
+      const draft = createMockDraft({ slug: 'artikel-bilingual-test' });
+      const topic = createMockTopic();
+      const seoMeta = createMockSEOMetadata({ slug: 'artikel-bilingual-test' });
+
+      const translations = {
+        id: {
+          title: 'Judul Bahasa Indonesia',
+          description: 'Deskripsi Bahasa Indonesia',
+          headline: 'Judul Bahasa Indonesia',
+          dek: 'Dek Bahasa Indonesia',
+          sections: [
+            { id: 'sec-1', heading: 'Heading ID', content: 'Konten paragraf ID.', order: 1, purpose: 'CONTEXT' }
+          ]
+        },
+        en: {
+          title: 'English Title Test',
+          description: 'English Description Test',
+          headline: 'English Title Test',
+          dek: 'English Dek Test',
+          sections: [
+            { id: 'sec-1', heading: 'Heading EN', content: 'Paragraph content EN.', order: 1, purpose: 'CONTEXT' }
+          ]
+        }
+      };
+
+      const pkg = PublicationPackageBuilder.build(candidate, draft, topic, seoMeta, null, {
+        defaultLanguage: 'en',
+        translations
+      });
+
+      assert.strictEqual(pkg.defaultLanguage, 'en');
+      assert.strictEqual(pkg.title, 'English Title Test');
+      assert.strictEqual(pkg.translations?.id?.title, 'Judul Bahasa Indonesia');
+
+      const html = PublicationHtmlRenderer.renderArticlePage(pkg);
+
+      // Verifikasi blok EN (default aktif)
+      assert.ok(html.includes('<div class="article-lang-block" data-lang="en">'));
+      assert.ok(html.includes('<h1 itemprop="headline">English Title Test</h1>'));
+      assert.ok(html.includes('<h2>Heading EN</h2>'));
+      assert.ok(html.includes('<p>Paragraph content EN.</p>'));
+
+      // Verifikasi blok ID (tersembunyi secara default)
+      assert.ok(html.includes('<div class="article-lang-block" data-lang="id" style="display:none;">'));
+      assert.ok(html.includes('<h1 itemprop="headline">Judul Bahasa Indonesia</h1>'));
+      assert.ok(html.includes('<h2>Heading ID</h2>'));
+      assert.ok(html.includes('<p>Konten paragraf ID.</p>'));
+
+      // Verifikasi script i18n & toggle switcher
+      assert.ok(html.includes('setBlogLanguage'));
+      assert.ok(html.includes('data-lang="id"'));
+      assert.ok(html.includes('data-lang="en"'));
+    });
+
+    test('PublicationHtmlRenderer me-render kartu blog index dwibahasa', () => {
+      const candidate = createMockCandidate({ slug: 'kartu-bilingual' });
+      const draft = createMockDraft({ slug: 'kartu-bilingual' });
+      const topic = createMockTopic();
+      const seoMeta = createMockSEOMetadata({ slug: 'kartu-bilingual' });
+
+      const translations = {
+        id: {
+          title: 'Kartu Judul ID',
+          description: 'Kartu Cuplikan ID',
+          sections: []
+        },
+        en: {
+          title: 'Card Title EN',
+          description: 'Card Excerpt EN',
+          sections: []
+        }
+      };
+
+      const pkg = PublicationPackageBuilder.build(candidate, draft, topic, seoMeta, null, {
+        translations
+      });
+
+      const indexHtml = PublicationHtmlRenderer.renderBlogIndexPage([pkg]);
+
+      assert.ok(indexHtml.includes('<div class="card-lang-block" data-lang="en">'));
+      assert.ok(indexHtml.includes('<h2>Card Title EN</h2>'));
+      assert.ok(indexHtml.includes('<div class="card-lang-block" data-lang="id" style="display:none;">'));
+      assert.ok(indexHtml.includes('<h2>Kartu Judul ID</h2>'));
+    });
+  });
 });

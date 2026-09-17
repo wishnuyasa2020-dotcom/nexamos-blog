@@ -1042,6 +1042,44 @@ Silakan pilih tindakan berikut:`;
       );
     }
 
+    // Menghasilkan terjemahan dwibahasa otomatis (EN default + ID)
+    let translations: any = undefined;
+    try {
+      const aiConfig = loadAIProviderConfig();
+      if (isAIConfigured(aiConfig)) {
+        const { editorialProvider } = AIProviderFactory.createProductionProviders(aiConfig);
+        if ('translateDraftToEnglish' in editorialProvider && typeof (editorialProvider as any).translateDraftToEnglish === 'function') {
+          console.log(`[BOT] Menerjemahkan draf '${draft.title}' ke English untuk penerbitan dwibahasa...`);
+          const enResult = await (editorialProvider as any).translateDraftToEnglish(draft);
+
+          translations = {
+            id: {
+              title: draft.title,
+              description: draft.dek || draft.title,
+              headline: draft.title,
+              dek: draft.dek,
+              sections: draft.sections.map((s) => ({
+                id: s.id,
+                heading: s.heading ?? '',
+                content: s.content,
+                order: s.order,
+                purpose: s.purpose
+              }))
+            },
+            en: {
+              title: enResult.title,
+              description: enResult.dek || enResult.title,
+              headline: enResult.title,
+              dek: enResult.dek,
+              sections: enResult.sections
+            }
+          };
+        }
+      }
+    } catch (transErr: any) {
+      console.warn(`[WARN] Gagal menghasilkan translasi otomatis ke English: ${transErr.message}`);
+    }
+
     const publicationPackage = PublicationPackageBuilder.build(
       candidate,
       draft,
@@ -1052,6 +1090,8 @@ Silakan pilih tindakan berikut:`;
         siteUrl: 'https://nexamos.cloud',
         blogBasePath: '/blog',
         publishedAt: new Date().toISOString(),
+        defaultLanguage: 'en',
+        translations,
         heroImage: {
           url: heroImageUrl,
           alt: draft.title,

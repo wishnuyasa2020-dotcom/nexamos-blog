@@ -12,6 +12,8 @@ import type { ArticleSEOMetadata } from '../seo-validator/article-seo-metadata.t
 import type { ResearchBrief } from '../research/orchestrator/research-brief.ts';
 import type {
   PublicationPackage,
+  PublicationTranslation,
+  PublicationArticleSection,
   PublicationHeroImage,
   PublicationStructuredData,
   RenderedExternalCitation,
@@ -33,6 +35,11 @@ export interface BuildPackageOptions {
   fixtureOnly?: boolean;
   publishedAt?: string;
   updatedAt?: string;
+  defaultLanguage?: 'en' | 'id';
+  translations?: {
+    id?: PublicationTranslation;
+    en?: PublicationTranslation;
+  };
 }
 
 export class PublicationPackageBuilder {
@@ -160,6 +167,29 @@ export class PublicationPackageBuilder {
       priority: 0.8
     };
 
+    const activeTranslations = options.translations || (draft as any).translations || undefined;
+    const enTrans = activeTranslations?.en;
+
+    const finalTitle = enTrans?.title || candidate.title;
+    const finalDescription = enTrans?.description || seoMeta.description || draft.dek || '';
+    const finalHeadline = enTrans?.headline || enTrans?.title || draft.title || candidate.title;
+    const finalDek = enTrans ? (enTrans.dek ?? draft.dek) : draft.dek;
+    const finalSections: PublicationArticleSection[] = enTrans?.sections && enTrans.sections.length > 0
+      ? enTrans.sections.map((s: PublicationArticleSection) => ({
+          id: s.id,
+          heading: s.heading ?? '',
+          content: s.content,
+          order: s.order,
+          purpose: s.purpose
+        }))
+      : draft.sections.map((s) => ({
+          id: s.id,
+          heading: s.heading ?? '',
+          content: s.content,
+          order: s.order,
+          purpose: s.purpose
+        }));
+
     return {
       id: packageId,
       candidateId: candidate.candidateId,
@@ -169,23 +199,19 @@ export class PublicationPackageBuilder {
       publicCanonicalPath,
       canonicalPath,
       canonicalUrl,
-      title: candidate.title,
-      description: seoMeta.description || draft.dek || '',
+      title: finalTitle,
+      description: finalDescription,
       territory: draft.territory,
       articleType: draft.articleType,
       editorialRole: draft.editorialRole,
       articleContent: {
-        headline: draft.title || candidate.title,
-        dek: draft.dek,
-        sections: draft.sections.map((s) => ({
-          id: s.id,
-          heading: s.heading ?? '',
-          content: s.content,
-          order: s.order,
-          purpose: s.purpose
-        })),
-        plainTextSummary: draft.sections.map((s) => s.content).join(' ')
+        headline: finalHeadline,
+        dek: finalDek,
+        sections: finalSections,
+        plainTextSummary: finalSections.map((s: PublicationArticleSection) => s.content).join(' ')
       },
+      defaultLanguage: options.defaultLanguage || 'en',
+      translations: activeTranslations,
       author: {
         name: seoMeta.author?.name || 'NexaMOS Editorial Board',
         role: seoMeta.author?.role || 'Staff Writer',
@@ -194,13 +220,18 @@ export class PublicationPackageBuilder {
       publishedAt: options.publishedAt || seoMeta.publishedAt || null,
       updatedAt: options.updatedAt || seoMeta.updatedAt || null,
       seoMetadata: {
-        metaTitle: seoMeta.title || candidate.title,
-        metaDescription: seoMeta.description || draft.dek || '',
+        metaTitle: enTrans ? `${finalTitle} | NexaMOS` : (seoMeta.title || candidate.title),
+        metaDescription: finalDescription,
         openGraph: {
-          'og:title': candidate.title,
-          'og:description': seoMeta.description || draft.dek || '',
+          'og:title': finalTitle,
+          'og:description': finalDescription,
           'og:url': canonicalUrl,
           'og:type': 'article'
+        },
+        twitterCard: {
+          'twitter:card': 'summary_large_image',
+          'twitter:title': finalTitle,
+          'twitter:description': finalDescription
         }
       },
       discoverMetadata: {

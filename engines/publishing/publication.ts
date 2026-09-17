@@ -110,6 +110,17 @@ export interface PublicationArticleContent {
 }
 
 /**
+ * Konten Terjemahan Artikel (Dwibahasa EN / ID)
+ */
+export interface PublicationTranslation {
+  title: string;
+  description: string;
+  headline?: string;
+  dek?: string | null;
+  sections: PublicationArticleSection[];
+}
+
+/**
  * Sitemap Entry Contract
  */
 export interface PublicationSitemapEntry {
@@ -161,6 +172,11 @@ export interface PublicationPackage {
   editorialRole: EditorialRole;
 
   articleContent: PublicationArticleContent;
+  defaultLanguage?: 'en' | 'id';
+  translations?: {
+    id?: PublicationTranslation;
+    en?: PublicationTranslation;
+  };
 
   author: PublicationAuthor;
   publishedAt?: string | null; // ISO 8601
