@@ -541,6 +541,11 @@ ${this.renderI18nScript()}
       return timeB - timeA;
     });
 
+    const totalCount = sortedArticles.length;
+    const intelCount = sortedArticles.filter(a => (a.territory || '').toUpperCase() === 'INTELLIGENCE').length;
+    const stratCount = sortedArticles.filter(a => (a.territory || '').toUpperCase() === 'STRATEGY').length;
+    const tactCount = sortedArticles.filter(a => (a.territory || '').toUpperCase() === 'TACTICAL').length;
+
     const articleCards = sortedArticles
       .map((item) => {
         const { en, id, hasTranslations } = this.getBilingualContent(item);
@@ -548,6 +553,7 @@ ${this.renderI18nScript()}
         const excerptEn = this.sanitizeHtml(en.dek);
         const titleId = this.sanitizeHtml(id.headline);
         const excerptId = this.sanitizeHtml(id.dek);
+        const searchableCorpus = this.sanitizeHtml(`${titleEn} ${excerptEn} ${titleId} ${excerptId}`.toLowerCase());
 
         const dateStr = item.publishedAt
           ? new Date(item.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
@@ -562,7 +568,7 @@ ${this.renderI18nScript()}
         const articleTypeLabel = this.getArticleTypeLabel(item.articleType, 'en');
 
         return `
-      <article class="blog-card">
+      <article class="blog-card" data-territory="${item.territory}" data-search-text="${searchableCorpus}">
         <a href="${item.canonicalPath || item.publicCanonicalPath || `/blog/${item.slug}`}" class="card-link">
           ${heroThumb}
           <div class="card-content">
@@ -619,8 +625,81 @@ ${this.renderSiteNav()}
       <p data-i18n="hero_sub">Authority publication, primary data insights, and sovereign information architecture.</p>
     </section>
 
+    <!-- Interactive Editorial Territory Filter & Free Search -->
+    <section class="blog-filter-section" aria-label="Filter Teritori dan Pencarian Artikel">
+      <div class="filter-controls-container">
+        <!-- 3 Teritori Utama + ALL Filter Buttons dengan Badge -->
+        <div class="territory-filter-bar" role="toolbar" aria-label="Filter Berdasarkan Teritori Editorial">
+          <button type="button" class="filter-btn active" data-filter-territory="ALL" onclick="setTerritoryFilter('ALL')">
+            <span class="filter-btn-label" data-i18n="filter_all">All</span>
+            <span class="filter-count-badge badge-all">${totalCount}</span>
+          </button>
+          <button type="button" class="filter-btn btn-intelligence" data-filter-territory="INTELLIGENCE" onclick="setTerritoryFilter('INTELLIGENCE')">
+            <span class="filter-bullet bullet-intelligence"></span>
+            <span class="filter-btn-label" data-i18n="filter_intelligence">Intelligence</span>
+            <span class="filter-count-badge badge-intelligence">${intelCount}</span>
+          </button>
+          <button type="button" class="filter-btn btn-strategy" data-filter-territory="STRATEGY" onclick="setTerritoryFilter('STRATEGY')">
+            <span class="filter-bullet bullet-strategy"></span>
+            <span class="filter-btn-label" data-i18n="filter_strategy">Strategy</span>
+            <span class="filter-count-badge badge-strategy">${stratCount}</span>
+          </button>
+          <button type="button" class="filter-btn btn-tactical" data-filter-territory="TACTICAL" onclick="setTerritoryFilter('TACTICAL')">
+            <span class="filter-bullet bullet-tactical"></span>
+            <span class="filter-btn-label" data-i18n="filter_tactical">Tactical</span>
+            <span class="filter-count-badge badge-tactical">${tactCount}</span>
+          </button>
+        </div>
+
+        <!-- Kolom Pencarian Bebas Berdasarkan Judul & Sub Judul -->
+        <div class="blog-search-bar-wrap">
+          <div class="search-input-inner">
+            <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input
+              type="text"
+              id="article-search-input"
+              class="article-search-input"
+              placeholder="Search articles by title or subtitle..."
+              data-i18n-placeholder="search_placeholder"
+              aria-label="Cari artikel berdasarkan judul atau sub judul"
+              autocomplete="off"
+              spellcheck="false"
+              oninput="handleArticleSearch(this.value)"
+            />
+            <button type="button" id="search-clear-btn" class="search-clear-btn" aria-label="Hapus kueri pencarian" onclick="clearArticleSearch()" style="display: none;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+          <div class="search-status-bar" id="search-status-bar" aria-live="polite">
+            <span id="search-status-text" data-total="${totalCount}"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="article-grid">
       ${articleCards.length > 0 ? articleCards : '<p class="no-articles" data-i18n="no_articles">No articles published yet.</p>'}
+      <!-- Empty state saat filter/pencarian tidak menemukan hasil -->
+      <div id="filter-empty-state" class="filter-empty-state" style="display: none;">
+        <div class="empty-icon-wrap">
+          <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            <line x1="8" y1="11" x2="14" y2="11"></line>
+          </svg>
+        </div>
+        <h3 data-i18n="empty_title">No matching articles found</h3>
+        <p data-i18n="empty_desc">Try adjusting your search query or selecting a different editorial territory.</p>
+        <button type="button" class="btn-reset-filter" onclick="resetArticleFilters()">
+          <span data-i18n="empty_reset">Reset Filters</span>
+        </button>
+      </div>
     </section>
   </main>
 
@@ -678,6 +757,16 @@ ${this.renderI18nScript()}
           nav_blog: "Authority Blog",
           hero_badge: "NexaMOS Knowledge &amp; Research Journal",
           hero_sub: "Authority publication, primary data insights, and sovereign information architecture.",
+          filter_all: "All",
+          filter_intelligence: "Intelligence",
+          filter_strategy: "Strategy",
+          filter_tactical: "Tactical",
+          search_placeholder: "Search articles by title or subtitle...",
+          search_status_showing: "Showing {count} of {total} articles",
+          search_status_all: "Showing all {total} articles",
+          empty_title: "No matching articles found",
+          empty_desc: "Try adjusting your search query or selecting a different editorial territory.",
+          empty_reset: "Reset Filters",
           read_more: "Read Full Article &rarr;",
           no_articles: "No articles published yet.",
           citations_heading: "Authoritative References &amp; Sources",
@@ -695,6 +784,16 @@ ${this.renderI18nScript()}
           nav_blog: "Blog Otoritas",
           hero_badge: "Jurnal Riset &amp; Rekayasa Pengetahuan NexaMOS",
           hero_sub: "Publikasi otoritas pemikiran, analisis data primer, dan arsitektur informasi mandiri.",
+          filter_all: "Semua",
+          filter_intelligence: "Intelijen",
+          filter_strategy: "Strategi",
+          filter_tactical: "Taktikal",
+          search_placeholder: "Cari artikel berdasarkan judul atau sub-judul...",
+          search_status_showing: "Menampilkan {count} dari {total} artikel",
+          search_status_all: "Menampilkan semua {total} artikel",
+          empty_title: "Tidak ada artikel yang cocok",
+          empty_desc: "Coba sesuaikan kata kunci pencarian atau pilih teritori editorial yang berbeda.",
+          empty_reset: "Reset Filter",
           read_more: "Baca Selengkapnya &rarr;",
           no_articles: "Belum ada artikel yang dipublikasikan.",
           citations_heading: "Sumber &amp; Rujukan Otoritatif",
@@ -706,6 +805,88 @@ ${this.renderI18nScript()}
           share_copied: "Tersalin!",
           toast_copied: "Tautan artikel berhasil disalin ke clipboard!",
           toast_instagram: "Tautan disalin! Buka Instagram untuk membagikan di Story atau DM."
+        }
+      };
+
+      let activeFilterTerritory = 'ALL';
+      let currentSearchQuery = '';
+
+      window.setTerritoryFilter = function(territory) {
+        activeFilterTerritory = territory ? territory.toUpperCase() : 'ALL';
+        document.querySelectorAll('.filter-btn').forEach(function(btn) {
+          const t = btn.getAttribute('data-filter-territory');
+          btn.classList.toggle('active', t === activeFilterTerritory);
+        });
+        window.applyArticleFilters();
+      };
+
+      window.handleArticleSearch = function(val) {
+        currentSearchQuery = (val || '').trim().toLowerCase();
+        const clearBtn = document.getElementById('search-clear-btn');
+        if (clearBtn) {
+          clearBtn.style.display = currentSearchQuery.length > 0 ? 'inline-flex' : 'none';
+        }
+        window.applyArticleFilters();
+      };
+
+      window.clearArticleSearch = function() {
+        const input = document.getElementById('article-search-input');
+        if (input) {
+          input.value = '';
+          input.focus();
+        }
+        window.handleArticleSearch('');
+      };
+
+      window.resetArticleFilters = function() {
+        window.clearArticleSearch();
+        window.setTerritoryFilter('ALL');
+      };
+
+      window.applyArticleFilters = function() {
+        const cards = document.querySelectorAll('.article-grid .blog-card');
+        if (!cards.length) return;
+
+        let visibleCount = 0;
+        cards.forEach(function(card) {
+          const cardTerritory = (card.getAttribute('data-territory') || '').toUpperCase();
+          const territoryMatches = (activeFilterTerritory === 'ALL' || cardTerritory === activeFilterTerritory);
+
+          let searchMatches = true;
+          if (currentSearchQuery) {
+            const searchText = (card.getAttribute('data-search-text') || card.textContent || '').toLowerCase();
+            searchMatches = searchText.includes(currentSearchQuery);
+          }
+
+          if (territoryMatches && searchMatches) {
+            card.style.display = '';
+            visibleCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        const emptyState = document.getElementById('filter-empty-state');
+        if (emptyState) {
+          emptyState.style.display = (visibleCount === 0) ? 'flex' : 'none';
+        }
+
+        window.updateFilterStatus(visibleCount, cards.length);
+      };
+
+      window.updateFilterStatus = function(visibleCount, totalCount) {
+        const statusEl = document.getElementById('search-status-text');
+        if (!statusEl) return;
+        const lang = document.documentElement.lang || 'en';
+        const dict = I18N_BLOG[lang] || I18N_BLOG.en;
+
+        if (activeFilterTerritory === 'ALL' && !currentSearchQuery) {
+          statusEl.textContent = (dict.search_status_all || "Showing all {total} articles")
+            .replace('{total}', totalCount);
+        } else {
+          statusEl.textContent = (dict.search_status_showing || "Showing {count} of {total} articles")
+            .replace('{count}', visibleCount)
+            .replace('{total}', totalCount);
         }
       };
 
@@ -793,6 +974,12 @@ ${this.renderI18nScript()}
           if (dict[key]) el.innerHTML = dict[key];
         });
 
+        // Update placeholder input pencarian
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el) {
+          const key = el.getAttribute('data-i18n-placeholder');
+          if (dict[key]) el.setAttribute('placeholder', dict[key]);
+        });
+
         // Toggle blok dwibahasa artikel & kartu index
         document.querySelectorAll('.article-lang-block, .card-lang-block').forEach(function(el) {
           const elLang = el.getAttribute('data-lang');
@@ -878,6 +1065,13 @@ ${this.renderI18nScript()}
           });
         }
 
+        // Sinkronkan teks status filter pencarian jika di halaman index
+        const totalCards = document.querySelectorAll('.article-grid .blog-card').length;
+        const visibleCards = document.querySelectorAll('.article-grid .blog-card:not([style*="display: none"])').length;
+        if (window.updateFilterStatus) {
+          window.updateFilterStatus(visibleCards, totalCards);
+        }
+
         document.querySelectorAll('.lang-btn').forEach(function(btn) {
           btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
         });
@@ -890,9 +1084,13 @@ ${this.renderI18nScript()}
       } catch(e) {}
 
       if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', function() { setBlogLanguage(initial); });
+        document.addEventListener('DOMContentLoaded', function() {
+          setBlogLanguage(initial);
+          if (window.applyArticleFilters) window.applyArticleFilters();
+        });
       } else {
         setBlogLanguage(initial);
+        if (window.applyArticleFilters) window.applyArticleFilters();
       }
     })();
   </script>`;
