@@ -107,13 +107,13 @@ export function classifyEditorialIntent(text: string, topic: string): Classified
       detectedType = 'HOW_TO';
     } else if (/\b(apa itu|pengertian|definisi|mengenal|konsep dasar|fungsi dari|artinya|explainer|memahami)\b/i.test(combined)) {
       detectedType = 'EXPLAINER';
-    } else if (/\b(kerangka|framework|model|blueprint|arsitektur|metodologi|pilar|struktur sistem)\b/i.test(combined)) {
+    } else if (/\b(kerangka|framework|model|blueprint|arsitektur|metodologi|pilar|struktur sistem|threshold|treshold|ambang batas|batas pemisah|kriteria|matriks)\b/i.test(combined)) {
       detectedType = 'FRAMEWORK';
     } else if (/\b(studi kasus|case study|bedah kasus|pelajaran dari)\b/i.test(combined)) {
       detectedType = 'CASE_STUDY';
     } else if (/\b(vs|versus|perbandingan|komparasi|dibandingkan|mana yang lebih|benchmark)\b/i.test(combined)) {
       detectedType = 'COMPARATIVE_ANALYSIS';
-    } else if (/\b(tren|trend|prediksi|outlook|masa depan|tahun 202[0-9]|prospek)\b/i.test(combined)) {
+    } else if (/\b(tren|trend|prediksi|outlook|proyeksi|masa depan|tahun 202[0-9]|prospek (pasar|industri|ekonomi|bisnis))\b/i.test(combined)) {
       detectedType = 'TREND_ANALYSIS';
     } else if (/\b(riset|data primer|survei|penelitian empiris|temuan riset)\b/i.test(combined)) {
       detectedType = 'ORIGINAL_RESEARCH';
@@ -123,11 +123,12 @@ export function classifyEditorialIntent(text: string, topic: string): Classified
   }
 
   if (!detectedTerritory) {
-    if (/\b(competitive intelligence|market intelligence|intelligence|intelijen|kompetitor|pesaing|sinyal|fakta|pasar|market|industri|riset|anatomi|regulasi|kemenkes|statistik|tren|trend|landscape|lanskap|perilaku|llm)\b/i.test(combined)) {
-      detectedTerritory = 'INTELLIGENCE';
-    } else if (/\b(teknis|crm|whatsapp|api|workflow|otomasi|automasi|integrasi|eksekusi|coding|database|webhook|retargeting|tools|implementasi|taktik|tactical)\b/i.test(combined)) {
+    // 1. Prioritas TACTICAL: Lifecycle CRM, Sales Pipeline, Konversi, Otomasi, & Eksekusi
+    if (/\b(teknis|crm|whatsapp|api|workflow|otomasi|automasi|integrasi|eksekusi|coding|database|webhook|retargeting|tools|implementasi|taktik|tactical|prospek|prospect|hot prospek|opportunity|funnel|pipeline|nurturing|closing|sales|penjualan|lifecycle|retensi|retention|churn|konversi|conversion|onboarding|follow-up|follow up|broadcast|campaign)\b/i.test(combined)) {
       detectedTerritory = 'TACTICAL';
-    } else if (/\b(strategi|strategic|strategis|pricing|harga|positioning|bisnis|skala|margin|arah|roi|cvr|keputusan|investasi|kebijakan|monetisasi)\b/i.test(combined)) {
+    } else if (/\b(competitive intelligence|market intelligence|intelligence|intelijen|kompetitor|pesaing|sinyal|fakta|pasar|market|industri|riset|anatomi|regulasi|kemenkes|statistik|tren|trend|landscape|lanskap|perilaku|llm|scoring)\b/i.test(combined)) {
+      detectedTerritory = 'INTELLIGENCE';
+    } else if (/\b(strategi|strategic|strategis|pricing|harga|positioning|bisnis|skala|margin|arah|roi|cvr|keputusan|investasi|kebijakan|monetisasi|moat)\b/i.test(combined)) {
       detectedTerritory = 'STRATEGY';
     } else {
       // Korelasi alami dari ArticleType jika tidak ada kata kunci spesifik

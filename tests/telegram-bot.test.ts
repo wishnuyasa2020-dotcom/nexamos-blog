@@ -280,6 +280,13 @@ describe('NexaMOS Telegram Editorial Bot Unit Tests', () => {
       assert.strictEqual(intent.articleType, 'FRAMEWORK');
     });
 
+    test('Mengklasifikasikan topik CRM/Lifecycle (prospek, opportunity, threshold) ke TACTICAL dan FRAMEWORK', () => {
+      const topic = "Commitment treshold 'batas pemisah' prospek dan hot prospek(Opportunity)";
+      const intent = classifyEditorialIntent(topic, topic);
+      assert.strictEqual(intent.territory, 'TACTICAL');
+      assert.strictEqual(intent.articleType, 'FRAMEWORK');
+    });
+
     test('Default fallback ke STRATEGY dan ANALYSIS untuk topik umum', () => {
       const fallback = classifyEditorialIntent('Tinjauan Komprehensif Entitas Organisasi', 'Tinjauan Komprehensif Entitas Organisasi');
       assert.strictEqual(fallback.territory, 'STRATEGY');
