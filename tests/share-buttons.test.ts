@@ -194,4 +194,43 @@ describe('Social Share Buttons & Toast Interactive Features', () => {
     assert.ok(html.includes('toast_copied:'), 'Harus ada pesan toast disalin');
     assert.ok(html.includes('toast_instagram:'), 'Harus ada panduan toast Instagram');
   });
+
+  test('Sistem badge teritorial dan article-type konsisten dengan landing page', () => {
+    const pkgTactical = createMockArticle('artikel-taktikal');
+    pkgTactical.territory = 'TACTICAL';
+    pkgTactical.articleType = 'HOW_TO';
+
+    const pkgStrategy = createMockArticle('artikel-strategi');
+    pkgStrategy.territory = 'STRATEGY';
+    pkgStrategy.articleType = 'ANALYSIS';
+
+    const pkgIntel = createMockArticle('artikel-intelijen');
+    pkgIntel.territory = 'INTELLIGENCE';
+    pkgIntel.articleType = 'CASE_STUDY';
+
+    // Test renderArticlePage
+    const articleHtml = PublicationHtmlRenderer.renderArticlePage(pkgTactical);
+    assert.ok(articleHtml.includes('badge-tactical'), 'Halaman artikel taktikal harus memiliki class badge-tactical');
+    assert.ok(articleHtml.includes('badge-type'), 'Halaman artikel harus memiliki class badge-type');
+    assert.ok(articleHtml.includes('data-territory="TACTICAL"'), 'Harus menyertakan data-territory');
+    assert.ok(articleHtml.includes('data-article-type="HOW_TO"'), 'Harus menyertakan data-article-type');
+
+    // Test renderBlogIndexPage
+    const indexHtml = PublicationHtmlRenderer.renderBlogIndexPage([pkgTactical, pkgStrategy, pkgIntel]);
+    assert.ok(indexHtml.includes('hero-badge-pill'), 'Halaman indeks blog harus memiliki hero-badge-pill');
+    assert.ok(indexHtml.includes('hero-pulse-dot'), 'Hero badge pill harus memiliki hero-pulse-dot');
+    assert.ok(indexHtml.includes('badge-tactical'), 'Kartu taktikal harus memiliki badge-tactical');
+    assert.ok(indexHtml.includes('badge-strategy'), 'Kartu strategi harus memiliki badge-strategy');
+    assert.ok(indexHtml.includes('badge-intelligence'), 'Kartu intelijen harus memiliki badge-intelligence');
+  });
+
+  test('Struktur navigasi header memisahkan baris bahasa (site-nav-top) dan baris utama (site-nav-main)', () => {
+    const navHtml = PublicationHtmlRenderer.renderSiteNav();
+    assert.ok(navHtml.includes('class="site-nav-top"'), 'Harus memiliki wrapper site-nav-top untuk toggle bahasa baris 1');
+    assert.ok(navHtml.includes('class="site-nav-main"'), 'Harus memiliki wrapper site-nav-main untuk logo dan link nav baris 2');
+    assert.ok(navHtml.includes('class="lang-switch-wrap"'), 'Harus memiliki tombol switch bahasa');
+    assert.ok(navHtml.includes('class="brand-logo"'), 'Harus memiliki brand logo');
+    assert.ok(navHtml.includes('data-i18n="nav_home"'), 'Harus memiliki link home dengan data-i18n');
+    assert.ok(navHtml.includes('data-i18n="nav_blog"'), 'Harus memiliki link blog dengan data-i18n');
+  });
 });

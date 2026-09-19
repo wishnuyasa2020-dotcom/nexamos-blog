@@ -128,6 +128,66 @@ export class PublicationHtmlRenderer {
           </div>
         </div>`;
   }
+
+  /**
+   * Helper class CSS badge teritorial yang konsisten dengan sistem badge Landing Page
+   */
+  public static getTerritoryBadgeClass(territory: string): string {
+    const t = (territory || '').toUpperCase();
+    if (t === 'TACTICAL') return 'badge-tactical';
+    if (t === 'INTELLIGENCE') return 'badge-intelligence';
+    return 'badge-strategy';
+  }
+
+  /**
+   * Helper label dwibahasa teritorial (ID / EN) konsisten dengan Landing Page
+   */
+  public static getTerritoryLabel(territory: string, lang: string = 'en'): string {
+    const t = (territory || '').toUpperCase();
+    const isId = lang === 'id';
+    if (t === 'TACTICAL') return isId ? 'Taktikal' : 'Tactical';
+    if (t === 'INTELLIGENCE') return isId ? 'Intelijen' : 'Intelligence';
+    return isId ? 'Strategi' : 'Strategy';
+  }
+
+  /**
+   * Helper label dwibahasa tipe format artikel konsisten dengan Landing Page
+   */
+  public static getArticleTypeLabel(articleType?: string, lang: string = 'en'): string {
+    if (!articleType) return '';
+    const isId = lang === 'id';
+    const typeMapId: Record<string, string> = {
+      HOW_TO: 'Panduan Praktis',
+      ANALYSIS: 'Analisis',
+      FRAMEWORK: 'Kerangka Kerja',
+      CASE_STUDY: 'Studi Kasus',
+      EXPLAINER: 'Penjelasan',
+      ESSAY: 'Esai',
+      DEEP_DIVE: 'Kajian Mendalam',
+      BENCHMARK: 'Tolok Ukur',
+      TEARDOWN: 'Bedah Kasus',
+      PLAYBOOK: 'Buku Panduan',
+      MANIFESTO: 'Manifesto'
+    };
+    const typeMapEn: Record<string, string> = {
+      HOW_TO: 'How-To Guide',
+      ANALYSIS: 'Analysis',
+      FRAMEWORK: 'Framework',
+      CASE_STUDY: 'Case Study',
+      EXPLAINER: 'Explainer',
+      ESSAY: 'Essay',
+      DEEP_DIVE: 'Deep Dive',
+      BENCHMARK: 'Benchmark',
+      TEARDOWN: 'Teardown',
+      PLAYBOOK: 'Playbook',
+      MANIFESTO: 'Manifesto'
+    };
+    const cleanKey = articleType.toUpperCase();
+    if (isId && typeMapId[cleanKey]) return typeMapId[cleanKey];
+    if (!isId && typeMapEn[cleanKey]) return typeMapEn[cleanKey];
+    return articleType.replace(/_/g, ' ');
+  }
+
   /**
    * Render tag verifikasi Google Search Console dan Google Analytics 4 jika tersedia
    */
@@ -414,9 +474,9 @@ ${this.renderSiteNav()}
   <main>
     <article class="primary-article" itemscope itemtype="https://schema.org/BlogPosting">
       <header class="article-header">
-        <div class="article-meta-badge">
-          <span class="territory-tag">${pkg.territory}</span>
-          <span class="article-type-tag">${pkg.articleType}</span>
+        <div class="article-meta-badge blog-dyn-badges">
+          <span class="blog-dyn-badge ${this.getTerritoryBadgeClass(pkg.territory)} territory-tag" data-territory="${pkg.territory}">${this.getTerritoryLabel(pkg.territory, 'en')}</span>
+          <span class="blog-dyn-badge badge-type article-type-tag" data-article-type="${pkg.articleType}">${this.getArticleTypeLabel(pkg.articleType, 'en')}</span>
         </div>
         <div class="article-lang-block" data-lang="en">
           <h1 itemprop="headline">${sanitizedHeadlineEn}</h1>
@@ -497,13 +557,20 @@ ${this.renderI18nScript()}
           ? `<img src="${heroUrl}" alt="${this.sanitizeHtml(item.heroImage!.alt)}" width="400" height="225" loading="lazy" />`
           : '';
 
+        const territoryClass = this.getTerritoryBadgeClass(item.territory);
+        const territoryLabel = this.getTerritoryLabel(item.territory, 'en');
+        const articleTypeLabel = this.getArticleTypeLabel(item.articleType, 'en');
+
         return `
       <article class="blog-card">
         <a href="${item.canonicalPath || item.publicCanonicalPath || `/blog/${item.slug}`}" class="card-link">
           ${heroThumb}
           <div class="card-content">
             <div class="card-meta">
-              <span class="territory">${item.territory}</span>
+              <div class="blog-dyn-badges">
+                <span class="blog-dyn-badge ${territoryClass} territory" data-territory="${item.territory}">${territoryLabel}</span>
+                ${articleTypeLabel ? `<span class="blog-dyn-badge badge-type" data-article-type="${item.articleType}">${articleTypeLabel}</span>` : ''}
+              </div>
               <time datetime="${item.publishedAt || ''}" data-pubdate="${item.publishedAt || ''}">${dateStr}</time>
             </div>
             <div class="card-lang-block" data-lang="en">
@@ -544,6 +611,10 @@ ${this.renderSiteNav()}
 
   <main>
     <section class="blog-hero">
+      <div class="hero-badge-pill">
+        <span class="hero-pulse-dot"></span>
+        <span data-i18n="hero_badge">NexaMOS Knowledge &amp; Research Journal</span>
+      </div>
       <h1>NexaMOS Knowledge & Engineering Journal</h1>
       <p data-i18n="hero_sub">Authority publication, primary data insights, and sovereign information architecture.</p>
     </section>
@@ -566,12 +637,7 @@ ${this.renderI18nScript()}
    */
   public static renderSiteNav(): string {
     return `  <header class="site-nav">
-    <a href="/" class="brand-logo" aria-label="NexaMOS">
-      <img src="/blog/brand/logoNexa.png" alt="NexaMOS" class="brand-logo-img" width="133" height="50" />
-    </a>
-    <nav>
-      <a href="/" data-i18n="nav_home">Home</a>
-      <a href="/blog" class="active" data-i18n="nav_blog">Authority Blog</a>
+    <div class="site-nav-top">
       <div class="lang-switch-wrap" role="group" aria-label="Pilih Bahasa / Language Selection">
         <button type="button" class="lang-btn" data-lang="id" onclick="setBlogLanguage('id')">
           <span class="lang-flag">🇮🇩</span> ID
@@ -580,7 +646,16 @@ ${this.renderI18nScript()}
           <span class="lang-flag">🇬🇧</span> EN
         </button>
       </div>
-    </nav>
+    </div>
+    <div class="site-nav-main">
+      <a href="/" class="brand-logo" aria-label="NexaMOS">
+        <img src="/blog/brand/logoNexa.png" alt="NexaMOS" class="brand-logo-img" width="133" height="50" />
+      </a>
+      <nav>
+        <a href="/" data-i18n="nav_home">Home</a>
+        <a href="/blog" class="active" data-i18n="nav_blog">Authority Blog</a>
+      </nav>
+    </div>
   </header>`;
   }
 
@@ -601,6 +676,7 @@ ${this.renderI18nScript()}
         en: {
           nav_home: "Home",
           nav_blog: "Authority Blog",
+          hero_badge: "NexaMOS Knowledge &amp; Research Journal",
           hero_sub: "Authority publication, primary data insights, and sovereign information architecture.",
           read_more: "Read Full Article &rarr;",
           no_articles: "No articles published yet.",
@@ -617,6 +693,7 @@ ${this.renderI18nScript()}
         id: {
           nav_home: "Beranda",
           nav_blog: "Blog Otoritas",
+          hero_badge: "Jurnal Riset &amp; Rekayasa Pengetahuan NexaMOS",
           hero_sub: "Publikasi otoritas pemikiran, analisis data primer, dan arsitektur informasi mandiri.",
           read_more: "Baca Selengkapnya &rarr;",
           no_articles: "Belum ada artikel yang dipublikasikan.",
@@ -724,6 +801,51 @@ ${this.renderI18nScript()}
           } else {
             el.style.display = 'none';
           }
+        });
+
+        // Update label badge territory & articleType secara reaktif (Konsisten dengan Landing Page)
+        document.querySelectorAll('[data-territory]').forEach(function(el) {
+          const t = el.getAttribute('data-territory');
+          if (!t) return;
+          const isId = lang === 'id';
+          const u = t.toUpperCase();
+          el.textContent = isId
+            ? (u === 'TACTICAL' ? 'Taktikal' : u === 'INTELLIGENCE' ? 'Intelijen' : 'Strategi')
+            : (u === 'TACTICAL' ? 'Tactical' : u === 'INTELLIGENCE' ? 'Intelligence' : 'Strategy');
+        });
+
+        document.querySelectorAll('[data-article-type]').forEach(function(el) {
+          const at = el.getAttribute('data-article-type');
+          if (!at) return;
+          const isId = lang === 'id';
+          const mapId = {
+            HOW_TO: 'Panduan Praktis',
+            ANALYSIS: 'Analisis',
+            FRAMEWORK: 'Kerangka Kerja',
+            CASE_STUDY: 'Studi Kasus',
+            EXPLAINER: 'Penjelasan',
+            ESSAY: 'Esai',
+            DEEP_DIVE: 'Kajian Mendalam',
+            BENCHMARK: 'Tolok Ukur',
+            TEARDOWN: 'Bedah Kasus',
+            PLAYBOOK: 'Buku Panduan',
+            MANIFESTO: 'Manifesto'
+          };
+          const mapEn = {
+            HOW_TO: 'How-To Guide',
+            ANALYSIS: 'Analysis',
+            FRAMEWORK: 'Framework',
+            CASE_STUDY: 'Case Study',
+            EXPLAINER: 'Explainer',
+            ESSAY: 'Essay',
+            DEEP_DIVE: 'Deep Dive',
+            BENCHMARK: 'Benchmark',
+            TEARDOWN: 'Teardown',
+            PLAYBOOK: 'Playbook',
+            MANIFESTO: 'Manifesto'
+          };
+          const key = at.toUpperCase();
+          el.textContent = isId ? (mapId[key] || at.replace(/_/g, ' ')) : (mapEn[key] || at.replace(/_/g, ' '));
         });
 
         // Update tanggal lokal secara reaktif
