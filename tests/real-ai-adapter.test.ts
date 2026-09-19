@@ -815,6 +815,139 @@ describe('Pilot 01 Step 3: Real AI Adapter Suite', () => {
         }
       );
     });
+
+    test('generateArticleDraft menormalisasi jika LLM keliru menempatkan finding-01 ke sourceIds', async () => {
+      const mockFetch = createMockFetch(async () => ({
+        status: 200,
+        ok: true,
+        json: async () => ({
+          choices: [{
+            message: {
+              content: JSON.stringify({
+                title: 'Draft Normalisasi',
+                thesis: 'Tesis Otoritas',
+                editorialAngle: 'Angle Strategis',
+                sections: [{ id: 'sec-1', heading: 'Seksi 1', content: 'Paragraf isi artikel yang mendalam...', order: 1, claimUsageIds: ['cu-1'] }],
+                claimUsages: [{ id: 'cu-1', claimId: 'claim-01', statement: 'Klaim terbukti' }],
+                citationMap: [
+                  { claimUsageId: 'cu-1', claimId: 'claim-01', sourceIds: ['finding-01'], evidenceIds: ['ev-01'] }
+                ]
+              })
+            }
+          }]
+        }),
+        text: async () => ''
+      }));
+
+      const client = new AIHttpClient(VALID_TEST_CONFIG, mockFetch);
+      const provider = new RealAIEditorialProvider(VALID_TEST_CONFIG, client);
+
+      const mockBrief: ResearchBrief = {
+        projectId: 'proj-01',
+        topicId: 'top-01',
+        topicTitle: 'Spionase Marketing',
+        readiness: 'READY_FOR_EDITORIAL',
+        supportedClaims: [{ id: 'claim-01', statement: 'Klaim sah', claimType: 'FACTUAL', importance: 'CORE', status: 'SUPPORTED', evidenceIds: ['ev-01'], projectId: 'proj-01', createdAt: '' }],
+        disputedClaims: [],
+        unverifiedClaims: [],
+        keyFindings: [{ id: 'finding-01', statement: 'Temuan spionase pasar', supportingClaimIds: ['claim-01'], confidence: 'HIGH' } as any],
+        limitations: [],
+        evidenceIndex: [{ id: 'ev-01', sourceId: 'src-nexamos-internal', textSnippet: '', evidenceType: 'STATISTIC', evidenceLevel: 'E2' }],
+        sourceIndex: [{ id: 'src-nexamos-internal', title: 'Basis Pengetahuan NexaMOS', url: 'https://nexamos.com/knowledge', sourceType: 'PRIMARY_RESEARCH' }],
+        builtAt: '',
+        briefVersion: '1.0.0'
+      };
+
+      const request: EditorialGenerationRequest = {
+        topic: { id: 'top-01', title: 'Spionase Marketing', slug: 'spionase-marketing', territory: 'INTELLIGENCE', articleType: 'ANALYSIS', editorialRole: 'AUTHORITY', status: 'APPROVED', intent: {}, informationGain: { originalityType: [], expectedContribution: '', commodityRisk: 'LOW' }, evidencePlan: { requiredEvidenceLevel: 'E2', plannedSources: [], originalEvidenceRequired: true }, createdAt: '', updatedAt: '' },
+        researchBrief: mockBrief,
+        articleType: 'ANALYSIS',
+        editorialRole: 'AUTHORITY'
+      };
+
+      const plan: EditorialPlan = {
+        workingTitle: 'Spionase Marketing',
+        thesis: 'Tesis',
+        angle: 'Angle',
+        readerPromise: 'Janji',
+        sectionPlan: [{ heading: 'Seksi 1', purpose: 'CONTEXT', keyPoints: [], plannedClaimIds: [] }],
+        claimsToUse: [],
+        findingsToUse: [],
+        counterpoints: [],
+        intendedTakeaway: ''
+      };
+
+      const draftPayload = await provider.generateArticleDraft(request, plan);
+      assert.strictEqual(draftPayload.title, 'Draft Normalisasi');
+      assert.strictEqual(draftPayload.citationMap[0].sourceIds[0], 'src-nexamos-internal');
+      assert.strictEqual(draftPayload.citationMap[0].evidenceIds[0], 'ev-01');
+    });
+
+    test('generateArticleDraft menyediakan sovereign source fallback jika brief.sourceIndex kosong', async () => {
+      const mockFetch = createMockFetch(async () => ({
+        status: 200,
+        ok: true,
+        json: async () => ({
+          choices: [{
+            message: {
+              content: JSON.stringify({
+                title: 'Draft Mandiri',
+                thesis: 'Tesis Sovereign',
+                editorialAngle: 'Angle Intelijen',
+                sections: [{ id: 'sec-1', heading: 'Seksi 1', content: 'Paragraf naskah...', order: 1, claimUsageIds: ['cu-1'] }],
+                claimUsages: [{ id: 'cu-1', claimId: 'claim-01', statement: 'Klaim mandiri' }],
+                citationMap: [
+                  { claimUsageId: 'cu-1', claimId: 'claim-01', sourceIds: ['src-nexamos-internal'], evidenceIds: ['ev-nexamos-internal-01'] }
+                ]
+              })
+            }
+          }]
+        }),
+        text: async () => ''
+      }));
+
+      const client = new AIHttpClient(VALID_TEST_CONFIG, mockFetch);
+      const provider = new RealAIEditorialProvider(VALID_TEST_CONFIG, client);
+
+      const mockBrief: ResearchBrief = {
+        projectId: 'proj-01',
+        topicId: 'top-01',
+        topicTitle: 'Riset Mandiri',
+        readiness: 'READY_FOR_EDITORIAL',
+        supportedClaims: [{ id: 'claim-01', statement: 'Klaim mandiri', claimType: 'FACTUAL', importance: 'CORE', status: 'SUPPORTED', evidenceIds: ['ev-nexamos-internal-01'], projectId: 'proj-01', createdAt: '' }],
+        disputedClaims: [],
+        unverifiedClaims: [],
+        keyFindings: [{ id: 'finding-01', statement: 'Temuan', supportingClaimIds: ['claim-01'], confidence: 'HIGH' } as any],
+        limitations: [],
+        evidenceIndex: [],
+        sourceIndex: [],
+        builtAt: '',
+        briefVersion: '1.0.0'
+      };
+
+      const request: EditorialGenerationRequest = {
+        topic: { id: 'top-01', title: 'Riset Mandiri', slug: 'riset-mandiri', territory: 'INTELLIGENCE', articleType: 'ANALYSIS', editorialRole: 'AUTHORITY', status: 'APPROVED', intent: {}, informationGain: { originalityType: [], expectedContribution: '', commodityRisk: 'LOW' }, evidencePlan: { requiredEvidenceLevel: 'E2', plannedSources: [], originalEvidenceRequired: false }, createdAt: '', updatedAt: '' },
+        researchBrief: mockBrief,
+        articleType: 'ANALYSIS',
+        editorialRole: 'AUTHORITY'
+      };
+
+      const plan: EditorialPlan = {
+        workingTitle: 'Riset Mandiri',
+        thesis: 'Tesis',
+        angle: 'Angle',
+        readerPromise: 'Janji',
+        sectionPlan: [{ heading: 'Seksi 1', purpose: 'CONTEXT', keyPoints: [], plannedClaimIds: [] }],
+        claimsToUse: [],
+        findingsToUse: [],
+        counterpoints: [],
+        intendedTakeaway: ''
+      };
+
+      const draftPayload = await provider.generateArticleDraft(request, plan);
+      assert.strictEqual(draftPayload.title, 'Draft Mandiri');
+      assert.strictEqual(draftPayload.citationMap[0].sourceIds[0], 'src-nexamos-internal');
+    });
   });
 
   // ===========================================================================

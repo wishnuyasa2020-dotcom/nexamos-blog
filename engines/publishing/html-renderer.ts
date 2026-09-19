@@ -760,11 +760,36 @@ ${this.renderI18nScript()}
   }
 
   /**
+   * Render Pop-up / Floating Banner Notifikasi Alih Bahasa (Opsi A - High-Contrast Light Surface)
+   * Menavigasi pengguna lokal Indonesia untuk beralih bahasa ke ID secara instan
+   */
+  public static renderLanguageSuggestionBanner(): string {
+    return `  <!-- Language Switch Suggestion Banner (High-Contrast Light Surface) -->
+  <aside id="nexamos-lang-banner" class="nexamos-lang-banner" aria-label="Saran Alih Bahasa" style="display: none;">
+    <div class="lang-banner-card">
+      <div class="lang-banner-info">
+        <span class="lang-banner-flag" aria-hidden="true">🇮🇩</span>
+        <div class="lang-banner-text">
+          <strong class="lang-banner-title">Baca Konten dalam Bahasa Indonesia</strong>
+          <span class="lang-banner-sub">Read content in Indonesian</span>
+        </div>
+      </div>
+      <div class="lang-banner-actions">
+        <button type="button" class="lang-banner-btn-dismiss" onclick="dismissLanguageBanner()">Nanti</button>
+        <button type="button" class="lang-banner-btn-switch" onclick="acceptLanguageSwitch()">Ubah Bahasa</button>
+      </div>
+    </div>
+  </aside>`;
+  }
+
+  /**
    * Render Script i18n Ringan Sinkron dengan localStorage landing page
    */
   public static renderI18nScript(): string {
     const currentYear = new Date().getFullYear();
-    return `  <!-- Interactive Toast Notification -->
+    return `${this.renderLanguageSuggestionBanner()}
+
+  <!-- Interactive Toast Notification -->
   <div id="nexamos-toast" class="nexamos-toast" role="status" aria-live="polite" aria-atomic="true">
     <span class="toast-icon">✓</span>
     <span id="nexamos-toast-msg" class="toast-msg">Article link copied to clipboard!</span>
@@ -1104,6 +1129,59 @@ ${this.renderI18nScript()}
         document.querySelectorAll('.lang-btn').forEach(function(btn) {
           btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
         });
+
+        if (window.checkLanguageBanner) {
+          window.checkLanguageBanner();
+        }
+      };
+
+      window.acceptLanguageSwitch = function() {
+        try {
+          localStorage.setItem('nexamos_lang_banner_dismissed', 'true');
+        } catch(e) {}
+        window.setBlogLanguage('id');
+        const banner = document.getElementById('nexamos-lang-banner');
+        if (banner) {
+          banner.classList.remove('visible');
+          banner.classList.add('dismissing');
+          setTimeout(function() {
+            banner.style.display = 'none';
+          }, 350);
+        }
+      };
+
+      window.dismissLanguageBanner = function() {
+        try {
+          localStorage.setItem('nexamos_lang_banner_dismissed', 'true');
+        } catch(e) {}
+        const banner = document.getElementById('nexamos-lang-banner');
+        if (banner) {
+          banner.classList.remove('visible');
+          banner.classList.add('dismissing');
+          setTimeout(function() {
+            banner.style.display = 'none';
+          }, 350);
+        }
+      };
+
+      window.checkLanguageBanner = function() {
+        const banner = document.getElementById('nexamos-lang-banner');
+        if (!banner) return;
+        let isDismissed = false;
+        try {
+          isDismissed = localStorage.getItem('nexamos_lang_banner_dismissed') === 'true';
+        } catch(e) {}
+
+        const currentLang = document.documentElement.lang || 'en';
+        if (currentLang === 'en' && !isDismissed) {
+          banner.style.display = 'block';
+          requestAnimationFrame(function() {
+            banner.classList.add('visible');
+          });
+        } else {
+          banner.classList.remove('visible');
+          banner.style.display = 'none';
+        }
       };
 
       let initial = 'en';
@@ -1112,14 +1190,16 @@ ${this.renderI18nScript()}
         if (saved === 'id' || saved === 'en') initial = saved;
       } catch(e) {}
 
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', function() {
-          setBlogLanguage(initial);
-          if (window.applyArticleFilters) window.applyArticleFilters();
-        });
-      } else {
+      function initBlog() {
         setBlogLanguage(initial);
         if (window.applyArticleFilters) window.applyArticleFilters();
+        if (window.checkLanguageBanner) window.checkLanguageBanner();
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initBlog);
+      } else {
+        initBlog();
       }
     })();
   </script>`;
