@@ -681,6 +681,22 @@ Jika SEO recommendation bertentangan dengan quality/editorial value:
 
 ---
 
+## 20.1 Standar Visual Hero Image
+
+Setiap perumusan prompt visual untuk gambar utama (*Hero Image*) wajib mematuhi formula kanonik (rujuk [hero-visual-style-guide.md](hero-visual-style-guide.md) dan [NexaMOS_Editorial_Style_Guide_v1.0.md](../../knowledge/editorial/NexaMOS_Editorial_Style_Guide_v1.0.md#10-standar-visual-hero-image-artikel)):
+
+> **Formula Baku:** `[SUBJECT] + [VISUAL METAPHOR] + [CORE_STYLE]`
+
+1. **`[SUBJECT]`**: Judul atau topik inti artikel dalam Bahasa Inggris.
+2. **`[VISUAL METAPHOR]`**: Ekstraksi metafora visual dari subjek berdasarkan 3 Knowledge Territory:
+   - **`INTELLIGENCE`**: Sensor scanner, analisis prisma sinyal data, kristalisasi pola, lensa diagnostik.
+   - **`STRATEGY`**: Pilar arsitektur keputusan, balok modular fondasi, persimpangan jalur terarah.
+   - **`TACTICAL`**: Konduit presisi penyortir, alur kerja loop otomasi berputar, corong konversi modular.
+3. **`[CORE_STYLE]`**: `3D isometric illustration, soft clay rendering, rounded geometric objects, soft studio lighting, minimal marketing illustration, clean composition, premium modern aesthetic. Clear visual hierarchy, single dominant focal object, generous negative space, no text, no logos.`
+4. **Parameter & Anti-Patterns**: Selalu gunakan `--ar 16:9`. Dilarang memuat teks/logo/watermark, robot humanoid, mockup layar gawai/dashboard, atau visual yang padat/ramai.
+
+---
+
 ## 21. Canonical Strategic Thesis
 
 Gunakan thesis ini sebagai default mental model:

@@ -286,4 +286,62 @@ describe('NexaMOS Telegram Editorial Bot Unit Tests', () => {
       assert.strictEqual(fallback.articleType, 'ANALYSIS');
     });
   });
+
+  // ===========================================================================
+  // 7. VISUAL HERO IMAGE PROMPT TESTS
+  // ===========================================================================
+  describe('7. Visual Hero Image Prompt Tests', () => {
+    const bot = new TelegramEditorialBot();
+    const coreStyle = '3D isometric illustration, soft clay rendering, rounded geometric objects, soft studio lighting, minimal marketing illustration, clean composition, premium modern aesthetic. Clear visual hierarchy, single dominant focal object, generous negative space, no text, no logos.';
+
+    test('Formula visual prompt territory INTELLIGENCE mematuhi formula [SUBJECT] + [VISUAL METAPHOR] + [CORE_STYLE]', async () => {
+      const prompt = await bot.generateVisualPrompt(
+        'AI Market Signals',
+        'AI Market Signals Detection',
+        'Real-time market signal detection analysis',
+        [],
+        'INTELLIGENCE'
+      );
+
+      assert.ok(prompt.includes(coreStyle));
+      assert.ok(prompt.endsWith('--ar 16:9'));
+      assert.ok(prompt.length > coreStyle.length + 30);
+    });
+
+    test('Formula visual prompt territory STRATEGY mematuhi formula pilar keputusan', async () => {
+      const prompt = await bot.generateVisualPrompt(
+        'SaaS Business Model',
+        'SaaS Business Model Decision Framework',
+        'Guide to strategic business model choices',
+        [],
+        'STRATEGY'
+      );
+
+      assert.ok(prompt.includes(coreStyle));
+      assert.ok(prompt.endsWith('--ar 16:9'));
+      assert.ok(prompt.length > coreStyle.length + 30);
+    });
+
+    test('Fallback visual prompt mencakup metafora presisi untuk setiap Territory', () => {
+      const fbIntelligence = (bot as any).createFallbackVisualPrompt('Customer Churn', 'Customer Churn Analysis', 'INTELLIGENCE');
+      assert.ok(fbIntelligence.includes('Customer Churn Analysis'));
+      assert.ok(fbIntelligence.includes('scanner') || fbIntelligence.includes('prisms'));
+      assert.ok(fbIntelligence.includes(coreStyle));
+      assert.ok(fbIntelligence.endsWith('--ar 16:9'));
+
+      const fbStrategy = (bot as any).createFallbackVisualPrompt('Pricing Model', 'Pricing Model Architecture', 'STRATEGY');
+      assert.ok(fbStrategy.includes('Pricing Model Architecture'));
+      assert.ok(fbStrategy.includes('decision pillar'));
+      assert.ok(fbStrategy.includes(coreStyle));
+      assert.ok(fbStrategy.endsWith('--ar 16:9'));
+
+      const fbTactical = (bot as any).createFallbackVisualPrompt('WhatsApp Flow', 'WhatsApp Flow Automation', 'TACTICAL');
+      assert.ok(fbTactical.includes('WhatsApp Flow Automation'));
+      assert.ok(fbTactical.includes('sorting conduit') || fbTactical.includes('workflow loop'));
+      assert.ok(fbTactical.includes(coreStyle));
+      assert.ok(fbTactical.endsWith('--ar 16:9'));
+    });
+  });
 });
+
+

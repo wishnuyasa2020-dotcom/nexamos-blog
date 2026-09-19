@@ -761,12 +761,13 @@ Atau cukup bagikan link studi/berita yang ingin dianalisis!
       const guardResult = groundingGuard.evaluate(draft, researchBrief, editorialPlan);
 
 
-      // 7. Rumuskan Visual Prompt dengan Qwen / AI Provider sesuai NEXAMOS_VISUAL_AGENT_MEMORY.md
+      // 7. Rumuskan Visual Prompt dengan AI Provider sesuai formula [SUBJECT] + [VISUAL METAPHOR] + [CORE_STYLE]
       const visualPrompt = await this.generateVisualPrompt(
         parsed.topic,
         draft.title,
         draft.dek || '',
-        draft.sections
+        draft.sections,
+        draft.territory
       );
 
       // Simpan draf ke content/drafts/
@@ -1219,20 +1220,44 @@ Silakan pilih tindakan berikut:`;
   }
 
   /**
+   * Membaca panduan visual hero image secara dinamis dari disk
+   */
+  private async loadHeroVisualGuide(): Promise<string> {
+    const candidatePaths = [
+      path.join(this.workspaceRoot, 'agent', 'memory', 'hero-visual-style-guide.md'),
+      path.join(this.workspaceRoot, 'knowledge', 'editorial', 'NexaMOS_Editorial_Style_Guide_v1.0.md')
+    ];
+    for (const filePath of candidatePaths) {
+      try {
+        const content = await fs.readFile(filePath, 'utf-8');
+        return content;
+      } catch {
+        // Coba path alternatif berikutnya
+      }
+    }
+    return '';
+  }
+
+  /**
    * Merumuskan Visual Prompt siap pakai untuk Midjourney / DALL-E / Flux
-   * Berdasarkan NexaMOS Visual DNA (NEXAMOS_VISUAL_AGENT_MEMORY.md)
+   * Berdasarkan formula kanonik: [SUBJECT] + [VISUAL METAPHOR] + [CORE_STYLE]
    */
   public async generateVisualPrompt(
     topic: string,
     draftTitle: string,
     draftDek: string,
-    sections: { heading?: string | null; content: string }[]
+    sections: { heading?: string | null; content: string }[],
+    territory?: Territory
   ): Promise<string> {
+    const resolvedTerritory: Territory = territory || 'STRATEGY';
     try {
       const aiConfig = loadAIProviderConfig();
       if (!isAIConfigured(aiConfig)) {
-        return this.createFallbackVisualPrompt(topic);
+        return this.createFallbackVisualPrompt(topic, draftTitle, resolvedTerritory);
       }
+
+      // 1. Baca panduan visual terbaru secara dinamis dari disk
+      const visualGuideContent = await this.loadHeroVisualGuide();
 
       const client = new AIHttpClient(aiConfig);
       const summaryContext = sections
@@ -1240,39 +1265,40 @@ Silakan pilih tindakan berikut:`;
         .map((s) => `${s.heading || ''}: ${s.content.slice(0, 150)}`)
         .join('\n');
 
-      const systemPrompt = `You are the Principal Visual Art Director for NexaMOS (Marketing Operating System).
-Your mission: Translate marketing technology & strategy articles into a single, compelling, futuristic editorial visual concept adhering strictly to the NexaMOS Visual DNA (from NEXAMOS_VISUAL_AGENT_MEMORY.md).
+      const coreStyle = '3D isometric illustration, soft clay rendering, rounded geometric objects, soft studio lighting, minimal marketing illustration, clean composition, premium modern aesthetic. Clear visual hierarchy, single dominant focal object, generous negative space, no text, no logos.';
 
-NEXAMOS VISUAL DNA & RULES:
-1. North Star: "Making the invisible marketing system visible." Show the core system mechanism, not just the topic.
-2. Mental Model: Distributed Market Signals -> Data Stream -> Qualification / Processing Gate -> State Transformation -> Activated Customer Entity.
-3. Aesthetic: Futuristic editorial technology illustration + abstract system/data visualization + subtle dimensional 3D depth. Premium, intelligent, precise, sophisticated, minimalist, generous negative space.
-4. Canvas: Deep black / near-black background (#000000).
-5. Core Semantic Palette:
-   - Green (#00D690) = action, conversion, active customer entity
-   - Teal (#04B394) = relationship, qualification gate, state transition
-   - Cyan (#03A0A7) = market signals, raw data stream, computation
-   - Signature flow: #03A0A7 -> #04B394 -> #00D690
-6. Strict Anti-Patterns (NEVER INCLUDE):
-   - NO humanoid robots or robot heads
-   - NO glowing AI brain or circuit-board brains
-   - NO fake software dashboards, UI windows, or graphs/charts
-   - NO office workers, handshakes, or human figures
-   - NO smartphones or gadget mockups
-   - NO text, words, labels, typography, or brand logos
-   - NO rainbow neon, cyberpunk cities, or excessive clutter
+      const systemPrompt = `You are the Lead Visual Art Director for NexaMOS (Marketing Operating System).
+Your mission: Formulate the [SUBJECT] in English and extract the 3D isometric [VISUAL METAPHOR] for an article hero image following the Canonical NexaMOS Visual Style Guide.
 
-OUTPUT REQUIREMENT:
-Generate a single, dense, production-ready image generation prompt in English (optimized for Midjourney v6 / Flux / DALL-E 3).
-Start with: "Futuristic editorial technology illustration of [core mechanism]..."
-Describe the 3D abstract geometric elements, materials (dark matte obsidian, translucent crystal glass, laser-thin paths), the exact NexaMOS color flow (#03A0A7 to #04B394 to #00D690), dramatic subtle rim lighting, clean central composition, generous negative space, and deep black background. End with "--ar 16:9".
-Output ONLY the prompt text without any preamble or markdown tags.`;
+FORMULA ARCHITECTURE:
+[SUBJECT] + [VISUAL METAPHOR] + [CORE_STYLE]
 
-      const userPrompt = `Generate the NexaMOS Midjourney/Flux prompt for this article:
+KNOWLEDGE TERRITORY METAPHOR GUIDELINES:
+- INTELLIGENCE: A 3D isometric scanner analyzing floating glowing data nodes, geometric crystal prisms refracting market signals, curved diagnostic glass lenses, or pattern crystallization nodes.
+- STRATEGY: A 3D isometric architectural decision pillar, branching geometric modular foundation blocks, interlocking stone steps, or strategic balance pedestal.
+- TACTICAL: A 3D isometric precision sorting conduit, automated circular workflow loop with interconnected geometric channels and funnels.
+
+STRICT ANTI-PATTERNS:
+- NO text, letters, typography, words, numbers, or brand logos anywhere.
+- NO humanoid robots, robot heads, or human figures/faces.
+- NO computer monitors, laptop screens, smartphone mockups, or 2D chart/dashboard screenshots.
+- Single dominant focal object with generous negative space.
+
+DYNAMIC VISUAL REFERENCE FROM DISK:
+${visualGuideContent ? visualGuideContent.slice(0, 1500) : ''}
+
+OUTPUT FORMAT (MANDATORY JSON ONLY):
+{
+  "subject": "Clear English subject or title of the article",
+  "visualMetaphor": "A 3D isometric [specific metaphor extracted from the subject and territory]"
+}`;
+
+      const userPrompt = `Generate the hero image concept for this article:
 Topic: "${topic}"
 Headline: "${draftTitle}"
+Knowledge Territory: ${resolvedTerritory}
 Dek: "${draftDek}"
-Key Mechanism Context:
+Key Context:
 ${summaryContext}`;
 
       const response = await client.complete({
@@ -1280,22 +1306,53 @@ ${summaryContext}`;
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }
         ],
-        responseFormat: 'text',
+        responseFormat: 'json_object',
         temperature: 0.3
       });
 
-      const promptText = response.content.trim().replace(/^["']|["']$/g, '');
-      return promptText.includes('--ar 16:9') ? promptText : `${promptText} --ar 16:9`;
+      let extractedSubject = draftTitle || topic;
+      let extractedMetaphor = '';
+
+      try {
+        const parsedJson = JSON.parse(response.content.trim());
+        if (parsedJson.subject) {
+          extractedSubject = parsedJson.subject.trim().replace(/^["']|["']$/g, '');
+        }
+        if (parsedJson.visualMetaphor) {
+          extractedMetaphor = parsedJson.visualMetaphor.trim().replace(/^["']|["']$/g, '');
+        }
+      } catch {
+        // Fallback jika respon model bukan JSON murni
+        extractedMetaphor = response.content.replace(/--ar 16:9/g, '').trim();
+      }
+
+      if (!extractedMetaphor) {
+        return this.createFallbackVisualPrompt(topic, draftTitle, resolvedTerritory);
+      }
+
+      // Rakit formula baku: [SUBJECT] + [VISUAL METAPHOR] + [CORE_STYLE]
+      return `${extractedSubject}, ${extractedMetaphor}, ${coreStyle} --ar 16:9`;
     } catch (err) {
       console.warn('[WARN] Gagal merumuskan visual prompt via AI, menggunakan formula fallback:', err);
-      return this.createFallbackVisualPrompt(topic);
+      return this.createFallbackVisualPrompt(topic, draftTitle, resolvedTerritory);
     }
   }
 
   /**
    * Formula prompt visual default jika API AI offline
+   * Menjamin kepatuhan mutlak pada formula: [SUBJECT] + [VISUAL METAPHOR] + [CORE_STYLE]
    */
-  private createFallbackVisualPrompt(topic: string): string {
-    return `Futuristic editorial technology illustration of ${topic} marketing mechanism. Abstract system data visualization with subtle dimensional 3D depth on deep black background (#000000). Showing directional data flow transitioning through a precision geometric qualification gate, shifting from cyan (#03A0A7) to luminous teal (#04B394) to active emerald green (#00D690) nodes. Minimalist, premium, matte dark glass and luminous paths, generous negative space, high contrast, editorial quality. No text, no human figures, no robots, no UI dashboards, no smartphones --ar 16:9`;
+  private createFallbackVisualPrompt(topic: string, draftTitle?: string, territory?: Territory): string {
+    const subject = draftTitle || topic;
+    const coreStyle = '3D isometric illustration, soft clay rendering, rounded geometric objects, soft studio lighting, minimal marketing illustration, clean composition, premium modern aesthetic. Clear visual hierarchy, single dominant focal object, generous negative space, no text, no logos.';
+
+    let visualMetaphor = 'a 3D isometric architectural decision pillar with branching geometric modular foundation blocks';
+    if (territory === 'INTELLIGENCE') {
+      visualMetaphor = 'a 3D isometric scanner analyzing floating glowing data nodes and geometric crystal prisms refracting market signals';
+    } else if (territory === 'TACTICAL') {
+      visualMetaphor = 'a 3D isometric precision sorting conduit and automated workflow loop with interconnected geometric channels';
+    }
+
+    return `${subject}, ${visualMetaphor}, ${coreStyle} --ar 16:9`;
   }
 }
