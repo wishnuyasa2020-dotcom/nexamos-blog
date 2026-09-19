@@ -19,6 +19,115 @@ export interface HtmlRenderOptions {
 }
 
 export class PublicationHtmlRenderer {
+  public static readonly ICONS = {
+    whatsapp: `<svg class="share-icon icon-whatsapp" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.04 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 14.99 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M9.53 7.34C9.33 7.34 9 7.42 8.72 7.73C8.44 8.04 7.65 8.78 7.65 10.28C7.65 11.78 8.74 13.22 8.9 13.43C9.05 13.64 11.05 16.71 14.1 18.03C14.83 18.34 15.39 18.53 15.84 18.67C16.57 18.9 17.24 18.87 17.76 18.79C18.34 18.7 19.55 18.06 19.81 17.34C20.06 16.63 20.06 16.02 19.98 15.89C19.91 15.76 19.71 15.69 19.41 15.54C19.11 15.39 17.63 14.66 17.35 14.56C17.08 14.46 16.88 14.41 16.68 14.71C16.48 15.02 15.9 15.69 15.72 15.89C15.55 16.1 15.37 16.12 15.07 15.97C14.77 15.82 13.8 15.5 12.65 14.48C11.76 13.69 11.16 12.71 10.99 12.41C10.81 12.11 10.97 11.95 11.12 11.8C11.26 11.66 11.43 11.43 11.58 11.26C11.73 11.08 11.78 10.96 11.88 10.75C11.98 10.55 11.93 10.37 11.86 10.22C11.78 10.07 11.18 8.6 10.93 8C10.69 7.42 10.44 7.5 10.26 7.49C10.08 7.49 9.88 7.49 9.68 7.49L9.53 7.34Z"/></svg>`,
+    facebook: `<svg class="share-icon icon-facebook" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>`,
+    instagram: `<svg class="share-icon icon-instagram" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>`,
+    copy: `<svg class="share-icon icon-copy" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>`
+  };
+
+  /**
+   * Render Tombol & Baris Share Artikel (WhatsApp, Instagram, Facebook, Salin Tautan)
+   */
+  public static renderArticleShareBar(params: {
+    url: string;
+    title: string;
+    isBottom?: boolean;
+  }): string {
+    const { url, title, isBottom = false } = params;
+    const safeUrl = this.sanitizeHtml(url);
+    const safeTitle = this.sanitizeHtml(title);
+    const encodedWhatsappText = encodeURIComponent(`${safeTitle}\n${safeUrl}`);
+    const encodedFacebookUrl = encodeURIComponent(safeUrl);
+    const jsUrl = safeUrl.replace(/'/g, "\\'");
+    const jsTitle = safeTitle.replace(/'/g, "\\'");
+
+    if (isBottom) {
+      return `
+      <section class="article-share-cta" aria-label="Bagikan artikel ini">
+        <div class="share-cta-header">
+          <span class="share-cta-icon" aria-hidden="true">✦</span>
+          <h3 data-i18n="share_cta_title">Menemukan wawasan berharga? Bagikan riset ini:</h3>
+        </div>
+        <div class="share-btn-group">
+          <a href="https://api.whatsapp.com/send?text=${encodedWhatsappText}" target="_blank" rel="noopener noreferrer" class="share-btn share-whatsapp" aria-label="Share to WhatsApp" title="WhatsApp" data-share-url="${safeUrl}">
+            ${this.ICONS.whatsapp}
+            <span>WhatsApp</span>
+          </a>
+          <button type="button" class="share-btn share-instagram" onclick="shareToInstagram('${jsUrl}', '${jsTitle}')" aria-label="Share to Instagram" title="Instagram">
+            ${this.ICONS.instagram}
+            <span>Instagram</span>
+          </button>
+          <a href="https://www.facebook.com/sharer/sharer.php?u=${encodedFacebookUrl}" target="_blank" rel="noopener noreferrer" class="share-btn share-facebook" aria-label="Share to Facebook" title="Facebook">
+            ${this.ICONS.facebook}
+            <span>Facebook</span>
+          </a>
+          <button type="button" class="share-btn share-copy" onclick="copyArticleLink('${jsUrl}', this)" aria-label="Copy link" title="Copy Link">
+            ${this.ICONS.copy}
+            <span class="btn-text" data-i18n="share_copy">Salin Tautan</span>
+          </button>
+        </div>
+      </section>`;
+    }
+
+    return `
+      <div class="article-share-bar" aria-label="Bagikan artikel ini">
+        <span class="share-bar-label" data-i18n="share_label">Bagikan:</span>
+        <div class="share-btn-group">
+          <a href="https://api.whatsapp.com/send?text=${encodedWhatsappText}" target="_blank" rel="noopener noreferrer" class="share-btn share-whatsapp" aria-label="Share to WhatsApp" title="WhatsApp" data-share-url="${safeUrl}">
+            ${this.ICONS.whatsapp}
+            <span>WhatsApp</span>
+          </a>
+          <button type="button" class="share-btn share-instagram" onclick="shareToInstagram('${jsUrl}', '${jsTitle}')" aria-label="Share to Instagram" title="Instagram">
+            ${this.ICONS.instagram}
+            <span>Instagram</span>
+          </button>
+          <a href="https://www.facebook.com/sharer/sharer.php?u=${encodedFacebookUrl}" target="_blank" rel="noopener noreferrer" class="share-btn share-facebook" aria-label="Share to Facebook" title="Facebook">
+            ${this.ICONS.facebook}
+            <span>Facebook</span>
+          </a>
+          <button type="button" class="share-btn share-copy" onclick="copyArticleLink('${jsUrl}', this)" aria-label="Copy link" title="Copy Link">
+            ${this.ICONS.copy}
+            <span class="btn-text" data-i18n="share_copy">Salin Tautan</span>
+          </button>
+        </div>
+      </div>`;
+  }
+
+  /**
+   * Render Tombol Quick-Share pada Kartu Indeks Blog
+   */
+  public static renderCardShareRow(params: {
+    url: string;
+    title: string;
+  }): string {
+    const { url, title } = params;
+    const safeUrl = this.sanitizeHtml(url);
+    const safeTitle = this.sanitizeHtml(title);
+    const encodedWhatsappText = encodeURIComponent(`${safeTitle}\n${safeUrl}`);
+    const encodedFacebookUrl = encodeURIComponent(safeUrl);
+    const jsUrl = safeUrl.replace(/'/g, "\\'");
+    const jsTitle = safeTitle.replace(/'/g, "\\'");
+
+    return `
+        <div class="card-share-bar" aria-label="Bagikan artikel ini">
+          <span class="card-share-label" data-i18n="share_label">Bagikan:</span>
+          <div class="card-share-icons">
+            <a href="https://api.whatsapp.com/send?text=${encodedWhatsappText}" target="_blank" rel="noopener noreferrer" class="card-share-btn share-whatsapp" aria-label="Share to WhatsApp" title="WhatsApp" onclick="event.stopPropagation();" data-share-url="${safeUrl}">
+              ${this.ICONS.whatsapp}
+            </a>
+            <button type="button" class="card-share-btn share-instagram" onclick="event.stopPropagation(); event.preventDefault(); shareToInstagram('${jsUrl}', '${jsTitle}');" aria-label="Share to Instagram" title="Instagram">
+              ${this.ICONS.instagram}
+            </button>
+            <a href="https://www.facebook.com/sharer/sharer.php?u=${encodedFacebookUrl}" target="_blank" rel="noopener noreferrer" class="card-share-btn share-facebook" aria-label="Share to Facebook" title="Facebook" onclick="event.stopPropagation();">
+              ${this.ICONS.facebook}
+            </a>
+            <button type="button" class="card-share-btn share-copy" onclick="event.stopPropagation(); event.preventDefault(); copyArticleLink('${jsUrl}', this);" aria-label="Copy link" title="Copy Link">
+              ${this.ICONS.copy}
+            </button>
+          </div>
+        </div>`;
+  }
   /**
    * Render tag verifikasi Google Search Console dan Google Analytics 4 jika tersedia
    */
@@ -323,6 +432,7 @@ ${this.renderSiteNav()}
           ${authorRole ? `<span class="author-role">${authorRole}</span>` : ''}
           ${pkg.publishedAt ? `<time itemprop="datePublished" datetime="${pkg.publishedAt}" data-pubdate="${pkg.publishedAt}">${formattedDate}</time>` : ''}
         </div>
+        ${this.renderArticleShareBar({ url: pkg.canonicalUrl, title: sanitizedHeadlineEn, isBottom: false })}
       </header>
 
       ${heroImageHtml}
@@ -336,6 +446,8 @@ ${this.renderSiteNav()}
           ${renderedSectionsId}
         </div>` : ''}
       </div>
+
+      ${this.renderArticleShareBar({ url: pkg.canonicalUrl, title: sanitizedHeadlineEn, isBottom: true })}
 
       ${citationsHtml}
       ${relatedHtml}
@@ -406,6 +518,10 @@ ${this.renderI18nScript()}
             <span class="read-more" data-i18n="read_more">Read Full Article &rarr;</span>
           </div>
         </a>
+        ${this.renderCardShareRow({
+          url: item.canonicalUrl || `${cleanSiteUrl}/blog/${item.slug}`,
+          title: titleEn
+        })}
       </article>`;
       })
       .join('\n');
@@ -473,7 +589,13 @@ ${this.renderI18nScript()}
    */
   public static renderI18nScript(): string {
     const currentYear = new Date().getFullYear();
-    return `  <script>
+    return `  <!-- Interactive Toast Notification -->
+  <div id="nexamos-toast" class="nexamos-toast" role="status" aria-live="polite" aria-atomic="true">
+    <span class="toast-icon">✓</span>
+    <span id="nexamos-toast-msg" class="toast-msg">Article link copied to clipboard!</span>
+  </div>
+
+  <script>
     (function() {
       const I18N_BLOG = {
         en: {
@@ -484,7 +606,13 @@ ${this.renderI18nScript()}
           no_articles: "No articles published yet.",
           citations_heading: "Authoritative References &amp; Sources",
           related_heading: "Further Exploration",
-          footer_copy: "&copy; ${currentYear} NexaMOS. All rights reserved."
+          footer_copy: "&copy; ${currentYear} NexaMOS. All rights reserved.",
+          share_label: "Share:",
+          share_cta_title: "Found this research insightful? Share it:",
+          share_copy: "Copy Link",
+          share_copied: "Copied!",
+          toast_copied: "Article link copied to clipboard!",
+          toast_instagram: "Link copied! Open Instagram to share in your Story or DM."
         },
         id: {
           nav_home: "Beranda",
@@ -494,8 +622,85 @@ ${this.renderI18nScript()}
           no_articles: "Belum ada artikel yang dipublikasikan.",
           citations_heading: "Sumber &amp; Rujukan Otoritatif",
           related_heading: "Eksplorasi Lanjutan",
-          footer_copy: "&copy; ${currentYear} NexaMOS. Seluruh hak cipta dilindungi undang-undang."
+          footer_copy: "&copy; ${currentYear} NexaMOS. Seluruh hak cipta dilindungi undang-undang.",
+          share_label: "Bagikan:",
+          share_cta_title: "Menemukan wawasan berharga? Bagikan riset ini:",
+          share_copy: "Salin Tautan",
+          share_copied: "Tersalin!",
+          toast_copied: "Tautan artikel berhasil disalin ke clipboard!",
+          toast_instagram: "Tautan disalin! Buka Instagram untuk membagikan di Story atau DM."
         }
+      };
+
+      window.showToast = function(msg) {
+        const toast = document.getElementById('nexamos-toast');
+        const toastMsg = document.getElementById('nexamos-toast-msg');
+        if (!toast || !toastMsg) return;
+        toastMsg.textContent = msg;
+        toast.classList.add('visible');
+        if (window._toastTimer) clearTimeout(window._toastTimer);
+        window._toastTimer = setTimeout(function() {
+          toast.classList.remove('visible');
+        }, 3500);
+      };
+
+      function fallbackCopy(text, cb) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        try {
+          document.execCommand('copy');
+          if (cb) cb();
+        } catch (e) {}
+        document.body.removeChild(ta);
+      }
+
+      window.copyArticleLink = function(url, btnEl) {
+        const lang = document.documentElement.lang || 'id';
+        const dict = I18N_BLOG[lang] || I18N_BLOG.id;
+        const targetUrl = url || window.location.href;
+
+        function onSuccess() {
+          window.showToast(dict.toast_copied || "Tautan artikel berhasil disalin!");
+          if (btnEl) {
+            const textSpan = btnEl.querySelector('.btn-text');
+            if (textSpan) {
+              const orig = textSpan.innerHTML;
+              textSpan.innerHTML = dict.share_copied || "Tersalin!";
+              setTimeout(function() { textSpan.innerHTML = orig; }, 2000);
+            }
+          }
+        }
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(targetUrl).then(onSuccess).catch(function() {
+            fallbackCopy(targetUrl, onSuccess);
+          });
+        } else {
+          fallbackCopy(targetUrl, onSuccess);
+        }
+      };
+
+      window.shareToInstagram = function(url, title) {
+        const lang = document.documentElement.lang || 'id';
+        const dict = I18N_BLOG[lang] || I18N_BLOG.id;
+        const targetUrl = url || window.location.href;
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(targetUrl);
+        } else {
+          fallbackCopy(targetUrl, function(){});
+        }
+
+        window.showToast(dict.toast_instagram || "Tautan disalin! Buka Instagram untuk membagikan di Story atau DM.");
+        setTimeout(function() {
+          window.open('https://www.instagram.com', '_blank', 'noopener,noreferrer');
+        }, 600);
       };
 
       window.setBlogLanguage = function(lang) {
@@ -537,10 +742,18 @@ ${this.renderI18nScript()}
           } catch(e) {}
         });
 
-        // Update document title jika ada headline aktif
+        // Update document title jika ada headline aktif & perbarui link WhatsApp dinamis
         const activeHeadline = document.querySelector('.article-lang-block[data-lang="' + lang + '"] h1');
         if (activeHeadline && activeHeadline.textContent) {
-          document.title = activeHeadline.textContent.trim() + ' | NexaMOS';
+          const currentTitle = activeHeadline.textContent.trim();
+          document.title = currentTitle + ' | NexaMOS';
+
+          document.querySelectorAll('.primary-article .share-whatsapp[data-share-url]').forEach(function(el) {
+            const u = el.getAttribute('data-share-url');
+            if (u) {
+              el.href = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(currentTitle + '\\n' + u);
+            }
+          });
         }
 
         document.querySelectorAll('.lang-btn').forEach(function(btn) {
