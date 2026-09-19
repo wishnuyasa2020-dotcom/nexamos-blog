@@ -568,7 +568,7 @@ ${this.renderI18nScript()}
         const articleTypeLabel = this.getArticleTypeLabel(item.articleType, 'en');
 
         return `
-      <article class="blog-card" data-territory="${item.territory}" data-search-text="${searchableCorpus}">
+      <article class="blog-card" data-card-territory="${item.territory}" data-search-text="${searchableCorpus}">
         <a href="${item.canonicalPath || item.publicCanonicalPath || `/blog/${item.slug}`}" class="card-link">
           ${heroThumb}
           <div class="card-content">
@@ -849,7 +849,7 @@ ${this.renderI18nScript()}
 
         let visibleCount = 0;
         cards.forEach(function(card) {
-          const cardTerritory = (card.getAttribute('data-territory') || '').toUpperCase();
+          const cardTerritory = (card.getAttribute('data-card-territory') || card.getAttribute('data-territory') || '').toUpperCase();
           const territoryMatches = (activeFilterTerritory === 'ALL' || cardTerritory === activeFilterTerritory);
 
           let searchMatches = true;
@@ -991,7 +991,7 @@ ${this.renderI18nScript()}
         });
 
         // Update label badge territory & articleType secara reaktif (Konsisten dengan Landing Page)
-        document.querySelectorAll('[data-territory]').forEach(function(el) {
+        document.querySelectorAll('.blog-dyn-badge[data-territory], .territory[data-territory], .territory-tag[data-territory]').forEach(function(el) {
           const t = el.getAttribute('data-territory');
           if (!t) return;
           const isId = lang === 'id';

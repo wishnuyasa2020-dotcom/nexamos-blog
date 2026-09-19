@@ -134,12 +134,12 @@ describe('Editorial Territory Filter & Free Search Bar Test Suite', () => {
     assert.ok(html.includes('id="search-status-bar"'), 'Harus memiliki baris status hasil');
   });
 
-  test('Setiap kartu artikel memiliki data-territory dan corpus data-search-text', () => {
+  test('Setiap kartu artikel memiliki data-card-territory dan corpus data-search-text', () => {
     const html = PublicationHtmlRenderer.renderBlogIndexPage(articles);
 
-    assert.ok(html.includes('data-territory="INTELLIGENCE"'), 'Kartu intelijen harus memiliki data-territory="INTELLIGENCE"');
-    assert.ok(html.includes('data-territory="STRATEGY"'), 'Kartu strategi harus memiliki data-territory="STRATEGY"');
-    assert.ok(html.includes('data-territory="TACTICAL"'), 'Kartu taktikal harus memiliki data-territory="TACTICAL"');
+    assert.ok(html.includes('data-card-territory="INTELLIGENCE"'), 'Kartu intelijen harus memiliki data-card-territory="INTELLIGENCE"');
+    assert.ok(html.includes('data-card-territory="STRATEGY"'), 'Kartu strategi harus memiliki data-card-territory="STRATEGY"');
+    assert.ok(html.includes('data-card-territory="TACTICAL"'), 'Kartu taktikal harus memiliki data-card-territory="TACTICAL"');
     assert.ok(html.includes('data-search-text="competitive intelligence modern'), 'Kartu harus memuat korpus teks pencarian lowercase');
   });
 
