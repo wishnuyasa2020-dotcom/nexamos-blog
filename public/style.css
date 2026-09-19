@@ -299,6 +299,27 @@ main {
   user-select: none;
 }
 
+.filter-btn-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter-btn-text-group {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.filter-btn-label {
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.filter-btn-detail {
+  display: none; /* hidden on desktop pill toolbar */
+}
+
 .filter-btn:hover {
   color: var(--text-primary);
   background: rgba(255, 255, 255, 0.04);
@@ -316,6 +337,11 @@ main {
   border-radius: 50%;
   flex-shrink: 0;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.bullet-all {
+  background: var(--accent-cyan);
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.6);
 }
 
 .bullet-intelligence {
@@ -1269,22 +1295,93 @@ main {
 
   .blog-filter-section {
     margin: -1rem auto 2.5rem;
+    width: 100%;
+    padding: 0 0.5rem;
   }
 
+  /* 4 baris vertikal khusus mobile: 1 baris = 1 tombol filter + detail */
   .territory-filter-bar {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
     border-radius: 18px;
-    padding: 6px 8px;
-    gap: 0.4rem;
+    padding: 8px;
+    gap: 8px;
+    background: rgba(12, 18, 34, 0.85);
+    border: 1px solid var(--border-subtle);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.4);
   }
 
   .filter-btn {
-    padding: 6px 12px 6px 10px;
-    font-size: 0.82rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 11px 14px;
+    border-radius: 14px;
+    background: rgba(16, 24, 40, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    white-space: normal;
   }
 
-  .filter-count-badge {
-    font-size: 0.68rem;
-    padding: 1.5px 6px;
+  .filter-btn-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .filter-btn .filter-bullet {
+    width: 9px;
+    height: 9px;
+    flex-shrink: 0;
+  }
+
+  .filter-btn-text-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    text-align: left;
+    min-width: 0;
+  }
+
+  .filter-btn-label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--text-primary);
+  }
+
+  .filter-btn-detail {
+    display: block;
+    font-size: 0.76rem;
+    font-weight: 400;
+    color: var(--text-muted);
+    line-height: 1.35;
+    white-space: normal;
+    transition: color 0.2s ease;
+  }
+
+  .filter-btn:hover .filter-btn-detail {
+    color: var(--text-secondary);
+  }
+
+  .filter-btn.active .filter-btn-detail {
+    color: var(--text-secondary);
+    opacity: 0.9;
+  }
+
+  .filter-btn .filter-count-badge {
+    margin-left: 12px;
+    font-size: 0.78rem;
+    padding: 3px 9px;
+    border-radius: 99px;
+    flex-shrink: 0;
   }
 
   .search-input-inner {

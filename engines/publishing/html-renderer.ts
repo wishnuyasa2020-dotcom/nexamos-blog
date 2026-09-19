@@ -628,25 +628,46 @@ ${this.renderSiteNav()}
     <!-- Interactive Editorial Territory Filter & Free Search -->
     <section class="blog-filter-section" aria-label="Filter Teritori dan Pencarian Artikel">
       <div class="filter-controls-container">
-        <!-- 3 Teritori Utama + ALL Filter Buttons dengan Badge -->
+        <!-- 3 Teritori Utama + ALL Filter Buttons dengan Badge (4 baris pada mobile: 1 baris = 1 tombol & detail) -->
         <div class="territory-filter-bar" role="toolbar" aria-label="Filter Berdasarkan Teritori Editorial">
           <button type="button" class="filter-btn active" data-filter-territory="ALL" onclick="setTerritoryFilter('ALL')">
-            <span class="filter-btn-label" data-i18n="filter_all">All</span>
+            <div class="filter-btn-content">
+              <span class="filter-bullet bullet-all"></span>
+              <div class="filter-btn-text-group">
+                <span class="filter-btn-label" data-i18n="filter_all">All</span>
+                <span class="filter-btn-detail" data-i18n="filter_all_detail">All publications &amp; engineering papers</span>
+              </div>
+            </div>
             <span class="filter-count-badge badge-all">${totalCount}</span>
           </button>
           <button type="button" class="filter-btn btn-intelligence" data-filter-territory="INTELLIGENCE" onclick="setTerritoryFilter('INTELLIGENCE')">
-            <span class="filter-bullet bullet-intelligence"></span>
-            <span class="filter-btn-label" data-i18n="filter_intelligence">Intelligence</span>
+            <div class="filter-btn-content">
+              <span class="filter-bullet bullet-intelligence"></span>
+              <div class="filter-btn-text-group">
+                <span class="filter-btn-label" data-i18n="filter_intelligence">Intelligence</span>
+                <span class="filter-btn-detail" data-i18n="filter_intel_detail">Market signals, primary data &amp; AI insights</span>
+              </div>
+            </div>
             <span class="filter-count-badge badge-intelligence">${intelCount}</span>
           </button>
           <button type="button" class="filter-btn btn-strategy" data-filter-territory="STRATEGY" onclick="setTerritoryFilter('STRATEGY')">
-            <span class="filter-bullet bullet-strategy"></span>
-            <span class="filter-btn-label" data-i18n="filter_strategy">Strategy</span>
+            <div class="filter-btn-content">
+              <span class="filter-bullet bullet-strategy"></span>
+              <div class="filter-btn-text-group">
+                <span class="filter-btn-label" data-i18n="filter_strategy">Strategy</span>
+                <span class="filter-btn-detail" data-i18n="filter_strat_detail">Positioning, business model &amp; trade-offs</span>
+              </div>
+            </div>
             <span class="filter-count-badge badge-strategy">${stratCount}</span>
           </button>
           <button type="button" class="filter-btn btn-tactical" data-filter-territory="TACTICAL" onclick="setTerritoryFilter('TACTICAL')">
-            <span class="filter-bullet bullet-tactical"></span>
-            <span class="filter-btn-label" data-i18n="filter_tactical">Tactical</span>
+            <div class="filter-btn-content">
+              <span class="filter-bullet bullet-tactical"></span>
+              <div class="filter-btn-text-group">
+                <span class="filter-btn-label" data-i18n="filter_tactical">Tactical</span>
+                <span class="filter-btn-detail" data-i18n="filter_tact_detail">CRM, workflow automation &amp; conversion mechanics</span>
+              </div>
+            </div>
             <span class="filter-count-badge badge-tactical">${tactCount}</span>
           </button>
         </div>
@@ -758,9 +779,13 @@ ${this.renderI18nScript()}
           hero_badge: "NexaMOS Knowledge &amp; Research Journal",
           hero_sub: "Authority publication, primary data insights, and sovereign information architecture.",
           filter_all: "All",
+          filter_all_detail: "All research &amp; engineering publications",
           filter_intelligence: "Intelligence",
+          filter_intel_detail: "Market signals, primary data &amp; AI insights",
           filter_strategy: "Strategy",
+          filter_strat_detail: "Positioning, business model &amp; trade-offs",
           filter_tactical: "Tactical",
+          filter_tact_detail: "CRM, workflow automation &amp; conversion mechanics",
           search_placeholder: "Search articles by title or subtitle...",
           search_status_showing: "Showing {count} of {total} articles",
           search_status_all: "Showing all {total} articles",
@@ -785,9 +810,13 @@ ${this.renderI18nScript()}
           hero_badge: "Jurnal Riset &amp; Rekayasa Pengetahuan NexaMOS",
           hero_sub: "Publikasi otoritas pemikiran, analisis data primer, dan arsitektur informasi mandiri.",
           filter_all: "Semua",
+          filter_all_detail: "Seluruh arsip riset &amp; rekayasa informasi",
           filter_intelligence: "Intelijen",
+          filter_intel_detail: "Sinyal pasar, data primer &amp; diagnosis AI",
           filter_strategy: "Strategi",
+          filter_strat_detail: "Positioning, model bisnis &amp; trade-offs",
           filter_tactical: "Taktikal",
+          filter_tact_detail: "CRM, otomatisasi alur kerja &amp; mekanika konversi",
           search_placeholder: "Cari artikel berdasarkan judul atau sub-judul...",
           search_status_showing: "Menampilkan {count} dari {total} artikel",
           search_status_all: "Menampilkan semua {total} artikel",
