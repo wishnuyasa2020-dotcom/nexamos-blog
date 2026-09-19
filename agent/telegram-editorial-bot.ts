@@ -1268,29 +1268,31 @@ Silakan pilih tindakan berikut:`;
       const coreStyle = '3D isometric illustration, soft clay rendering, rounded geometric objects, soft studio lighting, minimal marketing illustration, clean composition, premium modern aesthetic. Clear visual hierarchy, single dominant focal object, generous negative space, no text, no logos.';
 
       const systemPrompt = `You are the Lead Visual Art Director for NexaMOS (Marketing Operating System).
-Your mission: Formulate the [SUBJECT] in English and extract the 3D isometric [VISUAL METAPHOR] for an article hero image following the Canonical NexaMOS Visual Style Guide.
+Your mission: Formulate the [SUBJECT] in English and invent a UNIQUE, tangible physical [VISUAL METAPHOR] representing the core mechanism of the article.
 
 FORMULA ARCHITECTURE:
 [SUBJECT] + [VISUAL METAPHOR] + [CORE_STYLE]
 
-KNOWLEDGE TERRITORY METAPHOR GUIDELINES:
-- INTELLIGENCE: A 3D isometric scanner analyzing floating glowing data nodes, geometric crystal prisms refracting market signals, curved diagnostic glass lenses, or pattern crystallization nodes.
-- STRATEGY: A 3D isometric architectural decision pillar, branching geometric modular foundation blocks, interlocking stone steps, or strategic balance pedestal.
-- TACTICAL: A 3D isometric precision sorting conduit, automated circular workflow loop with interconnected geometric channels and funnels.
-
-STRICT ANTI-PATTERNS:
-- NO text, letters, typography, words, numbers, or brand logos anywhere.
-- NO humanoid robots, robot heads, or human figures/faces.
-- NO computer monitors, laptop screens, smartphone mockups, or 2D chart/dashboard screenshots.
-- Single dominant focal object with generous negative space.
-
-DYNAMIC VISUAL REFERENCE FROM DISK:
-${visualGuideContent ? visualGuideContent.slice(0, 1500) : ''}
+CRITICAL RULES (ANTI-REDUNDANCY):
+1. [SUBJECT]: Concise, high-value English title/subject representing the article.
+2. [VISUAL METAPHOR]: A creative, tangible physical object or mechanism representing the article's core operational dynamic.
+   - ⚠️ NEVER include the words "3D", "isometric", "illustration", or "rendering" in visualMetaphor. The rendering style is already supplied by [CORE_STYLE].
+   - Describe ONLY the physical object, its modular geometry, and its dynamic action (e.g., "floating geometric crystal prism refracting dynamic market pulses", "monolithic balanced decision pillar resting on stepped foundation blocks", "circular sorting conduit with pressurized intake channels").
+   - AVOID CLICHÉ OR REPETITIVE METAPHORS: Invent a fresh, article-specific metaphor tailored to the exact topic rather than repeating the same examples.
+3. KNOWLEDGE TERRITORY DIVERSE INSPIRATIONS:
+   - INTELLIGENCE: Acoustic soundboard, floating radar dish, astronomical armillary sphere, refractive crystal prism, frequency tuning fork, layered seismic gauge, curved diagnostic lens, glowing signal matrix.
+   - STRATEGY: Architectural arches, milestone monolith, interlocking puzzle plinth, balance beam scale, branching directional signpost, stepping stone pathway, foundation blocks.
+   - TACTICAL: Mechanical conveyer gear, spiral sorting tower, pressurized valve conduit, modular pipeline cartridge, loop track, hopper dispenser, calibrated filter chamber.
+4. STRICT ANTI-PATTERNS:
+   - NO text, letters, typography, words, numbers, or brand logos anywhere.
+   - NO humanoid robots, robot heads, or human figures/faces.
+   - NO computer monitors, laptop screens, smartphone mockups, or 2D chart/dashboard screenshots.
+   - SINGLE DOMINANT FOCAL OBJECT with generous negative space.
 
 OUTPUT FORMAT (MANDATORY JSON ONLY):
 {
   "subject": "Clear English subject or title of the article",
-  "visualMetaphor": "A 3D isometric [specific metaphor extracted from the subject and territory]"
+  "visualMetaphor": "Tangible physical object and its action (WITHOUT the words 3D or isometric)"
 }`;
 
       const userPrompt = `Generate the hero image concept for this article:
@@ -1307,7 +1309,7 @@ ${summaryContext}`;
           { role: 'user', content: userPrompt }
         ],
         responseFormat: 'json_object',
-        temperature: 0.3
+        temperature: 0.6
       });
 
       let extractedSubject = draftTitle || topic;
@@ -1330,8 +1332,24 @@ ${summaryContext}`;
         return this.createFallbackVisualPrompt(topic, draftTitle, resolvedTerritory);
       }
 
+      // Sanitasi ketat: Hapus kata '3D', 'isometric', 'illustration of' dari metaphor agar tidak terjadi dobel 3D request
+      let cleanMetaphor = extractedMetaphor
+        .replace(/^(a\s+|an\s+|the\s+)?(3d\s+)?(isometric\s+)?(3d\s+)?(illustration\s+of\s+)?/i, '')
+        .replace(/\b3d\s+isometric\b/gi, '')
+        .replace(/\bisometric\s+3d\b/gi, '')
+        .replace(/\bisometric\b/gi, '')
+        .replace(/\b3d\b/gi, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+
+      if (cleanMetaphor.length > 0) {
+        cleanMetaphor = cleanMetaphor.charAt(0).toLowerCase() + cleanMetaphor.slice(1);
+      } else {
+        return this.createFallbackVisualPrompt(topic, draftTitle, resolvedTerritory);
+      }
+
       // Rakit formula baku: [SUBJECT] + [VISUAL METAPHOR] + [CORE_STYLE]
-      return `${extractedSubject}, ${extractedMetaphor}, ${coreStyle} --ar 16:9`;
+      return `${extractedSubject}, ${cleanMetaphor}, ${coreStyle} --ar 16:9`;
     } catch (err) {
       console.warn('[WARN] Gagal merumuskan visual prompt via AI, menggunakan formula fallback:', err);
       return this.createFallbackVisualPrompt(topic, draftTitle, resolvedTerritory);
@@ -1341,16 +1359,17 @@ ${summaryContext}`;
   /**
    * Formula prompt visual default jika API AI offline
    * Menjamin kepatuhan mutlak pada formula: [SUBJECT] + [VISUAL METAPHOR] + [CORE_STYLE]
+   * Tanpa dobel kata '3D' atau 'isometric'
    */
   private createFallbackVisualPrompt(topic: string, draftTitle?: string, territory?: Territory): string {
     const subject = draftTitle || topic;
     const coreStyle = '3D isometric illustration, soft clay rendering, rounded geometric objects, soft studio lighting, minimal marketing illustration, clean composition, premium modern aesthetic. Clear visual hierarchy, single dominant focal object, generous negative space, no text, no logos.';
 
-    let visualMetaphor = 'a 3D isometric architectural decision pillar with branching geometric modular foundation blocks';
+    let visualMetaphor = 'monolithic architectural decision pillar resting on stepped foundation blocks';
     if (territory === 'INTELLIGENCE') {
-      visualMetaphor = 'a 3D isometric scanner analyzing floating glowing data nodes and geometric crystal prisms refracting market signals';
+      visualMetaphor = 'floating geometric crystal prism refracting dynamic market pulses';
     } else if (territory === 'TACTICAL') {
-      visualMetaphor = 'a 3D isometric precision sorting conduit and automated workflow loop with interconnected geometric channels';
+      visualMetaphor = 'circular precision sorting conduit with pressurized intake channels and interconnected geometric tubes';
     }
 
     return `${subject}, ${visualMetaphor}, ${coreStyle} --ar 16:9`;

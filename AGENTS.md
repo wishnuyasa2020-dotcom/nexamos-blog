@@ -48,11 +48,12 @@ Setiap pembuatan atau peninjauan visual prompt untuk gambar artikel wajib menggu
 ```
 
 - **`[SUBJECT]`**: Judul atau topik inti artikel dalam Bahasa Inggris.
-- **`[VISUAL METAPHOR]`**: Objek metafora yang diekstrak dari subjek berdasarkan Knowledge Territory (`INTELLIGENCE` ➔ sensor/scanner/prism; `STRATEGY` ➔ decision pillar/pathway blocks; `TACTICAL` ➔ sorting conduit/workflow loop).
+- **`[VISUAL METAPHOR]`**: Objek metafora fisik/mekanisme yang diekstrak dari subjek berdasarkan Knowledge Territory (`INTELLIGENCE` ➔ sensor/scanner/prism; `STRATEGY` ➔ decision pillar/pathway blocks; `TACTICAL` ➔ sorting conduit/workflow loop).  
+  *Aturan Mutlak:* Dilarang menulis kata "3D", "isometric", atau "illustration" di dalam visual metaphor agar tidak terjadi dobel 3D request.
 - **`[CORE_STYLE]`**:  
   `3D isometric illustration, soft clay rendering, rounded geometric objects, soft studio lighting, minimal marketing illustration, clean composition, premium modern aesthetic. Clear visual hierarchy, single dominant focal object, generous negative space, no text, no logos.`
 - **Rasio Aspek**: `--ar 16:9`
-- **Larangan (Anti-patterns)**: Tanpa teks/logo, tanpa robot/manusia, tanpa screenshot/mockup laptop/ponsel, tanpa visual clutter.
+- **Larangan (Anti-patterns)**: Tanpa repetisi/dobel 3D, tanpa teks/logo, tanpa robot/manusia, tanpa screenshot/mockup laptop/ponsel, tanpa visual clutter.
 
 ---
 

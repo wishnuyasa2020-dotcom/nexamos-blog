@@ -294,7 +294,7 @@ describe('NexaMOS Telegram Editorial Bot Unit Tests', () => {
     const bot = new TelegramEditorialBot();
     const coreStyle = '3D isometric illustration, soft clay rendering, rounded geometric objects, soft studio lighting, minimal marketing illustration, clean composition, premium modern aesthetic. Clear visual hierarchy, single dominant focal object, generous negative space, no text, no logos.';
 
-    test('Formula visual prompt territory INTELLIGENCE mematuhi formula [SUBJECT] + [VISUAL METAPHOR] + [CORE_STYLE]', async () => {
+    test('Formula visual prompt territory INTELLIGENCE mematuhi formula [SUBJECT] + [VISUAL METAPHOR] + [CORE_STYLE] tanpa dobel 3D', async () => {
       const prompt = await bot.generateVisualPrompt(
         'AI Market Signals',
         'AI Market Signals Detection',
@@ -306,9 +306,15 @@ describe('NexaMOS Telegram Editorial Bot Unit Tests', () => {
       assert.ok(prompt.includes(coreStyle));
       assert.ok(prompt.endsWith('--ar 16:9'));
       assert.ok(prompt.length > coreStyle.length + 30);
+
+      // Verifikasi ketiadaan dobel 3D request: kata 'isometric' dan '3D' hanya muncul satu kali (di coreStyle)
+      const isometricCount = (prompt.match(/\bisometric\b/gi) || []).length;
+      const threeDCount = (prompt.match(/\b3d\b/gi) || []).length;
+      assert.strictEqual(isometricCount, 1, `Harus tepat 1 kata isometric, ditemukan ${isometricCount}`);
+      assert.strictEqual(threeDCount, 1, `Harus tepat 1 kata 3D, ditemukan ${threeDCount}`);
     });
 
-    test('Formula visual prompt territory STRATEGY mematuhi formula pilar keputusan', async () => {
+    test('Formula visual prompt territory STRATEGY mematuhi formula pilar keputusan tanpa dobel 3D', async () => {
       const prompt = await bot.generateVisualPrompt(
         'SaaS Business Model',
         'SaaS Business Model Decision Framework',
@@ -320,26 +326,37 @@ describe('NexaMOS Telegram Editorial Bot Unit Tests', () => {
       assert.ok(prompt.includes(coreStyle));
       assert.ok(prompt.endsWith('--ar 16:9'));
       assert.ok(prompt.length > coreStyle.length + 30);
+
+      const isometricCount = (prompt.match(/\bisometric\b/gi) || []).length;
+      const threeDCount = (prompt.match(/\b3d\b/gi) || []).length;
+      assert.strictEqual(isometricCount, 1, `Harus tepat 1 kata isometric, ditemukan ${isometricCount}`);
+      assert.strictEqual(threeDCount, 1, `Harus tepat 1 kata 3D, ditemukan ${threeDCount}`);
     });
 
-    test('Fallback visual prompt mencakup metafora presisi untuk setiap Territory', () => {
+    test('Fallback visual prompt mencakup metafora presisi untuk setiap Territory tanpa dobel 3D', () => {
       const fbIntelligence = (bot as any).createFallbackVisualPrompt('Customer Churn', 'Customer Churn Analysis', 'INTELLIGENCE');
       assert.ok(fbIntelligence.includes('Customer Churn Analysis'));
-      assert.ok(fbIntelligence.includes('scanner') || fbIntelligence.includes('prisms'));
+      assert.ok(fbIntelligence.includes('prism'));
       assert.ok(fbIntelligence.includes(coreStyle));
       assert.ok(fbIntelligence.endsWith('--ar 16:9'));
+      assert.strictEqual((fbIntelligence.match(/\bisometric\b/gi) || []).length, 1);
+      assert.strictEqual((fbIntelligence.match(/\b3d\b/gi) || []).length, 1);
 
       const fbStrategy = (bot as any).createFallbackVisualPrompt('Pricing Model', 'Pricing Model Architecture', 'STRATEGY');
       assert.ok(fbStrategy.includes('Pricing Model Architecture'));
       assert.ok(fbStrategy.includes('decision pillar'));
       assert.ok(fbStrategy.includes(coreStyle));
       assert.ok(fbStrategy.endsWith('--ar 16:9'));
+      assert.strictEqual((fbStrategy.match(/\bisometric\b/gi) || []).length, 1);
+      assert.strictEqual((fbStrategy.match(/\b3d\b/gi) || []).length, 1);
 
       const fbTactical = (bot as any).createFallbackVisualPrompt('WhatsApp Flow', 'WhatsApp Flow Automation', 'TACTICAL');
       assert.ok(fbTactical.includes('WhatsApp Flow Automation'));
-      assert.ok(fbTactical.includes('sorting conduit') || fbTactical.includes('workflow loop'));
+      assert.ok(fbTactical.includes('sorting conduit'));
       assert.ok(fbTactical.includes(coreStyle));
       assert.ok(fbTactical.endsWith('--ar 16:9'));
+      assert.strictEqual((fbTactical.match(/\bisometric\b/gi) || []).length, 1);
+      assert.strictEqual((fbTactical.match(/\b3d\b/gi) || []).length, 1);
     });
   });
 });

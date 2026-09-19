@@ -124,45 +124,45 @@ Setiap artikel NexaMOS wajib memiliki panduan visual prompt untuk gambar utama (
 
 ### 10.1 Formula Visual Prompt Baku
 
-Prompt visual hero image dirumuskan dengan rumus 3 komponen wajib:
+Prompt visual hero image dirumuskan dengan rumus 3 komponen wajib tanpa redundansi:
 
 ```text
 [SUBJECT] + [VISUAL METAPHOR] + [CORE_STYLE]
 ```
 
-1. **`[SUBJECT]`**: Judul atau inti topik artikel dalam Bahasa Inggris.
-2. **`[VISUAL METAPHOR]`**: Ekstraksi objek atau mekanisme metaforis dari subjek berdasarkan **Knowledge Territory** artikel:
-   - **`INTELLIGENCE`**: Metafora sistem sensor sinyal, prisma analisis data, radar pemindai, kristalisasi pola, atau lensa diagnostik mengapung.
-   - **`STRATEGY`**: Metafora pilar arsitektur keputusan, persimpangan jalur terarah, balok modular fondasi, kompas penentu posisi, atau timbangan bobot pilihan.
-   - **`TACTICAL`**: Metafora konduit presisi penyortir, loop otomasi pipa modular, corong konversi terhubung, saluran sirkulasi alur kerja terstruktur.
-3. **`[CORE_STYLE]`**: Rantai deskriptor gaya baku NexaMOS yang tidak boleh diubah:
+1. **`[SUBJECT]`**: Judul atau inti topik artikel dalam Bahasa Inggris (singkat dan lugas).
+2. **`[VISUAL METAPHOR]`**: Ekstraksi objek atau mekanisme metaforis fisik dari subjek berdasarkan **Knowledge Territory**.  
+   > ⚠️ **ATURAN ANTI-REDUNDANSI (PENTING):** Dilarang menuliskan kata *"3D"*, *"isometric"*, atau *"illustration"* di dalam `[VISUAL METAPHOR]`. Fokuskan murni pada deskripsi objek fisik, bentuk, dan aksinya karena aspek render 3D isometric sudah disediakan secara lengkap oleh `[CORE_STYLE]`.
+3. **`[CORE_STYLE]`**: Rantai deskriptor gaya estetika baku NexaMOS (LOCKED):
    ```text
    3D isometric illustration, soft clay rendering, rounded geometric objects, soft studio lighting, minimal marketing illustration, clean composition, premium modern aesthetic. Clear visual hierarchy, single dominant focal object, generous negative space, no text, no logos.
    ```
 
 ### 10.2 Matriks Metafora Berdasarkan 3 Knowledge Territory
 
-| Knowledge Territory | Karakteristik Subjek | Rekomendasi Visual Metaphor |
+| Knowledge Territory | Karakteristik Subjek | Rekomendasi Objek Metafora Fisik (*Tanpa Frasa '3D Isometric'*) |
 | :--- | :--- | :--- |
-| **`INTELLIGENCE`** | Pasar, sinyal, data, riset, diagnosis, pattern, AI computation | *A 3D isometric scanner analyzing floating data nodes, geometric prism refracting signals, diagnostic curved lenses.* |
-| **`STRATEGY`** | Positioning, business model, category, trade-offs, roadmap | *A 3D isometric architectural decision pillar, branching modular pathway blocks, interlocking geometric foundations.* |
-| **`TACTICAL`** | CRM, campaign, funnel, conversion, automation, workflow, execution | *A 3D isometric precision sorting conduit, automated circular workflow loop, modular interconnected pipes and funnels.* |
+| **`INTELLIGENCE`** | Pasar, sinyal, data, riset, diagnosis, pattern, AI computation | *Floating geometric crystal prism refracting dynamic market pulses; spherical radar sensor scanning illuminated data points; curved diagnostic optical lens isolating signals; layered acoustic frequency ring.* |
+| **`STRATEGY`** | Positioning, business model, category, trade-offs, roadmap | *Monolithic balanced decision pillar resting on stepped foundation blocks; interlocking stone pathway branching into two strategic routes; minimalist architectural archway; weighted balance pedestal.* |
+| **`TACTICAL`** | CRM, campaign, funnel, conversion, automation, workflow, execution | *Circular sorting conduit with pressurized intake channels; precision mechanical loop funneling multi-stage lead valves; modular pipeline junction routing automated tasks; continuous conveyor spiral.* |
 
 ### 10.3 Aturan Larangan Keras (*Visual Anti-Patterns*)
+- **DILARANG REPETISI / DOBEL 3D:** Dilarang menyebutkan kata "3D" atau "isometric" lebih dari satu kali di dalam seluruh prompt.
 - **DILARANG** memuat teks, huruf, angka, tipografi, watermark, atau logo brand apapun (`no text, no logos`).
 - **DILARANG** menampilkan robot humanoid, kepala robot, manusia, wajah, atau tangan jabat tangan klise.
 - **DILARANG** menampilkan mockup layar laptop, smartphone, screenshot dashboard UI palsu, atau chart 2D biasa.
 - **DILARANG** komposisi ramai atau elemen visual bertumpuk tanpa fokus tunggal yang jelas (*single dominant focal object*).
 - **Rasio Aspek:** Selalu gunakan rasio lanskap 16:9 (`--ar 16:9`).
 
-### 10.4 Contoh Implementasi Prompt Siap Pakai
+### 10.4 Contoh Implementasi Prompt Bebas Duplikasi
 
 - **Territory `INTELLIGENCE`**:
-  > `Customer Churn Signal Detection, a 3D isometric scanner analyzing floating data nodes and geometric crystal prisms refracting market signals, 3D isometric illustration, soft clay rendering, rounded geometric objects, soft studio lighting, minimal marketing illustration, clean composition, premium modern aesthetic. Clear visual hierarchy, single dominant focal object, generous negative space, no text, no logos. --ar 16:9`
+  > `Customer Churn Signal Detection, floating geometric crystal prism refracting dynamic market pulses, 3D isometric illustration, soft clay rendering, rounded geometric objects, soft studio lighting, minimal marketing illustration, clean composition, premium modern aesthetic. Clear visual hierarchy, single dominant focal object, generous negative space, no text, no logos. --ar 16:9`
 
 - **Territory `STRATEGY`**:
-  > `B2B Enterprise Positioning Framework, a 3D isometric architectural decision pillar with branching geometric modular foundation blocks, 3D isometric illustration, soft clay rendering, rounded geometric objects, soft studio lighting, minimal marketing illustration, clean composition, premium modern aesthetic. Clear visual hierarchy, single dominant focal object, generous negative space, no text, no logos. --ar 16:9`
+  > `B2B Enterprise Positioning Framework, monolithic balanced decision pillar resting on stepped foundation blocks, 3D isometric illustration, soft clay rendering, rounded geometric objects, soft studio lighting, minimal marketing illustration, clean composition, premium modern aesthetic. Clear visual hierarchy, single dominant focal object, generous negative space, no text, no logos. --ar 16:9`
 
 - **Territory `TACTICAL`**:
-  > `Omnichannel Lifecycle Automation Engine, a 3D isometric precision sorting conduit and automated workflow loop with interconnected geometric channels, 3D isometric illustration, soft clay rendering, rounded geometric objects, soft studio lighting, minimal marketing illustration, clean composition, premium modern aesthetic. Clear visual hierarchy, single dominant focal object, generous negative space, no text, no logos. --ar 16:9`
+  > `Omnichannel Lifecycle Automation Engine, circular sorting conduit with pressurized intake channels and interconnected geometric tubes, 3D isometric illustration, soft clay rendering, rounded geometric objects, soft studio lighting, minimal marketing illustration, clean composition, premium modern aesthetic. Clear visual hierarchy, single dominant focal object, generous negative space, no text, no logos. --ar 16:9`
+
 

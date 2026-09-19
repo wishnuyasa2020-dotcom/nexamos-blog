@@ -688,12 +688,13 @@ Setiap perumusan prompt visual untuk gambar utama (*Hero Image*) wajib mematuhi 
 > **Formula Baku:** `[SUBJECT] + [VISUAL METAPHOR] + [CORE_STYLE]`
 
 1. **`[SUBJECT]`**: Judul atau topik inti artikel dalam Bahasa Inggris.
-2. **`[VISUAL METAPHOR]`**: Ekstraksi metafora visual dari subjek berdasarkan 3 Knowledge Territory:
-   - **`INTELLIGENCE`**: Sensor scanner, analisis prisma sinyal data, kristalisasi pola, lensa diagnostik.
-   - **`STRATEGY`**: Pilar arsitektur keputusan, balok modular fondasi, persimpangan jalur terarah.
-   - **`TACTICAL`**: Konduit presisi penyortir, alur kerja loop otomasi berputar, corong konversi modular.
+2. **`[VISUAL METAPHOR]`**: Ekstraksi metafora visual objek fisik/mekanisme dari subjek berdasarkan 3 Knowledge Territory:
+   - **`INTELLIGENCE`**: Prisma kristal pembias sinyal data, sensor pemindai sferis, lensa optik diagnostik pengisolasi frekuensi.
+   - **`STRATEGY`**: Pilar arsitektur keputusan monolitik, balok modular fondasi bertingkat, persimpangan jalur terarah, pedestal keseimbangan.
+   - **`TACTICAL`**: Konduit presisi penyortir, alur kerja loop otomasi bertekanan, manifold katup bertingkat, corong konversi modular.
+   *(Catatan Mutlak: Dilarang menyertakan kata "3D", "isometric", atau "illustration" di dalam visual metaphor agar tidak terjadi dobel 3D request).*
 3. **`[CORE_STYLE]`**: `3D isometric illustration, soft clay rendering, rounded geometric objects, soft studio lighting, minimal marketing illustration, clean composition, premium modern aesthetic. Clear visual hierarchy, single dominant focal object, generous negative space, no text, no logos.`
-4. **Parameter & Anti-Patterns**: Selalu gunakan `--ar 16:9`. Dilarang memuat teks/logo/watermark, robot humanoid, mockup layar gawai/dashboard, atau visual yang padat/ramai.
+4. **Parameter & Anti-Patterns**: Selalu gunakan `--ar 16:9`. Dilarang repetisi kata "3D"/"isometric", dilarang memuat teks/logo/watermark, robot humanoid, mockup layar gawai/dashboard, atau visual yang padat/ramai.
 
 ---
 
