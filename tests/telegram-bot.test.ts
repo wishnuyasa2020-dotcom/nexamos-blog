@@ -340,10 +340,12 @@ describe('NexaMOS Telegram Editorial Bot Unit Tests', () => {
       assert.strictEqual(threeDCount, 1, `Harus tepat 1 kata 3D, ditemukan ${threeDCount}`);
     });
 
-    test('Fallback visual prompt mencakup metafora presisi untuk setiap Territory tanpa dobel 3D', () => {
+    test('Fallback visual prompt mencakup metafora presisi untuk setiap Territory tanpa dobel 3D dan tanpa crystal prism', () => {
       const fbIntelligence = (bot as any).createFallbackVisualPrompt('Customer Churn', 'Customer Churn Analysis', 'INTELLIGENCE');
       assert.ok(fbIntelligence.includes('Customer Churn Analysis'));
-      assert.ok(fbIntelligence.includes('prism'));
+      assert.ok(fbIntelligence.includes('radar scanner'));
+      assert.ok(!fbIntelligence.includes('prism'), 'Dilarang mengandung kata prism');
+      assert.ok(!fbIntelligence.includes('crystal'), 'Dilarang mengandung kata crystal');
       assert.ok(fbIntelligence.includes(coreStyle));
       assert.ok(fbIntelligence.endsWith('--ar 16:9'));
       assert.strictEqual((fbIntelligence.match(/\bisometric\b/gi) || []).length, 1);

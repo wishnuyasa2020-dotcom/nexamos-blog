@@ -24,13 +24,13 @@ Setiap prompt visual untuk gambar utama (*Hero Image*) artikel NexaMOS wajib dis
 
 ### Bagian 2: `[VISUAL METAPHOR]`
 - Merupakan **ekstraksi metafora visual objek fisik/mekanisme** dari subjek yang disesuaikan dengan **Knowledge Territory** artikel.
-- ⚠️ **ATURAN MUTLAK ANTI-REDUNDANSI (DILARANG DOBEL 3D):**  
-  **DILARANG** menyertakan kata *"3D"*, *"isometric"*, *"illustration"*, atau *"rendering"* di dalam `[VISUAL METAPHOR]`.  
-  Format render 3D isometric telah dikunci secara baku di `[CORE_STYLE]`. `[VISUAL METAPHOR]` murni mendeskripsikan objek fisik metaforis, bentuknya, dan interaksi sinyalnya.
+- ⚠️ **ATURAN MUTLAK ANTI-REDUNDANSI & BLACKLIST (DILARANG DOBEL 3D & DILARANG CRYSTAL PRISM):**  
+  - **DILARANG** menyertakan kata *"3D"*, *"isometric"*, *"illustration"*, atau *"rendering"* di dalam `[VISUAL METAPHOR]`. Format render 3D isometric telah dikunci secara baku di `[CORE_STYLE]`.  
+  - **DILARANG KERAS (BLACKLIST)** menggunakan kata atau metafora *"crystal prism"*, *"crystal"*, atau *"prism"*.
 - **Inspirasi Objek Berdasarkan Knowledge Territory:**
   - **`INTELLIGENCE`**:
     - Fokus: Deteksi sinyal, data, diagnosis, observasi pasar, kalkulasi AI.
-    - Metafora fisik: *Floating geometric crystal prism refracting dynamic market pulses; spherical radar sensor scanning illuminated data points; curved diagnostic optical lens isolating signals; layered acoustic frequency ring; harmonic tuning fork.*
+    - Metafora fisik: *Spherical radar sensor scanning illuminated data points; curved diagnostic optical lens isolating signals; directional parabolic antenna array; layered acoustic frequency ring; harmonic tuning fork.* (Strictly no prisms).
   - **`STRATEGY`**:
     - Fokus: Arsitektur keputusan, pilihan strategi, model bisnis, positioning, trade-offs.
     - Metafora fisik: *Monolithic balanced decision pillar resting on stepped foundation blocks; interlocking stone pathway branching into two strategic routes; minimalist architectural archway framing direction; weighted balance pedestal; geometric compass marker.*
